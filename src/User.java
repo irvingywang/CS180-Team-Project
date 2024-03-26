@@ -6,6 +6,7 @@ public class User {
     private String displayName;
     private ArrayList<User> friends;
     private ArrayList<User> blocked;
+    private static ArrayList<Message> messages = new ArrayList<Message>();
 
     public User(String username, String password, String displayName) {
         this.username = username;
@@ -62,4 +63,43 @@ public class User {
             return false;
         }
     }
+
+    public boolean isFriend(User user) {
+        return friends.contains(user);
+    }
+
+    public boolean isBlocked(User user) {
+        return blocked.contains(user);
+    }
+
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
+    public boolean sendMessage(User recipient, String message) {
+        if (blocked.contains(recipient)) {
+            return false;
+        } else {
+            Message newMessage = new Message(this, recipient, message);
+            messages.add(newMessage);
+            recipient.receiveMessage(newMessage);
+            Database.writeMessages();
+            return true;
+        }
+    }
+
+    public boolean receiveMessage(Message message) {
+        if (blocked.contains(message.getSender())) {
+            return false;
+        } else {
+            messages.add(message);
+            Database.writeMessages();
+            return true;
+        }
+    }
+
+//    @Override
+//    public String toString() {
+//        return String.format("<User: %s, %s, %s>", username, password, displayName);
+//    }
 }
