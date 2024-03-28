@@ -1,6 +1,0 @@
-Messages for purduepete:
-purduepete purduepete john123
-purduepete purduepete john123
-Messages for john123:
-john123 purduepete john123
-john123 purduepete john123

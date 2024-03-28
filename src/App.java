@@ -2,16 +2,25 @@ public class App {
     public static void main(String[] args) {
         System.out.println("Hello World");
 
-        Database.readUsers();
+        Database.initialize();
 
-        User user1 = new User("purduepete", "password", "Purdue Pete");
-        User user2 = new User("john123", "password", "John Doe");
-        Database.createUser(user1);
-        Database.createUser(user2);
-        Database.writeUsers();
+//        Database.clearDatabase();
+//
+//        Database.createUser("purduepete", "boilerup", "Purdue Pete");
+//        Database.createUser("john123", "password", "John Doe");
+//
+        Database.getUser("purduepete").sendMessage(Database.getUser("john123"), "hello");
 
-        user1.sendMessage(user2, "Hello");
+        Database.createUser("hoosier123", "password", "IU student");
+        Database.getUser("purduepete").addFriend(Database.getUser("john123"));
+        Database.getUser("purduepete").blockUser(Database.getUser("hoosier123"));
 
-        System.out.println(("Username: " + user1.getUsername()));
+        Database.getUser("hoosier123")
+                .sendMessage(Database.getUser("purduepete"), "IU is better than Purdue");
+
+        System.out.println("User1 username: " + Database.getUser("purduepete").getUsername());
+        System.out.println("User2 username: " + Database.getUser("john123").getUsername());
+
+        Database.close();
     }
 }
