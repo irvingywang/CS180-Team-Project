@@ -1,2 +1,3 @@
 purduepete; boilerup; Purdue Pete
+hoosier123; password; IU student
 john123; password; John Doe

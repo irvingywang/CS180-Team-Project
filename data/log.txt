@@ -1,0 +1,27 @@
+2024-03-28 19:30:53: Log file cleared.
+2024-03-28 19:30:53: Starting database.
+2024-03-28 19:30:53: Loading users from file.
+2024-03-28 19:30:53: Users successfully loaded from file.
+2024-03-28 19:30:53: Loading friends from file for user purduepete.
+2024-03-28 19:30:53: Friends successfully loaded from file for user purduepete.
+2024-03-28 19:30:53: Loading blocked from file for user purduepete.
+2024-03-28 19:30:53: Blocked successfully loaded from file for user purduepete.
+2024-03-28 19:30:53: Loading friends from file for user hoosier123.
+2024-03-28 19:30:53: Friends successfully loaded from file for user hoosier123.
+2024-03-28 19:30:53: Loading blocked from file for user hoosier123.
+2024-03-28 19:30:53: Blocked successfully loaded from file for user hoosier123.
+2024-03-28 19:30:53: Loading friends from file for user john123.
+2024-03-28 19:30:53: Friends successfully loaded from file for user john123.
+2024-03-28 19:30:53: Loading blocked from file for user john123.
+2024-03-28 19:30:53: Blocked successfully loaded from file for user john123.
+2024-03-28 19:30:53: User hoosier123 already exists.
+2024-03-28 19:30:53: User badguy123 not found.
+2024-03-28 19:30:53: Message from hoosier123 to purduepete successfully sent and received.
+2024-03-28 19:30:53: Saving users to file.
+2024-03-28 19:30:53: User purduepete successfully saved to file.
+2024-03-28 19:30:53: User hoosier123 successfully saved to file.
+2024-03-28 19:30:53: User john123 successfully saved to file.
+2024-03-28 19:30:53: Saving friends to file.
+2024-03-28 19:30:53: Saving blocked users to file.
+2024-03-28 19:30:53: Saving messages to file.
+2024-03-28 19:30:53: Closing database.

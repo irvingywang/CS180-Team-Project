@@ -44,4 +44,10 @@ public class Message {
     public void markAsRead() {
         isRead = true;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s%s%s%s%s", sender.getUsername(), Database.getDelimiter(),
+                recipient.getUsername(), Database.getDelimiter(), message);
+    }
 }

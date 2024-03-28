@@ -46,6 +46,22 @@ public class User {
         return displayName;
     }
 
+    public ArrayList<User> getFriends() {
+        return friends;
+    }
+
+    public ArrayList<User> getBlocked() {
+        return blocked;
+    }
+
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
+    }
+
+    public void setBlocked(ArrayList<User> blocked) {
+        this.blocked = blocked;
+    }
+
     public boolean isValid() {
         return isValid;
     }
@@ -123,8 +139,14 @@ public class User {
         if (!blocked.contains(message.getSender())) {
             this.messages.add(message);
             return true;
+        } else {
+            System.out.println("Message from " + message.getSender().getUsername() + " to " + this.username + " was blocked.");
+            return false;
         }
-        return false;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s%s%s%s%s", username, Database.getDelimiter(), password, Database.getDelimiter(), displayName);
+    }
 }
