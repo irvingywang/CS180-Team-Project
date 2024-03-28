@@ -1,9 +1,14 @@
-2024-03-28 12:01:22: Log file cleared.
-2024-03-28 12:01:22: User purduepete successfully created.
-2024-03-28 12:01:22: User john123 successfully created.
-2024-03-28 12:01:22: Message from purduepete to john123 successfully sent and received.
-2024-03-28 12:01:22: User purduepete successfully saved to file.
-2024-03-28 12:01:22: User john123 successfully saved to file.
-2024-03-28 12:01:22: Message from purduepete to john123 successfully saved.
-2024-03-28 12:01:22: Message from john123 to john123 successfully saved.
-2024-03-28 12:01:22: Closing database.
+2024-03-28 18:26:52: Log file cleared.
+2024-03-28 18:26:52: Starting database.
+2024-03-28 18:26:52: Loading users from file.
+2024-03-28 18:26:52: Users successfully loaded from file.
+2024-03-28 18:26:52: Loading messages from file for user purduepete.
+2024-03-28 18:26:52: Messages successfully loaded from file for user purduepete.
+2024-03-28 18:26:52: Loading messages from file for user john123.
+2024-03-28 18:26:52: Messages successfully loaded from file for user john123.
+2024-03-28 18:26:52: Closing database.
+2024-03-28 18:26:52: User purduepete successfully saved to file.
+2024-03-28 18:26:52: User john123 successfully saved to file.
+2024-03-28 18:26:52: Message from purduepete to john123 successfully saved.
+2024-03-28 18:26:52: Message from john123 to john123 successfully saved.
+2024-03-28 18:26:52: Database closed.

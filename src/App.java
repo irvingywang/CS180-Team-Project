@@ -4,13 +4,13 @@ public class App {
 
         Database.initialize();
 
-        Database.clearDatabase();
-
-        Database.createUser("purduepete", "boilerup", "Purdue Pete");
-        Database.createUser("john123", "password", "John Doe");
-
-        Database.getUser("purduepete").sendMessage(
-                Database.getUser("john123"), "hello");
+//        Database.clearDatabase();
+//
+//        Database.createUser("purduepete", "boilerup", "Purdue Pete");
+//        Database.createUser("john123", "password", "John Doe");
+//
+//        Database.getUser("purduepete").sendMessage(
+//                Database.getUser("john123"), "hello");
 
         System.out.println("User1 username: " + Database.getUser("purduepete").getUsername());
         System.out.println("User2 username: " + Database.getUser("john123").getUsername());

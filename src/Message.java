@@ -1,20 +1,19 @@
 public class Message {
-    private User sender;
-    private User recipient;
-    private String message;
-    private boolean isRead;
-    private boolean isValid;
+    private User sender = new User();
+    private User recipient = new User();
+    private String message = "invalid";
+    private boolean isRead = false;
+    private boolean isValid = false;
 
     public Message(String data) {
         try {
-            String[] parts = data.split(",");
+            String[] parts = data.split(Database.getDelimiter());
             this.sender = new User(parts[0]);
             this.recipient = new User(parts[1]);
             this.message = parts[2];
             this.isRead = Boolean.parseBoolean(parts[3]);
             this.isValid = true;
         } catch (Exception e) {
-            this.isValid = false;
             Database.saveToLog("Failed to create message from data.");
         }
     }

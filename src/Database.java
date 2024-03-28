@@ -19,13 +19,18 @@ public class Database {
     public static void initialize() {
         clearLogFile();
         saveToLog("Starting database.");
-        loadUsers();
+        if (loadUsers()) {
+            for (User user : users.values()) {
+                user.setMessages(loadMessages(user.getUsername()));
+            }
+        }
     }
 
     public static void close() {
+        saveToLog("Closing database.");
         saveUsers();
         saveMessages();
-        saveToLog("Closing database.");
+        saveToLog("Database closed.");
     }
 
     public static void clearDatabase() {
@@ -49,6 +54,7 @@ public class Database {
     }
 
     public static boolean loadUsers() {
+        saveToLog("Loading users from file.");
         users.clear();
         try (BufferedReader bfr = new BufferedReader(new FileReader(USERS_FILE))) {
             String line;
@@ -58,6 +64,7 @@ public class Database {
                     users.put(user.getUsername(), user);
                 }
             }
+            saveToLog("Users successfully loaded from file.");
             return true;
         } catch (IOException e) {
             saveToLog("Failed to read users from file.");
@@ -115,6 +122,7 @@ public class Database {
     }
 
     public static ArrayList<Message> loadMessages(String username) {
+        saveToLog("Loading messages from file for user " + username + ".");
         ArrayList<Message> messages = new ArrayList<>();
         try (BufferedReader bfr = new BufferedReader(new FileReader(MESSAGES_FILE))) {
             String line;
@@ -124,9 +132,9 @@ public class Database {
                     userFound = true;
                     while ((line = bfr.readLine()) != null && !line.isEmpty()) {
                         String[] parts = line.split(DELIMITER);
-                        User sender = getUser(parts[1]);
-                        User recipient = getUser(parts[2]);
-                        String messageText = parts[3];
+                        User sender = getUser(parts[0]);
+                        User recipient = getUser(parts[1]);
+                        String messageText = parts[2];
                         if (sender.isValid() && recipient.isValid()) {
                             Message message = new Message(sender, recipient, messageText);
                             messages.add(message);
@@ -137,6 +145,7 @@ public class Database {
             if (!userFound) {
                 saveToLog("No messages found for user " + username + ".");
             }
+            saveToLog("Messages successfully loaded from file for user " + username + ".");
             return messages;
         } catch (IOException e) {
             saveToLog("Failed to read messages from file for user " + username + ".");
@@ -178,8 +187,7 @@ public class Database {
                     bfw.newLine();
                     for (Message message : user.getMessages()) {
                         try {
-                            String line = String.format("%s%s%s%s%s%s%s", user.getUsername(),
-                                    DELIMITER, message.getSender().getUsername(), DELIMITER,
+                            String line = String.format("%s%s%s%s%s", message.getSender().getUsername(), DELIMITER,
                                     message.getRecipient().getUsername(), DELIMITER, message.getMessage());
                             bfw.write(line);
                             bfw.newLine();
@@ -188,6 +196,7 @@ public class Database {
                         }
                         saveToLog("Message from " + user.getUsername() + " to " + message.getRecipient().getUsername() + " successfully saved.");
                     }
+                    bfw.newLine();
                 } catch (Exception e) {
                     saveToLog("Failed to process messages for user " + user.getUsername() + ": " + e.getMessage());
                 }

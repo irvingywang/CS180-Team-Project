@@ -19,7 +19,6 @@ public class User {
             this.friends = new ArrayList<User>(); //TODO implement friends and blocked
             this.blocked = new ArrayList<User>();
             this.isValid = true;
-            this.messages = Database.loadMessages(this.username);
         } catch (Exception e) {
             Database.saveToLog("Failed to create user from data.");
         }
@@ -49,6 +48,10 @@ public class User {
 
     public boolean isValid() {
         return isValid;
+    }
+
+    public void setMessages(ArrayList<Message> messages) {
+        this.messages = messages;
     }
 
     public boolean addFriend(User friend) {
