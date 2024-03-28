@@ -1,2 +1,2 @@
-purduepete password Purdue Pete
-john123 password John Doe
+purduepete,password,Purdue Pete
+john123,password,John Doe

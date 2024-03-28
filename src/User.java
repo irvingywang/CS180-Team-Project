@@ -6,7 +6,24 @@ public class User {
     private String displayName;
     private ArrayList<User> friends;
     private ArrayList<User> blocked;
-    private static ArrayList<Message> messages = new ArrayList<Message>();
+    private static ArrayList<Message> messages;
+    private boolean isValid;
+
+    public User(String data) {
+        try {
+            String[] parts = data.split(",");
+            this.username = parts[0];
+            this.password = parts[1];
+            this.displayName = parts[2];
+            this.friends = new ArrayList<User>(); //TODO implement friends and blocked
+            this.blocked = new ArrayList<User>();
+            messages = new ArrayList<Message>(); //TODO replace with database read
+            this.isValid = true;
+        } catch (Exception e) {
+            this.isValid = false;
+            Database.writeToLog("Failed to create user from data.");
+        }
+    }
 
     public User(String username, String password, String displayName) {
         this.username = username;
@@ -26,6 +43,10 @@ public class User {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public boolean isValid() {
+        return isValid;
     }
 
     public boolean addFriend(User friend) {
