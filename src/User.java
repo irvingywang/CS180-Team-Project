@@ -1,12 +1,25 @@
 import java.util.ArrayList;
 
 public class User {
-    private String username;
-    private String password;
-    private String displayName;
-    private ArrayList<User> friends;
-    private ArrayList<User> blocked;
-    private static ArrayList<Message> messages = new ArrayList<Message>();
+    private String username = "invalid";
+    private String password = "invalid";
+    private String displayName = "invalid";
+    private ArrayList<User> friends = new ArrayList<User>();
+    private ArrayList<User> blocked = new ArrayList<User>();
+    private ArrayList<Message> messages = new ArrayList<Message>();
+    private boolean isValid = false;
+
+    public User(String data) {
+        try {
+            String[] parts = data.split(Database.getDelimiter());
+            this.username = parts[0];
+            this.password = parts[1];
+            this.displayName = parts[2];
+            this.isValid = true;
+        } catch (Exception e) {
+            Database.saveToLog("Failed to create user from data.");
+        }
+    }
 
     public User(String username, String password, String displayName) {
         this.username = username;
@@ -15,6 +28,8 @@ public class User {
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
     }
+
+    public User() {}
 
     public String getUsername() {
         return username;
@@ -26,6 +41,30 @@ public class User {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public ArrayList<User> getFriends() {
+        return friends;
+    }
+
+    public ArrayList<User> getBlocked() {
+        return blocked;
+    }
+
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
+    }
+
+    public void setBlocked(ArrayList<User> blocked) {
+        this.blocked = blocked;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setMessages(ArrayList<Message> messages) {
+        this.messages = messages;
     }
 
     public boolean addFriend(User friend) {
@@ -78,28 +117,38 @@ public class User {
 
     public boolean sendMessage(User recipient, String message) {
         if (blocked.contains(recipient)) {
+            Database.saveToLog(String.format("Message from %s to %s failed: recipient is blocked.",
+                    this.username, recipient.getUsername()));
             return false;
         } else {
             Message newMessage = new Message(this, recipient, message);
-            messages.add(newMessage);
-            recipient.receiveMessage(newMessage);
-            Database.writeMessages();
-            return true;
+            this.messages.add(newMessage);
+            if (recipient.receiveMessage(newMessage)) { // message received
+                Database.saveToLog(String.format("Message from %s to %s successfully sent and received.",
+                        this.username, recipient.getUsername()));
+                return true;
+            } else { // message not received
+                this.messages.remove(newMessage);
+                return false;
+            }
         }
     }
 
     public boolean receiveMessage(Message message) {
-        if (blocked.contains(message.getSender())) {
-            return false;
-        } else {
-            messages.add(message);
-            Database.writeMessages();
+        if (!blocked.contains(message.getSender())) {
+            this.messages.add(message);
             return true;
+        } else {
+            Database.saveToLog(String.format("Message from %s to %s was blocked.",
+                    message.getSender().getUsername(), this.username));
+            return false;
         }
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format("<User: %s, %s, %s>", username, password, displayName);
-//    }
+
+    @Override
+    public String toString() {
+        return String.format("%s%s%s%s%s", username, Database.getDelimiter(),
+                password, Database.getDelimiter(), displayName);
+    }
 }
