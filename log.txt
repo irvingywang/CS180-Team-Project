@@ -1,1 +1,9 @@
-Starting database.
+2024-03-28 12:01:22: Log file cleared.
+2024-03-28 12:01:22: User purduepete successfully created.
+2024-03-28 12:01:22: User john123 successfully created.
+2024-03-28 12:01:22: Message from purduepete to john123 successfully sent and received.
+2024-03-28 12:01:22: User purduepete successfully saved to file.
+2024-03-28 12:01:22: User john123 successfully saved to file.
+2024-03-28 12:01:22: Message from purduepete to john123 successfully saved.
+2024-03-28 12:01:22: Message from john123 to john123 successfully saved.
+2024-03-28 12:01:22: Closing database.

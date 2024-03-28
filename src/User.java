@@ -1,27 +1,27 @@
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class User {
-    private String username;
-    private String password;
-    private String displayName;
-    private ArrayList<User> friends;
-    private ArrayList<User> blocked;
-    private static ArrayList<Message> messages;
-    private boolean isValid;
+    private String username = "invalid";
+    private String password = "invalid";
+    private String displayName = "invalid";
+    private ArrayList<User> friends = new ArrayList<User>();
+    private ArrayList<User> blocked = new ArrayList<User>();
+    private ArrayList<Message> messages = new ArrayList<Message>();
+    private boolean isValid = false;
 
     public User(String data) {
         try {
-            String[] parts = data.split(",");
+            String[] parts = data.split(Database.getDelimiter());
             this.username = parts[0];
             this.password = parts[1];
             this.displayName = parts[2];
             this.friends = new ArrayList<User>(); //TODO implement friends and blocked
             this.blocked = new ArrayList<User>();
-            messages = new ArrayList<Message>(); //TODO replace with database read
             this.isValid = true;
+            this.messages = Database.loadMessages(this.username);
         } catch (Exception e) {
-            this.isValid = false;
-            Database.writeToLog("Failed to create user from data.");
+            Database.saveToLog("Failed to create user from data.");
         }
     }
 
@@ -32,6 +32,8 @@ public class User {
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
     }
+
+    public User() {}
 
     public String getUsername() {
         return username;
@@ -102,25 +104,24 @@ public class User {
             return false;
         } else {
             Message newMessage = new Message(this, recipient, message);
-            messages.add(newMessage);
-            recipient.receiveMessage(newMessage);
-            Database.writeMessages();
-            return true;
+            this.messages.add(newMessage);
+            if (recipient.receiveMessage(newMessage)) { //message received
+                Database.saveToLog("Message from " + this.username + " to " + recipient.getUsername() + " successfully sent and received.");
+                //Database.saveMessages(); TODO save in batch?
+                return true;
+            } else { //message not received
+                this.messages.remove(newMessage);
+                return false;
+            }
         }
     }
 
     public boolean receiveMessage(Message message) {
-        if (blocked.contains(message.getSender())) {
-            return false;
-        } else {
-            messages.add(message);
-            Database.writeMessages();
+        if (!blocked.contains(message.getSender())) {
+            this.messages.add(message);
             return true;
         }
+        return false;
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format("<User: %s, %s, %s>", username, password, displayName);
-//    }
 }

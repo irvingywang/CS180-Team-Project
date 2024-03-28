@@ -15,7 +15,7 @@ public class Message {
             this.isValid = true;
         } catch (Exception e) {
             this.isValid = false;
-            Database.writeToLog("Failed to create message from data.");
+            Database.saveToLog("Failed to create message from data.");
         }
     }
 
