@@ -1,4 +1,3 @@
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 public class User {
@@ -16,8 +15,6 @@ public class User {
             this.username = parts[0];
             this.password = parts[1];
             this.displayName = parts[2];
-            this.friends = new ArrayList<User>(); //TODO implement friends and blocked
-            this.blocked = new ArrayList<User>();
             this.isValid = true;
         } catch (Exception e) {
             Database.saveToLog("Failed to create user from data.");
@@ -120,15 +117,17 @@ public class User {
 
     public boolean sendMessage(User recipient, String message) {
         if (blocked.contains(recipient)) {
+            Database.saveToLog(String.format("Message from %s to %s failed: recipient is blocked.",
+                    this.username, recipient.getUsername()));
             return false;
         } else {
             Message newMessage = new Message(this, recipient, message);
             this.messages.add(newMessage);
-            if (recipient.receiveMessage(newMessage)) { //message received
-                Database.saveToLog("Message from " + this.username + " to " + recipient.getUsername() + " successfully sent and received.");
-                //Database.saveMessages(); TODO save in batch?
+            if (recipient.receiveMessage(newMessage)) { // message received
+                Database.saveToLog(String.format("Message from %s to %s successfully sent and received.",
+                        this.username, recipient.getUsername()));
                 return true;
-            } else { //message not received
+            } else { // message not received
                 this.messages.remove(newMessage);
                 return false;
             }
@@ -140,13 +139,16 @@ public class User {
             this.messages.add(message);
             return true;
         } else {
-            System.out.println("Message from " + message.getSender().getUsername() + " to " + this.username + " was blocked.");
+            Database.saveToLog(String.format("Message from %s to %s was blocked.",
+                    message.getSender().getUsername(), this.username));
             return false;
         }
     }
 
+
     @Override
     public String toString() {
-        return String.format("%s%s%s%s%s", username, Database.getDelimiter(), password, Database.getDelimiter(), displayName);
+        return String.format("%s%s%s%s%s", username, Database.getDelimiter(),
+                password, Database.getDelimiter(), displayName);
     }
 }

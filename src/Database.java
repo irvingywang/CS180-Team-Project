@@ -24,11 +24,13 @@ public class Database {
         saveToLog("Starting database.");
         loadUsers();
         loadRelationships();
+        saveToLog("Database initialized.");
     }
 
     public static void close() {
-        saveAll();
         saveToLog("Closing database.");
+        saveAll();
+        saveToLog("Database closed.");
     }
 
     public static void clearDatabase() {
@@ -148,14 +150,17 @@ public class Database {
             if (!userFound) {
                 saveToLog(String.format("No %s found for user %s.", relationship, username));
             } else {
-                saveToLog(String.format("%s successfully loaded from file for user %s.", capitalize(relationship), username));
+                saveToLog(String.format("%s successfully loaded from file for user %s.",
+                        capitalize(relationship), username));
             }
             return relationships;
         } catch (IOException e) {
-            saveToLog(String.format("Failed to read %s from file for user %s: %s", relationship, username, e.getMessage()));
+            saveToLog(String.format("Failed to read %s from file for user %s: %s",
+                    relationship, username, e.getMessage()));
             return relationships;
         } catch (Exception e) {
-            saveToLog(String.format("An unexpected error occurred while loading %s for user %s: %s", relationship, username, e.getMessage()));
+            saveToLog(String.format("An unexpected error occurred while loading %s for user %s: %s",
+                    relationship, username, e.getMessage()));
             return relationships;
         }
     }

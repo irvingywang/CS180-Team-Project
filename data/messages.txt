@@ -1,8 +1,8 @@
 Messages for purduepete:
-hoosier123; purduepete; IU is better than Purdue
+purduepete; john123; hello
 
 Messages for hoosier123:
-hoosier123; purduepete; IU is better than Purdue
 
 Messages for john123:
+purduepete; john123; hello
 

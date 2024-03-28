@@ -41,6 +41,10 @@ public class Message {
         return isRead;
     }
 
+    public boolean isValid() {
+        return isValid;
+    }
+
     public void markAsRead() {
         isRead = true;
     }
