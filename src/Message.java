@@ -1,4 +1,4 @@
-public class Message {
+public class Message implements MessageInterface{
     private User sender;
     private User recipient;
     private String message;
@@ -25,9 +25,5 @@ public class Message {
 
     public boolean isRead() {
         return isRead;
-    }
-
-    public void markAsRead() {
-        isRead = true;
     }
 }

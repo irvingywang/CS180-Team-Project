@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class User {
+public class User implements UserInterface{
     private String username;
     private String password;
     private String displayName;

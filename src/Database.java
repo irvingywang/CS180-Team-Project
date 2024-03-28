@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Database {
+public class Database implements DatabaseInterface{
     private static ArrayList<User> users = new ArrayList<User>();
     private static final String USERS_FILE = "users.txt";
     private static final String MESSAGES_FILE = "messages.txt";
@@ -32,22 +32,37 @@ public class Database {
         }
     }
 
-    public static void createUser(String username, String password, String displayName) {
-        User newUser = new User(username, password, displayName);
-        users.add(newUser);
+    public static boolean createUser(String username, String password, String displayName) {
+        if (users.add(new User(username, password, displayName))) {
+            writeUsers();
+            System.out.println("User created successfully.");
+            return true;
+        }
+        System.out.println("Failed to create user.");
+        return false;
     }
 
-    public static synchronized void createUser(User user) {
-        users.add(user);
-        writeUsers();
+    public static boolean createUser(User user) {
+        if (users.add(user)) {
+            writeUsers();
+            System.out.println("User created successfully.");
+            return true;
+        }
+        System.out.println("Failed to create user.");
+        return false;
     }
 
-    public static synchronized void removeUser(User user) {
-        users.remove(user);
-        writeUsers();
+    public static boolean removeUser(User user) {
+        if (users.remove(user)) {
+            writeUsers();
+            System.out.println("User removed successfully.");
+            return true;
+        }
+        System.out.println("Failed to remove user.");
+        return false;
     }
 
-    public static synchronized void writeUsers() {
+    public static void writeUsers() {
         try (BufferedWriter bfw = new BufferedWriter(new FileWriter(USERS_FILE))) {
             for (User user : users) {
                 String line = String.format("%s %s %s", user.getUsername(), user.getPassword(), user.getDisplayName());
@@ -61,7 +76,7 @@ public class Database {
         }
     }
 
-    public static synchronized void writeMessages() {
+    public static void writeMessages() {
         try (BufferedWriter bfw = new BufferedWriter(new FileWriter(MESSAGES_FILE))) {
             for (User user : users) {
                 bfw.write("Messages for " + user.getUsername() + ":");
