@@ -8,8 +8,9 @@ public interface DatabaseInterface {
     ArrayList<User> getUsers();
     void createUser(String username, String password, String displayName);
     void removeUser(String username);
+    void loadUsers();
     ArrayList<Message> loadMessages(String username);
-    ArrayList<User> loadUserRelationships(String username, String relationship);
+    ArrayList<User> loadRelationships(String username, String relationship);
     void saveAll();
     void saveUsers();
     void saveRelationships();

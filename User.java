@@ -29,8 +29,7 @@ public class User implements UserInterface {
         this.blocked = new ArrayList<User>();
     }
 
-    public User() {
-    }
+    public User() {}
 
     public String getUsername() {
         return username;

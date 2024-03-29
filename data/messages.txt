@@ -1,8 +1,8 @@
 Messages for purduepete:
-john123; hello
+purduepete; john123; hello
 
 Messages for hoosier123:
 
 Messages for john123:
-john123; hello
+purduepete; john123; hello
 

@@ -51,6 +51,7 @@ public class Message implements MessageInterface{
 
     @Override
     public String toString() {
-        return String.format("%s%s%s", recipient.getUsername(), Database.getDelimiter(), message);
+        return String.format("%s%s%s%s%s", sender.getUsername(), Database.getDelimiter(),
+                recipient.getUsername(), Database.getDelimiter(), message);
     }
 }
