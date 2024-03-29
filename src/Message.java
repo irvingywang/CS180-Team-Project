@@ -1,4 +1,4 @@
-public class Message {
+public class Message implements MessageInterface{
     private User sender = new User();
     private User recipient = new User();
     private String message = "invalid";
@@ -51,7 +51,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return String.format("%s%s%s%s%s", sender.getUsername(), Database.getDelimiter(),
-                recipient.getUsername(), Database.getDelimiter(), message);
+        return String.format("%s%s%s", recipient.getUsername(), Database.getDelimiter(), message);
     }
 }

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class User {
+public class User implements UserInterface {
     private String username = "invalid";
     private String password = "invalid";
     private String displayName = "invalid";
@@ -29,7 +29,8 @@ public class User {
         this.blocked = new ArrayList<User>();
     }
 
-    public User() {}
+    public User() {
+    }
 
     public String getUsername() {
         return username;
@@ -144,7 +145,6 @@ public class User {
             return false;
         }
     }
-
 
     @Override
     public String toString() {

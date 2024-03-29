@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Database {
+public class Database implements DatabaseInterface {
+    private static Database instance;
     private static final HashMap<String, User> users = new HashMap<>(); // username, user
     private static final String DIR = "data/";
     private static final String USERS_FILE = DIR + "users.txt";
@@ -18,8 +19,15 @@ public class Database {
     private static final String LOG_FILE = DIR + "log.txt";
     private static final String DELIMITER = "; ";
 
+    public static Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+
     // Initialization and Cleanup
-    public static void initialize() {
+    public void initialize() {
         clearLogFile();
         saveToLog("Starting database.");
         loadUsers();
@@ -27,13 +35,13 @@ public class Database {
         saveToLog("Database initialized.");
     }
 
-    public static void close() {
+    public void close() {
         saveToLog("Closing database.");
         saveAll();
         saveToLog("Database closed.");
     }
 
-    public static void clearDatabase() {
+    public void clearDatabase() {
         clearLogFile();
         users.clear();
         saveAll();
@@ -83,7 +91,7 @@ public class Database {
         }
     }
 
-    public static User getUser(String username) {
+    public User getUser(String username) {
         User user = users.get(username);
         if (user == null) {
             saveToLog(String.format("User %s not found.", username));
@@ -92,11 +100,11 @@ public class Database {
         return user;
     }
 
-    public static ArrayList<User> getUsers() {
+    public ArrayList<User> getUsers() {
         return new ArrayList<>(users.values());
     }
 
-    public static void createUser(String username, String password, String displayName) {
+    public void createUser(String username, String password, String displayName) {
         if (users.containsKey(username)) {
             saveToLog(String.format("User %s already exists.", username));
         } else {
@@ -106,7 +114,7 @@ public class Database {
         }
     }
 
-    public static synchronized void removeUser(String username) {
+    public void removeUser(String username) {
         if (users.remove(username) != null) {
             saveToLog(String.format("User %s removed.", username));
         } else {
@@ -114,8 +122,46 @@ public class Database {
         }
     }
 
+    public ArrayList<Message> loadMessages(String username) {
+        saveToLog(String.format("Loading messages from file for user %s.", username));
+        ArrayList<Message> messages = new ArrayList<>();
+        try (BufferedReader bfr = new BufferedReader(new FileReader(MESSAGES_FILE))) {
+            String line;
+            boolean userFound = false;
+            while ((line = bfr.readLine()) != null) {
+                if (line.startsWith(String.format("Messages for %s:", username))) {
+                    userFound = true;
+                    while ((line = bfr.readLine()) != null && !line.isEmpty()) {
+                        String[] parts = line.split(DELIMITER);
+                        if (parts.length >= 3) {
+                            User sender = getUser(parts[0]);
+                            User recipient = getUser(parts[1]);
+                            String messageText = parts[2];
+                            if (sender != null && recipient != null && sender.isValid() && recipient.isValid()) {
+                                Message message = new Message(sender, recipient, messageText);
+                                messages.add(message);
+                            }
+                        }
+                    }
+                }
+            }
+            if (!userFound) {
+                saveToLog(String.format("No messages found for user %s.", username));
+            } else {
+                saveToLog(String.format("Messages successfully loaded from file for user %s.", username));
+            }
+            return messages;
+        } catch (IOException e) {
+            saveToLog(String.format("Failed to read messages from file for user %s: %s", username, e.getMessage()));
+            return messages;
+        } catch (Exception e) {
+            saveToLog(String.format("An unexpected error occurred: %s", e.getMessage()));
+            return messages;
+        }
+    }
+
     // Relationship Management
-    private static void loadRelationships() {
+    private void loadRelationships() {
         for (User user : users.values()) {
             ArrayList<User> friends = loadUserRelationships(user.getUsername(), "friends");
             ArrayList<User> blocked = loadUserRelationships(user.getUsername(), "blocked");
@@ -128,7 +174,7 @@ public class Database {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    public static ArrayList<User> loadUserRelationships(String username, String relationship) {
+    public ArrayList<User> loadUserRelationships(String username, String relationship) {
         String relationshipFile = relationship.equals("friends") ? FRIENDS_FILE : BLOCKED_FILE;
         saveToLog(String.format("Loading %s from file for user %s.", relationship, username));
 
@@ -166,13 +212,13 @@ public class Database {
     }
 
     // Data Saving
-    public static void saveAll() {
+    public void saveAll() {
         saveUsers();
         saveRelationships();
         saveMessages();
     }
 
-    public static synchronized void saveUsers() {
+    public synchronized void saveUsers() {
         saveToLog("Saving users to file.");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USERS_FILE))) {
             for (User user : users.values()) {
@@ -187,12 +233,12 @@ public class Database {
         }
     }
 
-    public static synchronized void saveRelationships() {
+    public synchronized void saveRelationships() {
         saveFriends();
         saveBlocked();
     }
 
-    public static synchronized void saveFriends() {
+    public synchronized void saveFriends() {
         saveToLog("Saving friends to file.");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FRIENDS_FILE))) {
             for (User user : users.values()) {
@@ -211,7 +257,7 @@ public class Database {
         }
     }
 
-    public static synchronized void saveBlocked() {
+    public synchronized void saveBlocked() {
         saveToLog("Saving blocked users to file.");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(BLOCKED_FILE))) {
             for (User user : users.values()) {
@@ -230,7 +276,7 @@ public class Database {
         }
     }
 
-    public static synchronized void saveMessages() {
+    public synchronized void saveMessages() {
         saveToLog("Saving messages to file.");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(MESSAGES_FILE))) {
             for (User user : users.values()) {
