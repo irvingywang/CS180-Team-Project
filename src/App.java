@@ -5,7 +5,7 @@ public class App {
 
         database.initialize();
 
-        database.clearDatabase();
+        //database.clearDatabase();
 
         database.createUser("purduepete", "boilerup", "Purdue Pete");
         database.createUser("john123", "password", "John Doe");
