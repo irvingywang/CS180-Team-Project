@@ -1,26 +1,33 @@
 public class App {
     public static void main(String[] args) {
         System.out.println("Hello World");
+        Database database = Database.getInstance();
 
-        Database.initialize();
+        database.initialize();
 
-//        Database.clearDatabase();
-//
-//        Database.createUser("purduepete", "boilerup", "Purdue Pete");
-//        Database.createUser("john123", "password", "John Doe");
-//
-        Database.getUser("purduepete").sendMessage(Database.getUser("john123"), "hello");
+        database.clearDatabase();
 
-        Database.createUser("hoosier123", "password", "IU student");
-        Database.getUser("purduepete").addFriend(Database.getUser("john123"));
-        Database.getUser("purduepete").blockUser(Database.getUser("hoosier123"));
+        database.createUser("purduepete", "boilerup", "Purdue Pete");
+        database.createUser("john123", "password", "John Doe");
 
-        Database.getUser("hoosier123")
-                .sendMessage(Database.getUser("purduepete"), "IU is better than Purdue");
 
-        System.out.println("User1 username: " + Database.getUser("purduepete").getUsername());
-        System.out.println("User2 username: " + Database.getUser("john123").getUsername());
+        database.getUser("purduepete").sendMessage(database.getUser("john123"), "hello");
 
-        Database.close();
+        database.createUser("hoosier123", "password", "IU student");
+        database.getUser("purduepete").addFriend(database.getUser("john123"));
+        database.getUser("purduepete").blockUser(database.getUser("hoosier123"));
+
+        database.getUser("hoosier123")
+                .sendMessage(database.getUser("purduepete"), "IU is better than Purdue");
+
+        for (Message message : database.getUser("purduepete").getMessages()) {
+            System.out.printf("Message from %s to %s: %s\n",
+                    message.getSender().getUsername(), message.getRecipient().getUsername(), message.getMessage());
+        }
+
+        System.out.println("User1 username: " + database.getUser("purduepete").getUsername());
+        System.out.println("User2 username: " + database.getUser("john123").getUsername());
+
+        database.close();
     }
 }

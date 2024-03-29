@@ -1,6 +1,9 @@
 public interface MessageInterface {
-    public User getSender();
-    public User getRecipient();
-    public String getMessage();
-    public boolean isRead();
+    User getSender();
+    User getRecipient();
+    String getMessage();
+    boolean isRead();
+    boolean isValid();
+    void markAsRead();
+    String toString();
 }
