@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * Represents a user which can send and receive messages.
+ * A user has a unique username, a password, a display name,
+ * a list of friends, a list of blocked users, and a list of messages.
+ */
 public class User implements UserInterface {
     private String username = "invalid";
     private String password = "invalid";

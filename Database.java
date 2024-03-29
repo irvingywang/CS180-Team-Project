@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * This class is used to manage the database of users, messages, and relationships.
+ * It is a singleton class, meaning there should only be one instance of it.
+ */
 public class Database implements DatabaseInterface {
     private static Database instance;
     private static final HashMap<String, User> users = new HashMap<>(); // username, user

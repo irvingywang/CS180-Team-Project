@@ -1,3 +1,7 @@
+/**
+ * Represents a message between two users.
+ * A message has a sender, a recipient, a message string, and a read status.
+ */
 public class Message implements MessageInterface {
     private User sender = new User();
     private User recipient = new User();
