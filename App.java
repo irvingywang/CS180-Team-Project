@@ -3,22 +3,22 @@ public class App {
         System.out.println("Hello World");
         Database database = Database.getInstance();
 
+        //database.reset();
+
         database.initialize();
 
-        //database.clearDatabase();
-
-//        database.createUser("purduepete", "boilerup", "Purdue Pete");
-//        database.createUser("john123", "password", "John Doe");
-//        database.createUser("hoosier123", "password", "IU student");
+        database.createUser("purduepete", "boilerup", "Purdue Pete");
+        database.createUser("john123", "password", "John Doe");
+        database.createUser("hoosier123", "password", "IU student");
 
         User purduepete = database.getUser("purduepete");
         User john123 = database.getUser("john123");
         User hoosier123 = database.getUser("hoosier123");
 
-        //purduepete.addFriend(john123);
-        //purduepete.sendMessage(john123, "hello");
+        purduepete.addFriend(john123);
+        purduepete.sendMessage(john123, "hello");
 
-        //purduepete.blockUser(hoosier123);
+        purduepete.blockUser(hoosier123);
         hoosier123.sendMessage(database.getUser("purduepete"), "IU is better than Purdue");
 
         for (Message message : database.getUser("purduepete").getMessages()) {
