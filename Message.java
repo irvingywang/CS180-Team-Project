@@ -9,8 +9,6 @@ public class Message implements MessageInterface, Serializable {
     private User recipient = new User();
     private String message = "invalid";
     private boolean isRead = false;
-    private boolean isValid = false;
-
     /**
      * Constructs a Message object using a sender, recipient, and message string.
      *
@@ -51,13 +49,6 @@ public class Message implements MessageInterface, Serializable {
      */
     public boolean isRead() {
         return isRead;
-    }
-
-    /**
-     * @return true if the message is valid, false otherwise
-     */
-    public boolean isValid() {
-        return isValid;
     }
 
     /**

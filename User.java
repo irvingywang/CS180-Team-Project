@@ -13,7 +13,6 @@ public class User implements UserInterface, Serializable {
     private ArrayList<User> friends = new ArrayList<User>();
     private ArrayList<User> blocked = new ArrayList<User>();
     private ArrayList<Message> messages = new ArrayList<Message>();
-    private boolean isValid = false;
 
     /**
      * Constructs a User with username, password, and displayName.
@@ -55,56 +54,6 @@ public class User implements UserInterface, Serializable {
      */
     public String getDisplayName() {
         return displayName;
-    }
-
-    /**
-     * @return the list of friends of the user
-     */
-    public ArrayList<User> getFriends() {
-        return friends;
-    }
-
-    /**
-     * @return the list of blocked users by the user
-     */
-    public ArrayList<User> getBlocked() {
-        return blocked;
-    }
-
-    /**
-     * Sets the list of friends for the user.
-     * This method is meant to be used when loading friends from the database.
-     *
-     * @param friends - the list of friends
-     */
-    public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
-    }
-
-    /**
-     * Sets the list of blocked users for the user.
-     * This method is meant to be used when loading blocked users from the database.
-     *
-     * @param blocked - the list of blocked users
-     */
-    public void setBlocked(ArrayList<User> blocked) {
-        this.blocked = blocked;
-    }
-
-    /**
-     * @return true if the user is valid, false otherwise
-     */
-    public boolean isValid() {
-        return isValid;
-    }
-
-    /**
-     * Sets the list of messages for the user.
-     *
-     * @param messages - the list of messages
-     */
-    public void setMessages(ArrayList<Message> messages) {
-        this.messages = messages;
     }
 
     /**
