@@ -1,32 +1,15 @@
+import java.io.Serializable;
+
 /**
  * Represents a message between two users.
  * A message has a sender, a recipient, a message string, and a read status.
  */
-public class Message implements MessageInterface {
+public class Message implements MessageInterface, Serializable {
     private User sender = new User();
     private User recipient = new User();
     private String message = "invalid";
     private boolean isRead = false;
     private boolean isValid = false;
-
-    /**
-     * Constructs a Message object from a string.
-     * Meant to be used when loading messages from the database.
-     *
-     * @param data - the data string
-     */
-    public Message(String data) {
-        try {
-            String[] parts = data.split(Database.getDelimiter());
-            this.sender = new User(parts[0]);
-            this.recipient = new User(parts[1]);
-            this.message = parts[2];
-            this.isRead = Boolean.parseBoolean(parts[3]);
-            this.isValid = true;
-        } catch (Exception e) {
-            Database.saveToLog("Failed to create message from data.");
-        }
-    }
 
     /**
      * Constructs a Message object using a sender, recipient, and message string.
@@ -91,8 +74,7 @@ public class Message implements MessageInterface {
      */
     @Override
     public String toString() {
-        return String.format("%s%s%s%s%s", sender.getUsername(), Database.getDelimiter(),
-                recipient.getUsername(), Database.getDelimiter(), message);
+        return String.format("%s,%s,%s", sender.getUsername(), recipient.getUsername(), message);
     }
 
     @Override

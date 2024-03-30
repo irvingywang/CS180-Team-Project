@@ -3,9 +3,9 @@ public class App {
         System.out.println("Hello World");
         Database database = Database.getInstance();
 
-        database.initialize();
+        database.reset();
 
-        database.clearDatabase();
+        database.initialize();
 
         database.createUser("purduepete", "boilerup", "Purdue Pete");
         database.createUser("john123", "password", "John Doe");

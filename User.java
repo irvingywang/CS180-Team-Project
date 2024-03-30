@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -5,7 +6,7 @@ import java.util.ArrayList;
  * A user has a unique username, a password, a display name,
  * a list of friends, a list of blocked users, and a list of messages.
  */
-public class User implements UserInterface {
+public class User implements UserInterface, Serializable {
     private String username = "invalid";
     private String password = "invalid";
     private String displayName = "invalid";
@@ -13,24 +14,6 @@ public class User implements UserInterface {
     private ArrayList<User> blocked = new ArrayList<User>();
     private ArrayList<Message> messages = new ArrayList<Message>();
     private boolean isValid = false;
-
-    /**
-     * Constructs a User from a data string.
-     * Meant to be used when loading users from the database.
-     *
-     * @param data - the data string
-     */
-    public User(String data) {
-        try {
-            String[] parts = data.split(Database.getDelimiter());
-            this.username = parts[0];
-            this.password = parts[1];
-            this.displayName = parts[2];
-            this.isValid = true;
-        } catch (Exception e) {
-            Database.saveToLog("Failed to create user from data.");
-        }
-    }
 
     /**
      * Constructs a User with username, password, and displayName.
@@ -220,14 +203,14 @@ public class User implements UserInterface {
      */
     public boolean sendMessage(User recipient, String message) {
         if (blocked.contains(recipient)) {
-            Database.saveToLog(String.format("Message from %s to %s failed: recipient is blocked.",
+            Database.writeLog(String.format("Message from %s to %s failed: recipient is blocked.",
                     this.username, recipient.getUsername()));
             return false;
         } else {
             Message newMessage = new Message(this, recipient, message);
             this.messages.add(newMessage);
             if (recipient.receiveMessage(newMessage)) { // message received
-                Database.saveToLog(String.format("Message from %s to %s successfully sent and received.",
+                Database.writeLog(String.format("Message from %s to %s successfully sent and received.",
                         this.username, recipient.getUsername()));
                 return true;
             } else { // message not received
@@ -249,7 +232,7 @@ public class User implements UserInterface {
             this.messages.add(message);
             return true;
         } else {
-            Database.saveToLog(String.format("Message from %s to %s was blocked.",
+            Database.writeLog(String.format("Message from %s to %s was blocked.",
                     message.getSender().getUsername(), this.username));
             return false;
         }
@@ -262,8 +245,7 @@ public class User implements UserInterface {
      */
     @Override
     public String toString() {
-        return String.format("%s%s%s%s%s", username, Database.getDelimiter(),
-                password, Database.getDelimiter(), displayName);
+        return String.format("%s,%s,%s", username, password, displayName);
     }
 
     @Override

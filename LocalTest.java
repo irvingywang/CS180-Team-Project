@@ -14,7 +14,7 @@ public class LocalTest {
     @Before
     public void setUpDatabase() {
         database = Database.getInstance();
-        database.clearDatabase();
+        database.reset();
     }
 
     @Before
