@@ -75,4 +75,38 @@ public class LocalTest {
         assertTrue("user1 removed user2 from friend", user1.removeFriend(user2));
         assertFalse("user1 and user2 is not friend", user1.isFriend(user2));
     }
+
+    @Test
+    public void testBlockUser() {
+        assertTrue("user1 blocked user2", user1.blockUser(user2));
+        assertTrue("user1 blocked user2", user1.isBlocked(user2));
+    }
+
+    @Test
+    public void testSendMessageToBlockedUser() {
+        user1.blockUser(user2);
+        assertFalse("user1 blocked user2", user1.sendMessage(user2, "Hello, my name is ~"));
+        assertEquals(0, user2.getMessages().size());
+    }
+
+    @Test
+    public void testUnblockUser() {
+        user1.blockUser(user2);
+        assertTrue("user1 blocked user2", user1.isBlocked(user2));
+        assertTrue("user1 unblocked user2", user1.unblockUser(user2));
+        assertFalse("user1 unblocked user2", user1.isBlocked(user2));
+    }
+
+    @Test
+    public void testGetMessages() {
+        user1.sendMessage(user2, "Hello, my name is ~");
+        assertEquals(1, user2.getMessages().size());
+        assertEquals("Hello, my name is ~", user2.getMessages().get(0).getMessage());
+    }
+
+    @Test
+    public void testGetUsername() {
+        assertEquals("sender", user1.getUsername());
+        assertEquals("receiver", user2.getUsername());
+    }
 }
