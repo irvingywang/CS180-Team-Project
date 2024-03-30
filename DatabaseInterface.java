@@ -6,7 +6,7 @@ public interface DatabaseInterface {
     void reset();
     User getUser(String username);
     ArrayList<User> getUsers();
-    void createUser(String username, String password, String displayName);
+    void createUser(String username, String password, String displayName, Boolean publicProfile);
     void removeUser(String username);
     void loadDatabase();
     void serializeDatabase();

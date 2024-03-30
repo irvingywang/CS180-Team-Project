@@ -144,11 +144,11 @@ public class Database implements DatabaseInterface {
      * @param password    - the password of the new user
      * @param displayName - the display name of the new user
      */
-    public void createUser(String username, String password, String displayName) {
+    public void createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (users.containsKey(username)) {
             writeLog(String.format("User %s already exists.", username));
         } else {
-            User newUser = new User(username, password, displayName);
+            User newUser = new User(username, password, displayName, publicProfile);
             users.put(username, newUser);
             writeLog(String.format("User %s successfully created.", username));
         }

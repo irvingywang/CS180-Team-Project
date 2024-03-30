@@ -5,9 +5,9 @@ public class App {
         database.reset();
         database.initialize();
 
-        database.createUser("purduepete", "boilerup", "Purdue Pete");
-        database.createUser("john123", "password", "John Doe");
-        database.createUser("hoosier123", "password", "IU student");
+        database.createUser("purduepete", "boilerup", "Purdue Pete", false);
+        database.createUser("john123", "password", "John Doe", false);
+        database.createUser("hoosier123", "password", "IU student", true);
 
         User purduepete = database.getUser("purduepete");
         User john123 = database.getUser("john123");
@@ -19,6 +19,9 @@ public class App {
 
         purduepete.addFriend(john123);
         purduepete.sendMessage(john123, "hello");
+        john123.addFriend(purduepete);
+        purduepete.sendMessage(john123, "hello");
+
 
         purduepete.blockUser(hoosier123);
         hoosier123.sendMessage(database.getUser("purduepete"), "IU is better than Purdue");

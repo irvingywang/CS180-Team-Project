@@ -21,13 +21,13 @@ public class LocalTest {
 
     @Before
     public void setUpUsers() {
-        user1 = new User("sender", "password1", "Sender");
-        user2 = new User("receiver", "password2", "Recipient");
+        user1 = new User("sender", "password1", "Sender", true);
+        user2 = new User("receiver", "password2", "Recipient", true);
     }
 
     @Test
     public void testCreateUserAndRetrieve() {
-        database.createUser("User", "password", "User");
+        database.createUser("User", "password", "User", true);
         User retrievedUser = database.getUser("User");
         assertNotNull(retrievedUser);
         assertEquals("User", retrievedUser.getUsername());
@@ -42,8 +42,8 @@ public class LocalTest {
 
     @Test
     public void testMessageCreation() {
-        User sender = new User("senderUser", "password", "Sender");
-        User recipient = new User("recipientUser", "password", "Recipient");
+        User sender = new User("senderUser", "password", "Sender", true);
+        User recipient = new User("recipientUser", "password", "Recipient", true);
         Message message = new Message(sender, recipient, "Test message");
 
         assertEquals(sender, message.getSender());
@@ -54,8 +54,8 @@ public class LocalTest {
 
     @Test
     public void testMarkMessageAsRead() {
-        User sender = new User("sender", "password", "Sender");
-        User recipient = new User("recipient", "password", "Recipient");
+        User sender = new User("sender", "password", "Sender", true);
+        User recipient = new User("recipient", "password", "Recipient",true);
         Message message = new Message(sender, recipient, "Hello, my name is ~");
         assertFalse("Not read", message.isRead());
         message.markAsRead();

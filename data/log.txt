@@ -1,13 +1,14 @@
-2024-03-30 16:18:14: Log file cleared.
-2024-03-30 16:18:14: Starting database.
-2024-03-30 16:18:14: Loading database from file.
-2024-03-30 16:18:14: No users found in database file.
-2024-03-30 16:18:14: Database initialized.
-2024-03-30 16:18:14: User purduepete successfully created.
-2024-03-30 16:18:14: User john123 successfully created.
-2024-03-30 16:18:14: User hoosier123 successfully created.
-2024-03-30 16:18:14: Message from purduepete to john123 successfully sent and received.
-2024-03-30 16:18:14: Message from hoosier123 to purduepete was blocked.
-2024-03-30 16:18:14: Closing database.
-2024-03-30 16:18:14: Saving database to file.
-2024-03-30 16:18:14: Database closed.
+2024-03-30 16:58:37: Log file cleared.
+2024-03-30 16:58:37: Starting database.
+2024-03-30 16:58:37: Loading database from file.
+2024-03-30 16:58:37: No users found in database file.
+2024-03-30 16:58:37: Database initialized.
+2024-03-30 16:58:37: User purduepete successfully created.
+2024-03-30 16:58:37: User john123 successfully created.
+2024-03-30 16:58:37: User hoosier123 successfully created.
+2024-03-30 16:58:37: Message from purduepete to john123 failed: recipient is not a friend.
+2024-03-30 16:58:37: Message from purduepete to john123 successfully sent and received.
+2024-03-30 16:58:37: Message from hoosier123 to purduepete failed: recipient is not a friend.
+2024-03-30 16:58:37: Closing database.
+2024-03-30 16:58:37: Saving database to file.
+2024-03-30 16:58:38: Database closed.

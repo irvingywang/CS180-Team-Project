@@ -16,7 +16,7 @@ public class Message implements MessageInterface, Serializable {
     private boolean isRead;
 
     /**
-     * Constructs a Message object using a sender, recipient, message, and imagePath.
+     * Constructs a new Message object.
      *
      * @param sender    - the sender User
      * @param recipient - the recipient User
