@@ -1,4 +1,4 @@
-![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/build.yml/badge.svg)
+![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
 
 # CS180 Team Project: Social Media Platform
 This repository contains the Java program for the project.
