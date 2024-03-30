@@ -15,17 +15,20 @@ class DatabaseTest {
     }
     @Test
     void testCreateUserAndRetrieve() {
-        database.createUser("testUser", "password", "Test User");
-        User retrievedUser = database.getUser("testUser");
+        database.createUser("User", "password", "User");
+        User retrievedUser = database.getUser("User");
         assertAll(
                 () -> assertNotNull(retrievedUser),
-                () -> assertEquals("testUser", retrievedUser.getUsername()),
-                () -> assertEquals("Test User", retrievedUser.getDisplayName())
+                () -> assertEquals("User", retrievedUser.getUsername()),
+                () -> assertEquals("User", retrievedUser.getDisplayName())
         );
     }
+    @Test
+    void testGetUserNotFound() {
+        User retrievedUser = database.getUser("User doesn't exist");
+        assertNull(retrievedUser, "User should not find anyone");
+    }
 }
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MessageTest {
 
@@ -45,29 +48,42 @@ class MessageTest {
                 () -> assertFalse(message.isRead())
         );
     }
+    @Test
+    void testMarkMessageAsRead() {
+        User sender = new User("sender", "password", "Sender");
+        User recipient = new User("recipient", "password", "Recipient");
+        Message message = new Message(sender, recipient, "Hello, my name is ~");
+        assertFalse(message.isRead(), "Not read");
+        message.markAsRead();
+        assertTrue(message.isRead(), "read");
+    }
 }
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
     /**
      * Create Users(sender and recipient)
      */
-    private User sender;
-    private User recipient;
+    private User user1;
+    private User user2;
 
     @BeforeEach
     void setUp() {
-        sender = new User("sender", "pass1", "Sender");
-        recipient = new User("recipient", "pass2", "Recipient");
+        user1 = new User("sender", "password1", "Sender");
+        user2 = new User("receiver", "password2", "Recipient");
     }
 
     @Test
     void testSendMessage() {
-        boolean result = sender.sendMessage(recipient, "Hello!");
+        boolean result = user1.sendMessage(user2, "Hello, my name is ~");
         assertTrue(result);
-        assertEquals(1, recipient.getMessages().size());
-        assertEquals("Hello!", recipient.getMessages().get(0).getMessage());
+        assertEquals(1, user2.getMessages().size());
+        assertEquals("Hello, my name is ~", user2.getMessages().get(0).getMessage());
+    }
+    @Test
+    void testAddAndRemoveFriend() {
+        assertTrue(user1.addFriend(user2), "user2 added user 1");
+        assertTrue(user1.isFriend(user2), "user2 and user1 is already friend");
+        assertTrue(user1.removeFriend(user2), "user1 removed user2 from friend");
+        assertFalse(user1.isFriend(user2), "user1 and user2 is not friend");
     }
 }
