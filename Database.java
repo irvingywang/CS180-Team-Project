@@ -31,8 +31,6 @@ public class Database implements DatabaseInterface {
         DATA_FILE = DIR + filename;
     }
 
-    // Database actions
-
     /**
      * Clears the log file and loads everything from disk.
      */
@@ -60,8 +58,6 @@ public class Database implements DatabaseInterface {
         users.clear();
         serializeDatabase();
     }
-
-    // Logging
 
     /**
      * This method is used to save a time stamped message to the log file.
@@ -94,8 +90,6 @@ public class Database implements DatabaseInterface {
         }
     }
 
-    // Load data from disk
-
     /**
      * Loads users from a file, validates them, and adds them to the users map.
      */
@@ -106,7 +100,11 @@ public class Database implements DatabaseInterface {
             Object object = inputStream.readObject();
             if (object instanceof HashMap) {
                 users.putAll((HashMap<String, User>) object);
-                writeLog("Database successfully loaded from file.");
+                if (users.isEmpty()) {
+                    writeLog("No users found in database file.");
+                } else {
+                    writeLog("Database successfully loaded from file.");
+                }
             }
         } catch (Exception e) {
             writeLog(String.format("Failed to load database from file: %s", e.getMessage()));

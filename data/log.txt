@@ -1,13 +1,13 @@
-2024-03-30 13:47:57: Log file cleared.
-2024-03-30 13:47:57: Starting database.
-2024-03-30 13:47:57: Loading database from file.
-2024-03-30 13:47:57: Database successfully loaded from file.
-2024-03-30 13:47:57: Database initialized.
-2024-03-30 13:47:57: User purduepete already exists.
-2024-03-30 13:47:57: User john123 already exists.
-2024-03-30 13:47:57: User hoosier123 already exists.
-2024-03-30 13:47:57: Message from purduepete to john123 successfully sent and received.
-2024-03-30 13:47:57: Message from hoosier123 to purduepete was blocked.
-2024-03-30 13:47:57: Closing database.
-2024-03-30 13:47:57: Saving database to file.
-2024-03-30 13:47:57: Database closed.
+2024-03-30 14:51:17: Log file cleared.
+2024-03-30 14:51:17: Starting database.
+2024-03-30 14:51:17: Loading database from file.
+2024-03-30 14:51:17: No users found in database file.
+2024-03-30 14:51:17: Database initialized.
+2024-03-30 14:51:17: User purduepete successfully created.
+2024-03-30 14:51:17: User john123 successfully created.
+2024-03-30 14:51:17: User hoosier123 successfully created.
+2024-03-30 14:51:17: Message from purduepete to john123 successfully sent and received.
+2024-03-30 14:51:17: Message from hoosier123 to purduepete was blocked.
+2024-03-30 14:51:17: Closing database.
+2024-03-30 14:51:17: Saving database to file.
+2024-03-30 14:51:17: Database closed.

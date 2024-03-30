@@ -7,12 +7,12 @@ import java.util.ArrayList;
  * a list of friends, a list of blocked users, and a list of messages.
  */
 public class User implements UserInterface, Serializable {
-    private String username = "invalid";
-    private String password = "invalid";
-    private String displayName = "invalid";
-    private ArrayList<User> friends = new ArrayList<User>();
-    private ArrayList<User> blocked = new ArrayList<User>();
-    private ArrayList<Message> messages = new ArrayList<Message>();
+    private String username;
+    private String password;
+    private String displayName;
+    private ArrayList<User> friends;
+    private ArrayList<User> blocked;
+    private ArrayList<Message> messages;
 
     /**
      * Constructs a User with username, password, and displayName.
@@ -27,6 +27,7 @@ public class User implements UserInterface, Serializable {
         this.displayName = displayName;
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
+        this.messages = new ArrayList<Message>();
     }
 
     /**
@@ -193,7 +194,7 @@ public class User implements UserInterface, Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s,%s,%s", username, password, displayName);
+        return String.format("User %s,\"%s\"", username, displayName);
     }
 
     /**
