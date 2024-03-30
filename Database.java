@@ -12,8 +12,9 @@ public class Database implements DatabaseInterface {
     private static Database instance;
     private static final HashMap<String, User> users = new HashMap<>(); // username, user
     private static final String DIR = "data/";
-    private static final String DATA_FILE = DIR + "data.ser";
+    private static String DATA_FILE = DIR + "data.ser";
     private static final String LOG_FILE = DIR + "log.txt";
+
     /**
      * There should only be one instance of the Database class.
      *
@@ -24,6 +25,10 @@ public class Database implements DatabaseInterface {
             instance = new Database();
         }
         return instance;
+    }
+
+    public void setDataFile(String filename) {
+        DATA_FILE = DIR + filename;
     }
 
     // Database actions
@@ -48,7 +53,7 @@ public class Database implements DatabaseInterface {
     }
 
     /**
-     * Clears everything, including written files.
+     * Clears everything, including the data file.
      */
     public void reset() {
         clearLogFile();
@@ -95,16 +100,16 @@ public class Database implements DatabaseInterface {
      * Loads users from a file, validates them, and adds them to the users map.
      */
     public void loadDatabase() {
-        writeLog("Loading users from file.");
+        writeLog("Loading database from file.");
         users.clear();
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             Object object = inputStream.readObject();
             if (object instanceof HashMap) {
                 users.putAll((HashMap<String, User>) object);
-                writeLog("Users successfully loaded from file.");
+                writeLog("Database successfully loaded from file.");
             }
         } catch (Exception e) {
-            writeLog(String.format("Failed to load users from file: %s", e.getMessage()));
+            writeLog(String.format("Failed to load database from file: %s", e.getMessage()));
         }
     }
 
@@ -170,13 +175,13 @@ public class Database implements DatabaseInterface {
      * If an exception occurs, it logs the error.
      */
     public synchronized void serializeDatabase() {
-        writeLog("Saving users to file.");
+        writeLog("Saving database to file.");
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
             outputStream.writeObject(users);
         } catch (IOException e) {
-            writeLog("Failed to write users to file.");
+            writeLog("Failed to write database to file.");
         } catch (Exception e) {
-            writeLog(String.format("An unexpected error occurred while saving users: %s", e.getMessage()));
+            writeLog(String.format("An unexpected error occurred while saving database: %s", e.getMessage()));
 
         }
     }

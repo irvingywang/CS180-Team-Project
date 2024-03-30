@@ -14,6 +14,8 @@ public class LocalTest {
     @Before
     public void setUpDatabase() {
         database = Database.getInstance();
+        // set the data file to use test.ser for testing
+        database.setDataFile("test.ser");
         database.reset();
     }
 

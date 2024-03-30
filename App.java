@@ -3,7 +3,7 @@ public class App {
         System.out.println("Hello World");
         Database database = Database.getInstance();
 
-        database.reset();
+        //database.reset();
 
         database.initialize();
 
