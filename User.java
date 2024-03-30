@@ -31,12 +31,6 @@ public class User implements UserInterface, Serializable {
     }
 
     /**
-     * Default constructor for User.
-     */
-    public User() {
-    }
-
-    /**
      * @return the username of the user
      */
     public String getUsername() {

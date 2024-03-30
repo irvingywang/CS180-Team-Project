@@ -37,7 +37,7 @@ public class LocalTest {
     @Test
     public void testGetUserNotFound() {
         User retrievedUser = database.getUser("User doesn't exist");
-        assertEquals(new User(), retrievedUser); //should return a default user
+        assertNull(retrievedUser); //should return null
     }
 
     @Test

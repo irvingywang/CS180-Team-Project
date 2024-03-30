@@ -122,7 +122,7 @@ public class Database implements DatabaseInterface {
         User user = users.get(username);
         if (user == null) {
             writeLog(String.format("User %s not found.", username));
-            return new User();
+            return null;
         }
         return user;
     }
