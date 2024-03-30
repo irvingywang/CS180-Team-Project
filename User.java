@@ -265,4 +265,15 @@ public class User implements UserInterface {
         return String.format("%s%s%s%s%s", username, Database.getDelimiter(),
                 password, Database.getDelimiter(), displayName);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            User user = (User) obj;
+            return this.username.equals(user.username) &&
+                    this.password.equals(user.password) &&
+                    this.displayName.equals(user.displayName);
+        }
+        return false;
+    }
 }

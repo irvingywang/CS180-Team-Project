@@ -94,4 +94,14 @@ public class Message implements MessageInterface {
         return String.format("%s%s%s%s%s", sender.getUsername(), Database.getDelimiter(),
                 recipient.getUsername(), Database.getDelimiter(), message);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Message) {
+            Message other = (Message) obj;
+            return this.sender.equals(other.sender) && this.recipient.equals(other.recipient)
+                    && this.message.equals(other.message) && this.isRead == other.isRead;
+        }
+        return false;
+    }
 }
