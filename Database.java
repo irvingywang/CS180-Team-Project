@@ -31,8 +31,6 @@ public class Database implements DatabaseInterface {
         DATA_FILE = DIR + filename;
     }
 
-    // Database actions
-
     /**
      * Clears the log file and loads everything from disk.
      */
@@ -60,8 +58,6 @@ public class Database implements DatabaseInterface {
         users.clear();
         serializeDatabase();
     }
-
-    // Logging
 
     /**
      * This method is used to save a time stamped message to the log file.
@@ -94,8 +90,6 @@ public class Database implements DatabaseInterface {
         }
     }
 
-    // Load data from disk
-
     /**
      * Loads users from a file, validates them, and adds them to the users map.
      */
@@ -106,7 +100,11 @@ public class Database implements DatabaseInterface {
             Object object = inputStream.readObject();
             if (object instanceof HashMap) {
                 users.putAll((HashMap<String, User>) object);
-                writeLog("Database successfully loaded from file.");
+                if (users.isEmpty()) {
+                    writeLog("No users found in database file.");
+                } else {
+                    writeLog("Database successfully loaded from file.");
+                }
             }
         } catch (Exception e) {
             writeLog(String.format("Failed to load database from file: %s", e.getMessage()));
@@ -124,7 +122,7 @@ public class Database implements DatabaseInterface {
         User user = users.get(username);
         if (user == null) {
             writeLog(String.format("User %s not found.", username));
-            return new User();
+            return null;
         }
         return user;
     }
@@ -146,11 +144,11 @@ public class Database implements DatabaseInterface {
      * @param password    - the password of the new user
      * @param displayName - the display name of the new user
      */
-    public void createUser(String username, String password, String displayName) {
+    public void createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (users.containsKey(username)) {
             writeLog(String.format("User %s already exists.", username));
         } else {
-            User newUser = new User(username, password, displayName);
+            User newUser = new User(username, password, displayName, publicProfile);
             users.put(username, newUser);
             writeLog(String.format("User %s successfully created.", username));
         }

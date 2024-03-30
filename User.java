@@ -7,33 +7,30 @@ import java.util.ArrayList;
  * a list of friends, a list of blocked users, and a list of messages.
  */
 public class User implements UserInterface, Serializable {
-    private String username = "invalid";
-    private String password = "invalid";
-    private String displayName = "invalid";
-    private ArrayList<User> friends = new ArrayList<User>();
-    private ArrayList<User> blocked = new ArrayList<User>();
-    private ArrayList<Message> messages = new ArrayList<Message>();
-    private boolean isValid = false;
+    private String username;
+    private String password;
+    private String displayName;
+    private Boolean publicProfile;
+    private ArrayList<User> friends;
+    private ArrayList<User> blocked;
+    private ArrayList<Message> messages;
 
     /**
-     * Constructs a User with username, password, and displayName.
+     * Constructs a new User object
      *
      * @param username    - the username of the user
      * @param password    - the password of the user
      * @param displayName - the display name of the user
+     * @param publicProfile    - the public status of the user
      */
-    public User(String username, String password, String displayName) {
+    public User(String username, String password, String displayName, Boolean publicProfile) {
         this.username = username;
         this.password = password;
         this.displayName = displayName;
+        this.publicProfile = publicProfile;
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
-    }
-
-    /**
-     * Default constructor for User.
-     */
-    public User() {
+        this.messages = new ArrayList<Message>();
     }
 
     /**
@@ -58,53 +55,10 @@ public class User implements UserInterface, Serializable {
     }
 
     /**
-     * @return the list of friends of the user
+     * @return true if the user profile is public, false otherwise
      */
-    public ArrayList<User> getFriends() {
-        return friends;
-    }
-
-    /**
-     * @return the list of blocked users by the user
-     */
-    public ArrayList<User> getBlocked() {
-        return blocked;
-    }
-
-    /**
-     * Sets the list of friends for the user.
-     * This method is meant to be used when loading friends from the database.
-     *
-     * @param friends - the list of friends
-     */
-    public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
-    }
-
-    /**
-     * Sets the list of blocked users for the user.
-     * This method is meant to be used when loading blocked users from the database.
-     *
-     * @param blocked - the list of blocked users
-     */
-    public void setBlocked(ArrayList<User> blocked) {
-        this.blocked = blocked;
-    }
-
-    /**
-     * @return true if the user is valid, false otherwise
-     */
-    public boolean isValid() {
-        return isValid;
-    }
-
-    /**
-     * Sets the list of messages for the user.
-     *
-     * @param messages - the list of messages
-     */
-    public void setMessages(ArrayList<Message> messages) {
-        this.messages = messages;
+    public Boolean isPublicProfile() {
+        return publicProfile;
     }
 
     /**
@@ -204,21 +158,29 @@ public class User implements UserInterface, Serializable {
      */
     public boolean sendMessage(User recipient, String message) {
         if (blocked.contains(recipient)) {
-            Database.writeLog(String.format("Message from %s to %s failed: recipient is blocked.",
-                    this.username, recipient.getUsername()));
+            Database.writeLog(
+                    String.format("Message from %s to %s failed: recipient is blocked.",
+                            this.username, recipient.getUsername()));
             return false;
-        } else {
-            Message newMessage = new Message(this, recipient, message);
-            this.messages.add(newMessage);
-            if (recipient.receiveMessage(newMessage)) { // message received
-                Database.writeLog(String.format("Message from %s to %s successfully sent and received.",
-                        this.username, recipient.getUsername()));
-                return true;
-            } else { // message not received
-                this.messages.remove(newMessage);
-                return false;
-            }
         }
+        if (!recipient.isPublicProfile() && !recipient.isFriend(this)) {
+            Database.writeLog(
+                    String.format("Message from %s to %s failed: recipient is not a friend.",
+                            this.username, recipient.getUsername()));
+            return false;
+        }
+
+        Message newMessage = new Message(this, recipient, message);
+        this.messages.add(newMessage);
+        if (recipient.receiveMessage(newMessage)) { // message received
+            Database.writeLog(String.format("Message from %s to %s successfully sent and received.",
+                    this.username, recipient.getUsername()));
+            return true;
+        } else { // message not received
+            this.messages.remove(newMessage);
+            return false;
+        }
+
     }
 
     /**
@@ -229,14 +191,18 @@ public class User implements UserInterface, Serializable {
      * @return true if the message is received, false otherwise
      */
     public boolean receiveMessage(Message message) {
-        if (!blocked.contains(message.getSender())) {
-            this.messages.add(message);
-            return true;
-        } else {
+        if (blocked.contains(message.getSender())) {
             Database.writeLog(String.format("Message from %s to %s was blocked.",
                     message.getSender().getUsername(), this.username));
             return false;
         }
+        if (!this.publicProfile && !this.isFriend(message.getSender())) {
+            Database.writeLog(String.format("Message from %s to %s failed: sender is not a friend.",
+                    message.getSender().getUsername(), this.username));
+            return false;
+        }
+        this.messages.add(message);
+        return true;
     }
 
     /**
@@ -244,7 +210,7 @@ public class User implements UserInterface, Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s,%s,%s", username, password, displayName);
+        return String.format("User %s,\"%s\"", username, displayName);
     }
 
     /**

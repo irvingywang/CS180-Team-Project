@@ -1,15 +1,36 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Represents a message between two users.
  * A message has a sender, a recipient, a message string, and a read status.
  */
 public class Message implements MessageInterface, Serializable {
-    private User sender = new User();
-    private User recipient = new User();
-    private String message = "invalid";
-    private boolean isRead = false;
-    private boolean isValid = false;
+    private User sender;
+    private User recipient;
+    private String message;
+    private String imagePath;
+    private Date timestamp;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm");
+    private boolean isRead;
+
+    /**
+     * Constructs a new Message object.
+     *
+     * @param sender    - the sender User
+     * @param recipient - the recipient User
+     * @param message   - the message string
+     * @param imagePath - the image path
+     */
+    public Message(User sender, User recipient, String message, String imagePath) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.message = message;
+        this.imagePath = imagePath;
+        this.timestamp = new Date();
+        this.isRead = false;
+    }
 
     /**
      * Constructs a Message object using a sender, recipient, and message string.
@@ -22,6 +43,8 @@ public class Message implements MessageInterface, Serializable {
         this.sender = sender;
         this.recipient = recipient;
         this.message = message;
+        this.imagePath = imagePath;
+        this.timestamp = new Date();
         this.isRead = false;
     }
 
@@ -47,17 +70,17 @@ public class Message implements MessageInterface, Serializable {
     }
 
     /**
+     * @return the timestamp of the message
+     */
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    /**
      * @return true if the message is read, false otherwise
      */
     public boolean isRead() {
         return isRead;
-    }
-
-    /**
-     * @return true if the message is valid, false otherwise
-     */
-    public boolean isValid() {
-        return isValid;
     }
 
     /**
@@ -72,7 +95,8 @@ public class Message implements MessageInterface, Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s,%s,%s", sender.getUsername(), recipient.getUsername(), message);
+        return String.format("%s, Message from %s to %s: %s",
+                dateFormat.format(timestamp), sender.getUsername(), recipient.getUsername(), message);
     }
 
     /**

@@ -3,7 +3,6 @@ public interface MessageInterface {
     User getRecipient();
     String getMessage();
     boolean isRead();
-    boolean isValid();
     void markAsRead();
     String toString();
 }
