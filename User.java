@@ -33,7 +33,8 @@ public class User implements UserInterface, Serializable {
     /**
      * Default constructor for User.
      */
-    public User() {}
+    public User() {
+    }
 
     /**
      * @return the username of the user
@@ -239,8 +240,6 @@ public class User implements UserInterface, Serializable {
     }
 
     /**
-     *  Returns a string representation of the User.
-     *  This method is meant to be used when saving the User to the database.
      * @return a string representation of the User
      */
     @Override
@@ -248,6 +247,13 @@ public class User implements UserInterface, Serializable {
         return String.format("%s,%s,%s", username, password, displayName);
     }
 
+    /**
+     * Checks if this User is equal to another object.
+     *
+     * @param obj - the object to compare this User to
+     * @return true if the object is a User and has the same username,
+     * password, and displayName as this User, false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof User) {

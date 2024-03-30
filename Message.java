@@ -68,8 +68,6 @@ public class Message implements MessageInterface, Serializable {
     }
 
     /**
-     * Returns a string representation of the Message.
-     * This method is meant to be used when saving the Message to the database.
      * @return string representation of the Message
      */
     @Override
@@ -77,6 +75,13 @@ public class Message implements MessageInterface, Serializable {
         return String.format("%s,%s,%s", sender.getUsername(), recipient.getUsername(), message);
     }
 
+    /**
+     * Checks if this Message is equal to another object.
+     *
+     * @param obj - the object to compare this Message to
+     * @return true if the object is a Message and has the same sender, recipient,
+     * message, and read status as this Message, false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Message) {
