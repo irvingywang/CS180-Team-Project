@@ -1,14 +1,29 @@
-2024-03-30 16:58:37: Log file cleared.
-2024-03-30 16:58:37: Starting database.
-2024-03-30 16:58:37: Loading database from file.
-2024-03-30 16:58:37: No users found in database file.
-2024-03-30 16:58:37: Database initialized.
-2024-03-30 16:58:37: User purduepete successfully created.
-2024-03-30 16:58:37: User john123 successfully created.
-2024-03-30 16:58:37: User hoosier123 successfully created.
-2024-03-30 16:58:37: Message from purduepete to john123 failed: recipient is not a friend.
-2024-03-30 16:58:37: Message from purduepete to john123 successfully sent and received.
-2024-03-30 16:58:37: Message from hoosier123 to purduepete failed: recipient is not a friend.
-2024-03-30 16:58:37: Closing database.
-2024-03-30 16:58:37: Saving database to file.
-2024-03-30 16:58:38: Database closed.
+2024-03-30 20:43:34: Log file cleared.
+2024-03-30 20:43:34: Saving database to file.
+2024-03-30 20:43:57: User joe successfully created.
+2024-03-30 20:44:03: User joe logged in.
+2024-03-30 20:44:13: User js not found.
+2024-03-30 20:49:32: User jason successfully created.
+2024-03-30 20:51:52: User jason not found.
+2024-03-30 20:51:52: Failed login attempt for user jason.
+2024-03-30 20:52:14: User jason not found.
+2024-03-30 20:52:14: Failed login attempt for user jason.
+2024-03-30 20:52:23: User jason successfully created.
+2024-03-30 20:52:37: User jason not found.
+2024-03-30 20:52:37: Failed login attempt for user jason.
+2024-03-30 20:54:56: User jason not found.
+2024-03-30 20:54:56: Failed login attempt for user jason.
+2024-03-30 20:55:22: User pete successfully created.
+2024-03-30 20:57:21: User jason successfully created.
+2024-03-30 20:57:37: User jason not found.
+2024-03-30 20:57:37: Failed login attempt for user jason.
+2024-03-30 20:58:16: User jason not found.
+2024-03-30 21:02:08: Failed login attempt for user jason.
+2024-03-30 21:02:25: User jason successfully created.
+2024-03-30 21:03:01: User jason logged in.
+2024-03-30 21:03:27: Message from jason to jason successfully sent and received.
+2024-03-30 21:04:39: User jason123 not found.
+2024-03-30 21:04:39: Failed login attempt for user jason123.
+2024-03-30 21:04:49: User jason successfully created.
+2024-03-30 21:05:08: User jason not found.
+2024-03-30 21:05:08: Failed login attempt for user jason.
