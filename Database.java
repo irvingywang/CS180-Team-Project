@@ -163,6 +163,7 @@ public class Database implements DatabaseInterface {
             User newUser = new User(username, password, displayName, publicProfile);
             users.put(username, newUser);
             writeLog(String.format("User %s successfully created.", username));
+            serializeDatabase();
         }
     }
 
@@ -194,5 +195,6 @@ public class Database implements DatabaseInterface {
             writeLog(String.format("An unexpected error occurred while saving database: %s", e.getMessage()));
 
         }
+        writeLog("Database saved to file.");
     }
 }

@@ -24,6 +24,7 @@ public class App {
                 default:
                     return;
             }
+            database.initialize();
 
             boolean loggedIn = false;
             String username = "";
@@ -94,11 +95,11 @@ public class App {
                             break;
                         case "3":
                             System.out.println("Exiting...");
-                            break;
+                            database.close();
+                            return;
                     }
                 }
             } while (!"5".equals(choice) || !loggedIn);
-            database.close();
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
         }
