@@ -2,7 +2,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class is used to manage the database of users, messages, and relationships.
@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class Database implements DatabaseInterface {
     private static Database instance;
-    private static final HashMap<String, User> users = new HashMap<>(); // username, user
+    private static final ConcurrentHashMap<String, User> users = new ConcurrentHashMap<>(); // username, user
     private static final String DIR = "data/";
     private static String DATA_FILE = DIR + "data.ser";
     private static final String LOG_FILE = DIR + "log.txt";
@@ -93,7 +93,7 @@ public class Database implements DatabaseInterface {
      * Then it logs that the log file has been cleared.
      * If an Exception occurs, it prints an error message to the console.
      */
-    private static void clearLogFile() {
+    private static synchronized void clearLogFile() {
         try (FileWriter writer = new FileWriter(LOG_FILE, false)) {
             writeLog("Log file cleared.");
         } catch (IOException e) {
@@ -104,13 +104,13 @@ public class Database implements DatabaseInterface {
     /**
      * Loads users from a file, validates them, and adds them to the users map.
      */
-    public void loadDatabase() {
+    public synchronized void loadDatabase() {
         writeLog("Loading database from file.");
         users.clear();
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             Object object = inputStream.readObject();
-            if (object instanceof HashMap) {
-                users.putAll((HashMap<String, User>) object);
+            if (object instanceof ConcurrentHashMap) {
+                users.putAll((ConcurrentHashMap<String, User>) object);
                 if (users.isEmpty()) {
                     writeLog("No users found in database file.");
                 } else {
@@ -156,7 +156,7 @@ public class Database implements DatabaseInterface {
      * @param displayName - the display name of the new user
      * @param publicProfile - the public status of the new user
      */
-    public void createUser(String username, String password, String displayName, Boolean publicProfile) {
+    public synchronized void createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (users.containsKey(username)) {
             writeLog(String.format("User %s already exists.", username));
         } else {
@@ -173,7 +173,7 @@ public class Database implements DatabaseInterface {
      *
      * @param username - the username of the user to be removed
      */
-    public void removeUser(String username) {
+    public synchronized void removeUser(String username) {
         if (users.remove(username) != null) {
             writeLog(String.format("User %s removed.", username));
         } else {
