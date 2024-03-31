@@ -59,6 +59,17 @@ public class Database implements DatabaseInterface {
         serializeDatabase();
     }
 
+    public boolean login(String username, String password) {
+        User user = getUser(username);
+        if (user != null && user.getPassword().equals(password)) {
+            writeLog(String.format("User %s logged in.", username));
+            return true;
+        } else {
+            writeLog(String.format("Failed login attempt for user %s.", username));
+            return false;
+        }
+    }
+
     /**
      * This method is used to save a time stamped message to the log file.
      * If an Exception occurs, it will print an error message to the console.
@@ -143,6 +154,7 @@ public class Database implements DatabaseInterface {
      * @param username    - the username of the new user
      * @param password    - the password of the new user
      * @param displayName - the display name of the new user
+     * @param publicProfile - the public status of the new user
      */
     public void createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (users.containsKey(username)) {
@@ -151,6 +163,7 @@ public class Database implements DatabaseInterface {
             User newUser = new User(username, password, displayName, publicProfile);
             users.put(username, newUser);
             writeLog(String.format("User %s successfully created.", username));
+            serializeDatabase();
         }
     }
 
@@ -182,5 +195,6 @@ public class Database implements DatabaseInterface {
             writeLog(String.format("An unexpected error occurred while saving database: %s", e.getMessage()));
 
         }
+        writeLog("Database saved to file.");
     }
 }

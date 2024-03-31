@@ -12,17 +12,49 @@ public class LocalTest {
      * Setup for the Test of Database Class
      */
     @Before
-    public void setUpDatabase() {
+    public void setUp() {
         database = Database.getInstance();
-        // set the data file to use test.ser for testing
         database.setDataFile("test.ser");
         database.reset();
-    }
+        database.initialize();
 
-    @Before
-    public void setUpUsers() {
+        database.createUser("purduepete", "boilerup", "Purdue Pete", false);
+        database.createUser("john123", "password", "John Doe", false);
+        database.createUser("hoosier123", "password", "IU student", true);
+
+
         user1 = new User("sender", "password1", "Sender", true);
         user2 = new User("receiver", "password2", "Recipient", true);
+    }
+
+    @Test
+    public void testUserCreationAndMessaging() {
+        User purduepete = database.getUser("purduepete");
+        User john123 = database.getUser("john123");
+        User hoosier123 = database.getUser("hoosier123");
+
+        assertNotNull(purduepete);
+        assertNotNull(john123);
+        assertNotNull(hoosier123);
+
+        // check user creation
+        assertEquals("Purdue Pete", purduepete.getDisplayName());
+        assertEquals("John Doe", john123.getDisplayName());
+        assertEquals("IU student", hoosier123.getDisplayName());
+
+        // test messaging and friend system
+        assertTrue(purduepete.addFriend(john123));
+        assertTrue(john123.addFriend(purduepete));
+        assertTrue(purduepete.sendMessage(john123, "hello"));
+        assertEquals(1, john123.getMessages().size());
+        assertEquals("hello", john123.getMessages().get(0).getMessage());
+
+        // test blocking
+        purduepete.blockUser(hoosier123);
+        assertFalse(hoosier123.sendMessage(purduepete, "IU is better than Purdue"));
+        assertTrue(purduepete.getMessages().size() <= 1); // there should only be one message
+
+        database.close();
     }
 
     @Test
