@@ -5,8 +5,18 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Project05 -- Database
+ *
  * This class is used to manage the database of users, messages, and relationships.
  * It is a singleton class, meaning there should only be one instance of it.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
  */
 public class Database implements DatabaseInterface {
     private static Database instance;

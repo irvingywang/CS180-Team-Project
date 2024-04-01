@@ -1,8 +1,19 @@
 import java.util.ArrayList;
+
 /**
+ * Project05 -- GroupChat
+ *
  * Represents a group chat with a variable amount of members.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
  */
-public class GroupChat extends Chat {
+public class GroupChat extends Chat implements GroupChatInterface {
 
     /**
      * Constructs a new GroupChat object.

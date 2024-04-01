@@ -3,8 +3,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Project05 -- Message
+ *
  * Represents a message between two users.
  * A message has a sender, a recipient, a message string, and a read status.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
  */
 public class Message implements MessageInterface, Serializable {
     private User sender;
