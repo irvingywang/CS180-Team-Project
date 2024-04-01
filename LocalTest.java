@@ -1,12 +1,28 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
+/**
+ * Project05 -- LocalTest
+ *
+ * Tests all the methods created.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
+ */
 public class LocalTest {
     private Database database;
     private User user1;
     private User user2;
+    private GroupChat groupChat;
 
     /**
      * Setup for the Test of Database Class
@@ -22,9 +38,13 @@ public class LocalTest {
         database.createUser("john123", "password", "John Doe", false);
         database.createUser("hoosier123", "password", "IU student", true);
 
-
         user1 = new User("sender", "password1", "Sender", true);
         user2 = new User("receiver", "password2", "Recipient", true);
+
+        ArrayList<User> groupUsers = new ArrayList<>();
+        groupUsers.add(user1);
+        groupUsers.add(user2);
+        groupChat = new GroupChat("Group Chat", groupUsers);
     }
 
     @Test
@@ -142,5 +162,18 @@ public class LocalTest {
     public void testGetUsername() {
         assertEquals("sender", user1.getUsername());
         assertEquals("receiver", user2.getUsername());
+    }
+
+    @Test
+    public void testAddMember() {
+        User newUser = new User("newUser", "password", "New User", true);
+        assertTrue(groupChat.addMember(newUser));
+        assertTrue(groupChat.getMembers().containsKey(newUser.getUsername()));
+    }
+
+    @Test
+    public void testRemoveMember() {
+        assertTrue(groupChat.removeMember(user1));
+        assertFalse(groupChat.getMembers().containsKey(user1.getUsername()));
     }
 }
