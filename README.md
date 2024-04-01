@@ -99,4 +99,7 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   - This interface provides a framework for the GUI.
   - As far as we know, interfaces cannot be tested.
   - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
+- 'App':
+  - Purpose is to act like a testing module in place of a functioning GUI.
+  - Proper GUI capabilities will be implemented in Phase 2.
 
