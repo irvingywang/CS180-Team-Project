@@ -2,9 +2,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * Project05 -- User
+ *
  * Represents a user which can send and receive messages.
  * A user has a unique username, a password, a display name,
  * a list of friends, a list of blocked users, and a list of messages.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
  */
 public class User implements UserInterface, Serializable {
     private String username;
