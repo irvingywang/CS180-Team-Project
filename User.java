@@ -46,6 +46,7 @@ public class User implements UserInterface, Serializable {
     /**
      * @return the username of the user
      */
+    @Override
     public String getUsername() {
         return username;
     }
@@ -53,6 +54,7 @@ public class User implements UserInterface, Serializable {
     /**
      * @return the password of the user
      */
+    @Override
     public String getPassword() {
         return password;
     }
@@ -60,6 +62,7 @@ public class User implements UserInterface, Serializable {
     /**
      * @return the display name of the user
      */
+    @Override
     public String getDisplayName() {
         return displayName;
     }
@@ -67,8 +70,31 @@ public class User implements UserInterface, Serializable {
     /**
      * @return true if the user profile is public, false otherwise
      */
-    public Boolean isPublicProfile() {
+    @Override
+    public boolean isPublicProfile() {
         return publicProfile;
+    }
+
+    /**
+     * Checks if a user is a friend.
+     *
+     * @param user - the user to be checked
+     * @return true if the user is a friend, false otherwise
+     */
+    @Override
+    public boolean isFriend(User user) {
+        return friends.contains(user);
+    }
+
+    /**
+     * Checks if a user is blocked.
+     *
+     * @param user - the user to be checked
+     * @return true if the user is blocked, false otherwise
+     */
+    @Override
+    public boolean isBlocked(User user) {
+        return blocked.contains(user);
     }
 
     /**
@@ -77,6 +103,7 @@ public class User implements UserInterface, Serializable {
      * @param friend - the friend to be added
      * @return true if the friend is added, false otherwise
      */
+    @Override
     public boolean addFriend(User friend) {
         if (friends.contains(friend)) {
             return false;
@@ -92,6 +119,7 @@ public class User implements UserInterface, Serializable {
      * @param friend - the friend to be removed
      * @return true if the friend is removed, false otherwise
      */
+    @Override
     public boolean removeFriend(User friend) {
         if (friends.contains(friend)) {
             friends.remove(friend);
@@ -107,6 +135,7 @@ public class User implements UserInterface, Serializable {
      * @param user - the user to be blocked
      * @return true if the user is blocked, false otherwise
      */
+    @Override
     public boolean blockUser(User user) {
         if (blocked.contains(user)) {
             return false;
@@ -122,6 +151,7 @@ public class User implements UserInterface, Serializable {
      * @param user - the user to be unblocked
      * @return true if the user is unblocked, false otherwise
      */
+    @Override
     public boolean unblockUser(User user) {
         if (blocked.contains(user)) {
             blocked.remove(user);
@@ -132,28 +162,9 @@ public class User implements UserInterface, Serializable {
     }
 
     /**
-     * Checks if a user is a friend.
-     *
-     * @param user - the user to be checked
-     * @return true if the user is a friend, false otherwise
-     */
-    public boolean isFriend(User user) {
-        return friends.contains(user);
-    }
-
-    /**
-     * Checks if a user is blocked.
-     *
-     * @param user - the user to be checked
-     * @return true if the user is blocked, false otherwise
-     */
-    public boolean isBlocked(User user) {
-        return blocked.contains(user);
-    }
-
-    /**
      * @return the list of messages of the user
      */
+    @Override
     public ArrayList<Message> getMessages() {
         return messages;
     }
@@ -166,6 +177,7 @@ public class User implements UserInterface, Serializable {
      * @param message   - the message to be sent
      * @return true if the message is sent, false otherwise
      */
+    @Override
     public boolean sendMessage(User recipient, String message) {
         if (blocked.contains(recipient)) {
             Database.writeLog(
@@ -200,6 +212,7 @@ public class User implements UserInterface, Serializable {
      * @param message - the message to be received
      * @return true if the message is received, false otherwise
      */
+    @Override
     public boolean receiveMessage(Message message) {
         if (blocked.contains(message.getSender())) {
             Database.writeLog(String.format("Message from %s to %s was blocked.",

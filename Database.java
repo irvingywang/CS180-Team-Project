@@ -44,6 +44,7 @@ public class Database implements DatabaseInterface {
     /**
      * Clears the log file and loads everything from disk.
      */
+    @Override
     public void initialize() {
         clearLogFile();
         writeLog("Starting database.");
@@ -54,6 +55,7 @@ public class Database implements DatabaseInterface {
     /**
      * Saves everything and closes.
      */
+    @Override
     public void close() {
         writeLog("Closing database.");
         serializeDatabase();
@@ -63,6 +65,7 @@ public class Database implements DatabaseInterface {
     /**
      * Clears everything, including the data file.
      */
+    @Override
     public void reset() {
         clearLogFile();
         users.clear();
@@ -128,6 +131,7 @@ public class Database implements DatabaseInterface {
      * @param username - the username of the user
      * @return user - the User object associated with the username, or a new User object if not found
      */
+    @Override
     public User getUser(String username) {
         User user = users.get(username);
         if (user == null) {
@@ -142,10 +146,17 @@ public class Database implements DatabaseInterface {
      *
      * @return ArrayList<User> - a list of all users
      */
+    @Override
     public ArrayList<User> getUsers() {
         return new ArrayList<>(users.values());
     }
 
+    /**
+     * Adds a User object to the users map.
+     *
+     * @param user - the User object to be added
+     */
+    @Override
     public synchronized void addUser(User user) {
         users.put(user.getUsername(), user);
     }
@@ -156,6 +167,7 @@ public class Database implements DatabaseInterface {
      *
      * @param username - the username of the user to be removed
      */
+    @Override
     public synchronized void removeUser(String username) {
         if (users.remove(username) != null) {
             writeLog(String.format("User %s removed.", username));
@@ -168,6 +180,7 @@ public class Database implements DatabaseInterface {
      * This method writes all data to a binary file.
      * If an exception occurs, it logs the error.
      */
+    @Override
     public synchronized void serializeDatabase() {
         writeLog("Saving database to file.");
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {

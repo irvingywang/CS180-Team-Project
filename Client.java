@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -14,8 +15,9 @@ public class Client implements ClientInterface, Runnable {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-            //TODO Functionality
+            JOptionPane.showMessageDialog(null, "Welcome to App!");
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Server is not running.");
             System.out.println("Client exception " + e.getMessage());
         }
     }
