@@ -69,14 +69,17 @@ public class Database implements DatabaseInterface {
         serializeDatabase();
     }
 
-    public boolean login(String username, String password) {
-        User user = getUser(username);
-        if (user != null && user.getPassword().equals(password)) {
-            writeLog(String.format("User %s logged in.", username));
-            return true;
-        } else {
-            writeLog(String.format("Failed login attempt for user %s.", username));
-            return false;
+    /**
+     * This method is used to clear the log file.
+     * It should only be called once at the start of the program.
+     * Then it logs that the log file has been cleared.
+     * If an Exception occurs, it prints an error message to the console.
+     */
+    private synchronized void clearLogFile() {
+        try (FileWriter writer = new FileWriter(LOG_FILE, false)) {
+            writeLog("Log file cleared.");
+        } catch (IOException e) {
+            System.out.printf("Error clearing log file: %s%n", e.getMessage());
         }
     }
 
@@ -94,20 +97,6 @@ public class Database implements DatabaseInterface {
             writer.newLine();
         } catch (Exception e) {
             System.out.printf("Failed to write to log: %s%n", e.getMessage());
-        }
-    }
-
-    /**
-     * This method is used to clear the log file.
-     * It should only be called once at the start of the program.
-     * Then it logs that the log file has been cleared.
-     * If an Exception occurs, it prints an error message to the console.
-     */
-    private static synchronized void clearLogFile() {
-        try (FileWriter writer = new FileWriter(LOG_FILE, false)) {
-            writeLog("Log file cleared.");
-        } catch (IOException e) {
-            System.out.printf("Error clearing log file: %s%n", e.getMessage());
         }
     }
 
@@ -157,24 +146,8 @@ public class Database implements DatabaseInterface {
         return new ArrayList<>(users.values());
     }
 
-    /**
-     * Creates a new User object and adds it to the users map.
-     * If a user with the same username already exists, logs the event and does not create a new user.
-     *
-     * @param username    - the username of the new user
-     * @param password    - the password of the new user
-     * @param displayName - the display name of the new user
-     * @param publicProfile - the public status of the new user
-     */
-    public synchronized void createUser(String username, String password, String displayName, Boolean publicProfile) {
-        if (users.containsKey(username)) {
-            writeLog(String.format("User %s already exists.", username));
-        } else {
-            User newUser = new User(username, password, displayName, publicProfile);
-            users.put(username, newUser);
-            writeLog(String.format("User %s successfully created.", username));
-            serializeDatabase();
-        }
+    public synchronized void addUser(User user) {
+        users.put(user.getUsername(), user);
     }
 
     /**

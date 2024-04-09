@@ -19,7 +19,7 @@ public interface DatabaseInterface {
     void reset();
     User getUser(String username);
     ArrayList<User> getUsers();
-    void createUser(String username, String password, String displayName, Boolean publicProfile);
+    void addUser(User user);
     void removeUser(String username);
     void loadDatabase();
     void serializeDatabase();

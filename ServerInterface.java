@@ -12,12 +12,6 @@
  *
  */
 public interface ServerInterface {
-    void initialize();
-    void close();
-    void connectToClient(String client);
-    void sendToClient(String sender, String receiver, String message);
-    void receiveFromClient(String sender, String receiver, String message);
-    void show(String client, String message);
-    void store(String message);
-    void restrict(String sender, String message, boolean restricted);
+    boolean login(String username, String password);
+    boolean createUser(String username, String password, String displayName, Boolean publicProfile);
 }
