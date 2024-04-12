@@ -42,8 +42,13 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void userSearch(String user) {
-        //TODO Functionality
+    public void userSearch(String search) {
+        String searchInput = JOptionPane.showInputDialog("Enter the name:");
+        if (searchInput == null || searchInput.trim().isEmpty()) {
+            showError("Search cannot be empty.");
+            return;
+        }
+        client.sendToServer(String.format("SEARCH USER: %s", searchInput.trim()));
     }
 
     @Override
