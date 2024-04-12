@@ -24,6 +24,7 @@ public class User implements UserInterface, Serializable {
     private ArrayList<User> friends;
     private ArrayList<User> blocked;
     private ArrayList<Message> messages;
+    private String identifier;
 
     /**
      * Constructs a new User object
@@ -41,6 +42,7 @@ public class User implements UserInterface, Serializable {
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
         this.messages = new ArrayList<Message>();
+        this.identifier = "USER " + username;
     }
 
     /**
@@ -180,13 +182,12 @@ public class User implements UserInterface, Serializable {
     @Override
     public boolean sendMessage(User recipient, String message) {
         if (blocked.contains(recipient)) {
-            Database.writeLog(
-                    String.format("Message from %s to %s failed: recipient is blocked.",
-                            this.username, recipient.getUsername()));
+            Database.writeLog(LogType.WARNING, identifier,
+                    String.format("Message from %s to %s failed: recipient is blocked.", this.username, recipient.getUsername()));
             return false;
         }
         if (!recipient.isPublicProfile() && !recipient.isFriend(this)) {
-            Database.writeLog(
+            Database.writeLog(LogType.WARNING, identifier,
                     String.format("Message from %s to %s failed: recipient is not a friend.",
                             this.username, recipient.getUsername()));
             return false;
@@ -195,8 +196,9 @@ public class User implements UserInterface, Serializable {
         Message newMessage = new Message(this, recipient, message);
         this.messages.add(newMessage);
         if (recipient.receiveMessage(newMessage)) { // message received
-            Database.writeLog(String.format("Message from %s to %s successfully sent and received.",
-                    this.username, recipient.getUsername()));
+            Database.writeLog(LogType.INFO, username,
+                    String.format("Message from %s to %s successfully sent and received.",
+                            this.username, recipient.getUsername()));
             return true;
         } else { // message not received
             this.messages.remove(newMessage);
@@ -215,12 +217,14 @@ public class User implements UserInterface, Serializable {
     @Override
     public boolean receiveMessage(Message message) {
         if (blocked.contains(message.getSender())) {
-            Database.writeLog(String.format("Message from %s to %s was blocked.",
+            Database.writeLog(LogType.WARNING, identifier,
+                    String.format("Message from %s to %s was blocked.",
                     message.getSender().getUsername(), this.username));
             return false;
         }
         if (!this.publicProfile && !this.isFriend(message.getSender())) {
-            Database.writeLog(String.format("Message from %s to %s failed: sender is not a friend.",
+            Database.writeLog(LogType.WARNING, identifier,
+                    String.format("Message from %s to %s failed: sender is not a friend.",
                     message.getSender().getUsername(), this.username));
             return false;
         }

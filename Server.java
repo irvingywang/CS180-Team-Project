@@ -8,6 +8,7 @@ public class Server implements ServerInterface, Runnable {
     private ServerSocket serverSocket;
     private BufferedReader reader;
     private BufferedWriter writer;
+    private final String logIdentifier = "SERVER";
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -29,6 +30,19 @@ public class Server implements ServerInterface, Runnable {
     }
 
     @Override
+    public boolean sendToClient(String message) {
+        try {
+            writer.write(message);
+            writer.newLine();
+            writer.flush();
+            return true;
+        } catch (IOException e) {
+            Database.writeLog(LogType.ERROR, logIdentifier, e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
     public boolean connectToClient() {
         try {
             serverSocket = new ServerSocket(PORT);
@@ -45,10 +59,10 @@ public class Server implements ServerInterface, Runnable {
     public boolean login(String username, String password) {
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
-            Database.writeLog(String.format("User %s logged in.", username));
+            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s logged in.", username));
             return true;
         } else {
-            Database.writeLog(String.format("Failed login attempt for user %s.", username));
+            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s failed to log in.", username));
             return false;
         }
     }
@@ -65,12 +79,13 @@ public class Server implements ServerInterface, Runnable {
     @Override
     public synchronized boolean createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (database.getUser(username) != null) {
-            Database.writeLog(String.format("User %s already exists.", username));
+            //FIXME show this in the GUI
+            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s already exists.", username));
             return false;
         } else {
             User newUser = new User(username, password, displayName, publicProfile);
             database.addUser(newUser);
-            Database.writeLog(String.format("User %s successfully created.", username));
+            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s created.", username));
             database.serializeDatabase();
             return true;
         }

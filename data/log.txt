@@ -1,5 +1,5 @@
-2024-04-11 23:15:25: Log file cleared.
-2024-04-11 23:15:25: Starting database.
-2024-04-11 23:15:25: Loading database from file.
-2024-04-11 23:15:25: No users found in database file.
-2024-04-11 23:15:25: Database initialized.
+[INFO] DATABASE 04-12-2024 16:34:25 Log file cleared.
+[INFO] DATABASE 04-12-2024 16:34:25 Initializing database.
+[INFO] DATABASE 04-12-2024 16:34:25 Loading database from file.
+[ERROR] DATABASE 04-12-2024 16:34:25 Database file is empty.
+[INFO] DATABASE 04-12-2024 16:34:25 Database initialized.

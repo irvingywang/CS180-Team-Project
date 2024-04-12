@@ -12,6 +12,8 @@
  *
  */
 public interface ServerInterface {
+    boolean sendToClient(String message);
+
     boolean connectToClient();
 
     boolean login(String username, String password);

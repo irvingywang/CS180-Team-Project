@@ -7,6 +7,7 @@ public class Client implements ClientInterface, Runnable {
     private BufferedWriter writer;
     private final String serverAddress = "localhost";
     ClientGUI clientGUI = new ClientGUI(this);
+    private final String logIdentifier = "CLIENT";
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -45,7 +46,7 @@ public class Client implements ClientInterface, Runnable {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            System.out.println("Client exception " + e.getMessage());
+            Database.writeLog(LogType.ERROR, logIdentifier, e.getMessage());
         }
     }
 

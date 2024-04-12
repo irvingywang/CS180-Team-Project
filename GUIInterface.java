@@ -15,6 +15,7 @@ public interface GUIInterface {
     void welcomePage();
     void showError(String error);
     void loginPage();
+    void createUser();
     void userSearch(String user);
     void homePage();
     void userInteraction(String choice, String info);

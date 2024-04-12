@@ -37,6 +37,11 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
+    public void createUser() {
+        //TODO Functionality
+    }
+
+    @Override
     public void userSearch(String user) {
         //TODO Functionality
     }
