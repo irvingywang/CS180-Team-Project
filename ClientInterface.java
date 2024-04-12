@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * Project05 -- ClientInterface
  *
@@ -14,5 +12,6 @@ import java.util.List;
  *
  */
 public interface ClientInterface {
-    void connectToServer();
+    boolean connectToServer();
+    void sendToServer(String message);
 }

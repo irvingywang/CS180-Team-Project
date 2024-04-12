@@ -1,6 +1,3 @@
-import java.time.LocalDateTime;
-import java.util.List;
-
 /**
  * Project05 -- GUIInterface
  *
@@ -15,7 +12,9 @@ import java.util.List;
  *
  */
 public interface GUIInterface {
-    void login();
+    void welcomePage();
+    void showError(String error);
+    void loginPage();
     void userSearch(String user);
     void homePage();
     void userInteraction(String choice, String info);

@@ -12,6 +12,8 @@
  *
  */
 public interface ServerInterface {
+    boolean connectToClient();
+
     boolean login(String username, String password);
     boolean createUser(String username, String password, String displayName, Boolean publicProfile);
 }

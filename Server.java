@@ -5,6 +5,9 @@ import java.net.Socket;
 public class Server implements ServerInterface, Runnable {
     public static final int PORT = 1234;
     private Database database = Database.getInstance();
+    private ServerSocket serverSocket;
+    private BufferedReader reader;
+    private BufferedWriter writer;
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -14,23 +17,31 @@ public class Server implements ServerInterface, Runnable {
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(1234)) {
-            Database.writeLog(String.format("Server started on port %d.", PORT));
-            while (true) {
-                try (Socket clientSocket = serverSocket.accept();
-                     BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()))) {
-
-                    //TODO Functionality
-                } catch (Exception e) {
-
-                }
+        while (true) {
+            if (connectToClient()) {
+                //connection successful
+                //TODO Server functionality
+            } else {
+                //FIXME this line spams the log file
+                //Database.writeLog("Connection to client failed.");
             }
-        } catch (IOException e) {
-            System.out.println("Server exception " + e.getMessage());
         }
     }
 
+    @Override
+    public boolean connectToClient() {
+        try {
+            serverSocket = new ServerSocket(PORT);
+            Socket clientSocket = serverSocket.accept();
+            reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @Override
     public boolean login(String username, String password) {
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
@@ -43,15 +54,15 @@ public class Server implements ServerInterface, Runnable {
     }
 
     /**
-     * TODO fix documentation
-     * Creates a new User object and adds it to the users map.
-     * If a user with the same username already exists, logs the event and does not create a new user.
+     * Creates a new user and adds it to the database.
+     * If the user already exists, the method will return false.
      *
      * @param username      - the username of the new user
      * @param password      - the password of the new user
      * @param displayName   - the display name of the new user
      * @param publicProfile - the public status of the new user
      */
+    @Override
     public synchronized boolean createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (database.getUser(username) != null) {
             Database.writeLog(String.format("User %s already exists.", username));
