@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class ClientGUI implements GUIInterface {
-    Client client;
+    private Client client;
 
     public ClientGUI(Client client) {
         this.client = client;
@@ -25,25 +25,43 @@ public class ClientGUI implements GUIInterface {
             username = JOptionPane.showInputDialog("Enter your username:");
             if (username == null || username.isEmpty()) {
                 showError("Username cannot be empty.");
+                return;
             }
         }
         while (password.isEmpty()) {
             password = JOptionPane.showInputDialog("Enter your password:");
             if (password == null || password.isEmpty()) {
                 showError("Password cannot be empty.");
+                return;
             }
         }
         client.sendToServer(String.format("LOGIN INFO: %s %s", username, password));
     }
 
     @Override
-    public void createUser() {
-        //TODO Functionality
+    public void createUser() { //TODO Creates the user
+        String username = JOptionPane.showInputDialog("Enter username:");
+        if (username == null || username.trim().isEmpty()) {
+            showError("Username cannot be empty.");
+            return;
+        }
+        String password = JOptionPane.showInputDialog("Enter new password:");
+        if (password == null || password.trim().isEmpty()) {
+            showError("Password cannot be empty.");
+            return;
+        }
+        client.sendToServer(String.format("CREATE USER: %s %s", username.trim(), password.trim()));
+        JOptionPane.showMessageDialog(null, "Successful!");
     }
 
     @Override
-    public void userSearch(String user) {
-        //TODO Functionality
+    public void userSearch(String search) { //TODO Finds user with search function
+        String searchInput = JOptionPane.showInputDialog("Enter the name:");
+        if (searchInput == null || searchInput.trim().isEmpty()) {
+            showError("Search cannot be empty.");
+            return;
+        }
+        client.sendToServer(String.format("SEARCH USER: %s", searchInput.trim()));
     }
 
     @Override
