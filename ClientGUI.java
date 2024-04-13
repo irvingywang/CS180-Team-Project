@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class ClientGUI implements GUIInterface {
-    Client client;
+    private Client client;
 
     public ClientGUI(Client client) {
         this.client = client;
