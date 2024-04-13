@@ -179,4 +179,5 @@ public class LocalTest {
         assertTrue(groupChat.removeMember(user1));
         assertFalse(groupChat.getMembers().containsKey(user1.getUsername()));
     }
+
 }
