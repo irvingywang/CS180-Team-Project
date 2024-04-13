@@ -117,6 +117,10 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    public boolean sendMessage(User recipient, String message)
+    {
+        user.sendMessage(recipient,message);
+    }
     //TODO simplify network communication with requests
 //    public NetworkMessage sendRequestToServer(NetworkMessage request) {
 //        try {
