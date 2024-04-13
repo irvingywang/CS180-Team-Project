@@ -66,7 +66,7 @@ public class Server implements ServerInterface, Runnable {
                     System.out.println(message);
                     switch ((ServerCommand) message.getCommand()) {
                         case LOGIN -> {
-                            String[] loginInfo = ((String) message.getMessage()).split(",");
+                            String[] loginInfo = ((String) message.getObject()).split(",");
                             if (login(loginInfo[0], loginInfo[1])) {
                                 Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
                                 sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS, IDENTIFIER, database.getUser(loginInfo[0])));

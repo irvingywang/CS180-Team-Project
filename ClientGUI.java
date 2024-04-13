@@ -7,6 +7,12 @@ public class ClientGUI implements GUIInterface {
         this.client = client;
     }
 
+    //TODO create standard button
+
+    //TODO create standard text field
+
+    //TODO create standard window
+
     @Override
     public void welcomePage() {
         JOptionPane.showMessageDialog(null, "Welcome to App!");
@@ -40,7 +46,7 @@ public class ClientGUI implements GUIInterface {
         NetworkMessage message = client.listenToServer();
         switch ((ClientCommand) message.getCommand()) {
             case LOGIN_SUCCESS -> {
-                client.setUser((User) message.getMessage());
+                client.setUser((User) message.getObject());
                 showError("Login successful.");
             }
             case LOGIN_FAILURE -> {

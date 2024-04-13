@@ -25,11 +25,23 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    /**
+     * Sets the User object for this client.
+     *
+     * @param user - the user to be set
+     */
     @Override
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Connects the client to the server.
+     *
+     * It also initializes the ObjectOutputStream and ObjectInputStream for server communication.
+     *
+     * @return true if the connection is successful, false if an exception is thrown
+     */
     @Override
     public boolean connectToServer() {
         try {
@@ -43,10 +55,19 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    /**
+     * Sends a NetworkMessage to the server.
+     *
+     * This method attempts to write the NetworkMessage object to the ObjectOutputStream and flushes the stream.
+     * Logs an error if an exception is thrown.
+     *
+     * @param networkMessage - the NetworkMessage to be sent
+     * @return true if the message is sent successfully, false if an exception is thrown
+     */
     @Override
-    public boolean sendToServer(NetworkMessage message) {
+    public boolean sendToServer(NetworkMessage networkMessage) {
         try {
-            out.writeObject(message);
+            out.writeObject(networkMessage);
             out.flush();
             return true;
         } catch (Exception e) {
@@ -55,6 +76,11 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    /**
+     * Reads a NetworkMessage from the server.
+     *
+     * @return the NetworkMessage read from the server, or null if an exception is thrown
+     */
     @Override
     public NetworkMessage readMessage() {
         try {
@@ -65,29 +91,44 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    /**
+     * Listens for a single message from the server.
+     *
+     * This method reads a NetworkMessage from the server and immediately returns it.
+     * It does not close the socket after reading the message to allow continuous communication.
+     *
+     * @return the NetworkMessage read from the server, or null if an exception occurs
+     */
     @Override
     public NetworkMessage listenToServer() {
         try {
-            while (true) {
-                NetworkMessage message = readMessage();
-                if (message != null) {
-                    System.out.println("Received: " + message.getMessage());
-                    return message;
-                } else {
-                    break;
-                }
-            }
+            return readMessage();  // Directly return the message read from the server
         } catch (Exception e) {
             clientGUI.showError("Error listening to server: " + e.getMessage());
-        } finally {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, e.getMessage());
             try {
-                socket.close();
-            } catch (IOException e) {
-                clientGUI.showError("Error closing socket: " + e.getMessage());
+                if (socket != null) {
+                    socket.close();
+                }
+            } catch (IOException ioException) {
+                clientGUI.showError("Error closing socket: " + ioException.getMessage());
             }
+            return null;
         }
-        return null;
     }
+
+    //TODO simplify network communication with requests
+//    public NetworkMessage sendRequestToServer(NetworkMessage request) {
+//        try {
+//            out.writeObject(request);
+//            out.flush();
+//            // Directly read the response after sending the request
+//            return (NetworkMessage) in.readObject();
+//        } catch (Exception e) {
+//            clientGUI.showError("Communication error: " + e.getMessage());
+//            return null;
+//        }
+//    }
 
     //TODO Client Functions
 }
