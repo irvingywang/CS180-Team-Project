@@ -1,5 +1,8 @@
-[INFO] DATABASE 04-12-2024 23:31:44 Log file cleared.
-[INFO] DATABASE 04-12-2024 23:31:44 Initializing database.
-[INFO] DATABASE 04-12-2024 23:31:44 Loading database from file.
-[ERROR] DATABASE 04-12-2024 23:31:44 Database file is empty.
-[INFO] DATABASE 04-12-2024 23:31:44 Database initialized.
+[INFO] DATABASE 04-12-2024 23:47:53 Log file cleared.
+[INFO] DATABASE 04-12-2024 23:47:53 Initializing database.
+[INFO] DATABASE 04-12-2024 23:47:53 Loading database from file.
+[INFO] DATABASE 04-12-2024 23:47:53 Database loaded from file.
+[INFO] DATABASE 04-12-2024 23:47:53 Database initialized.
+[INFO] SERVER 04-12-2024 23:48:03 User purduepete logged in.
+[INFO] SERVER 04-12-2024 23:48:03 Login successful
+[ERROR] SERVER 04-12-2024 23:48:03 Failed to read message: null

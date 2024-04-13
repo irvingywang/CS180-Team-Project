@@ -12,6 +12,8 @@
  *
  */
 public interface ClientInterface {
+    void setUser(User user);
+
     boolean connectToServer();
     boolean sendToServer(NetworkMessage message);
 

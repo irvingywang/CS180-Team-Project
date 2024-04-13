@@ -9,7 +9,6 @@ public class Client implements ClientInterface, Runnable {
     private User user;
     public static final Identifier IDENTIFIER = Identifier.CLIENT;
 
-
     public static void main(String[] args) {
         Client client = new Client();
         Thread clientThread = new Thread(client);
@@ -21,17 +20,14 @@ public class Client implements ClientInterface, Runnable {
         if (connectToServer()) {
             clientGUI.welcomePage();
             clientGUI.loginPage();
-            NetworkMessage message = listenToServer();
-            switch ((ClientCommand) message.getCommand()) {
-                case LOGIN_SUCCESS -> {
-                    user = (User) message.getMessage();
-                    clientGUI.showError("Login successful.");
-                }
-                case LOGIN_FAILURE -> clientGUI.showError("Login failed.");
-            }
         } else {
             clientGUI.showError("Connection to server failed.");
         }
+    }
+
+    @Override
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -37,6 +37,16 @@ public class ClientGUI implements GUIInterface {
         }
         client.sendToServer(
                 new NetworkMessage(ServerCommand.LOGIN, Client.IDENTIFIER, String.format("%s,%s", username, password)));
+        NetworkMessage message = client.listenToServer();
+        switch ((ClientCommand) message.getCommand()) {
+            case LOGIN_SUCCESS -> {
+                client.setUser((User) message.getMessage());
+                showError("Login successful.");
+            }
+            case LOGIN_FAILURE -> {
+                showError("Login failed.");
+            }
+        }
     }
 
     @Override
