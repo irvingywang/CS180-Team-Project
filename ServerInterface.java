@@ -1,3 +1,5 @@
+import java.net.Socket;
+
 /**
  * Project05 -- ServerInterface
  *
@@ -12,9 +14,11 @@
  *
  */
 public interface ServerInterface {
-    boolean sendToClient(String message);
+    boolean sendToClient(NetworkMessage message);
 
-    boolean connectToClient();
+    NetworkMessage readMessage();
+
+    void handleClient(Socket clientSocket);
 
     boolean login(String username, String password);
     boolean createUser(String username, String password, String displayName, Boolean publicProfile);

@@ -13,8 +13,8 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void showError(String error) {
-        JOptionPane.showMessageDialog(null, error);
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 
     @Override
@@ -35,7 +35,8 @@ public class ClientGUI implements GUIInterface {
                 return;
             }
         }
-        client.sendToServer(String.format("LOGIN INFO: %s %s", username, password));
+        client.sendToServer(
+                new NetworkMessage(ServerCommand.LOGIN, Client.IDENTIFIER, String.format("%s,%s", username, password)));
     }
 
     @Override
@@ -50,7 +51,8 @@ public class ClientGUI implements GUIInterface {
             showError("Password cannot be empty.");
             return;
         }
-        client.sendToServer(String.format("CREATE USER: %s %s", username.trim(), password.trim()));
+        client.sendToServer(
+                new NetworkMessage(ServerCommand.CREATE_USER, Client.IDENTIFIER, String.format("%s,%s", username, password)));
         JOptionPane.showMessageDialog(null, "Successful!");
     }
 
@@ -61,7 +63,8 @@ public class ClientGUI implements GUIInterface {
             showError("Search cannot be empty.");
             return;
         }
-        client.sendToServer(String.format("SEARCH USER: %s", searchInput.trim()));
+        client.sendToServer(
+                new NetworkMessage(ServerCommand.SEARCH_USER, Client.IDENTIFIER, searchInput));
     }
 
     @Override

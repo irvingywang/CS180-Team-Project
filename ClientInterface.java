@@ -13,5 +13,9 @@
  */
 public interface ClientInterface {
     boolean connectToServer();
-    void sendToServer(String message);
+    boolean sendToServer(NetworkMessage message);
+
+    NetworkMessage readMessage();
+
+    void listenToServer();
 }

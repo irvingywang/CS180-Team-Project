@@ -4,11 +4,12 @@ import java.net.Socket;
 
 public class Server implements ServerInterface, Runnable {
     public static final int PORT = 1234;
+    public static final String SERVER_ADDRESS = "localhost";
     private Database database = Database.getInstance();
     private ServerSocket serverSocket;
-    private BufferedReader reader;
-    private BufferedWriter writer;
-    private final String logIdentifier = "SERVER";
+    ObjectInputStream in;
+    ObjectOutputStream out;
+    private static final String IDENTIFIER = "SERVER";
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -18,40 +19,79 @@ public class Server implements ServerInterface, Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            if (connectToClient()) {
-                //connection successful
-                //TODO Server functionality
-            } else {
-                //FIXME this line spams the log file
-                //Database.writeLog("Connection to client failed.");
-            }
-        }
-    }
-
-    @Override
-    public boolean sendToClient(String message) {
-        try {
-            writer.write(message);
-            writer.newLine();
-            writer.flush();
-            return true;
-        } catch (IOException e) {
-            Database.writeLog(LogType.ERROR, logIdentifier, e.getMessage());
-            return false;
-        }
-    }
-
-    @Override
-    public boolean connectToClient() {
+        database.initialize();
         try {
             serverSocket = new ServerSocket(PORT);
-            Socket clientSocket = serverSocket.accept();
-            reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            System.out.println("Server is listening on port " + PORT);
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Connected to client");
+                handleClient(clientSocket);
+            }
+        } catch (IOException e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Server socket failed to open: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean sendToClient(NetworkMessage message) {
+        try {
+            out.writeObject(message);
+            out.flush();
             return true;
         } catch (IOException e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to send to client: " + e.getMessage());
             return false;
+        }
+    }
+
+    @Override
+    public NetworkMessage readMessage() {
+        try {
+            return (NetworkMessage) in.readObject();
+        } catch (Exception e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to read message: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public void handleClient(Socket clientSocket) {
+        try {
+            in = new ObjectInputStream(clientSocket.getInputStream());
+            out = new ObjectOutputStream(clientSocket.getOutputStream());
+            while (true) {
+                NetworkMessage message = readMessage();
+                if (message != null) {
+                    System.out.println(message);
+                    switch (message.getServerCommand()) {
+                        case LOGIN -> {
+                            String[] loginInfo = message.getMessage().split(",");
+                            if (login(loginInfo[0], loginInfo[1])) {
+                                Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
+                                System.out.println("Login successful");
+                                //TODO send success message
+                            } else {
+                                System.out.println("Login failed");
+                                //TODO send failure message
+                            }
+                        }
+                        default -> {
+                            Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid command received.");
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Error handling client: " + e.getMessage());
+        } finally {
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to close client socket: " + e.getMessage());
+            }
         }
     }
 
@@ -59,10 +99,10 @@ public class Server implements ServerInterface, Runnable {
     public boolean login(String username, String password) {
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
-            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s logged in.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s logged in.", username));
             return true;
         } else {
-            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s failed to log in.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s failed to log in.", username));
             return false;
         }
     }
@@ -80,12 +120,12 @@ public class Server implements ServerInterface, Runnable {
     public synchronized boolean createUser(String username, String password, String displayName, Boolean publicProfile) {
         if (database.getUser(username) != null) {
             //FIXME show this in the GUI
-            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s already exists.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s already exists.", username));
             return false;
         } else {
             User newUser = new User(username, password, displayName, publicProfile);
             database.addUser(newUser);
-            Database.writeLog(LogType.INFO, logIdentifier, String.format("User %s created.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s created.", username));
             database.serializeDatabase();
             return true;
         }

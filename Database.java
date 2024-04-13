@@ -24,7 +24,7 @@ public class Database implements DatabaseInterface {
     private static final String DIR = "data/";
     private static String DATA_FILE = DIR + "data.ser";
     private static final String LOG_FILE = DIR + "log.txt";
-    private static final String LOG_IDENTIFIER = "DATABASE";
+    private static final String IDENTIFIER = "DATABASE";
 
     /**
      * There should only be one instance of the Database class.
@@ -48,9 +48,9 @@ public class Database implements DatabaseInterface {
     @Override
     public void initialize() {
         clearLogFile();
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Initializing database.");
+        writeLog(LogType.INFO, IDENTIFIER, "Initializing database.");
         loadDatabase();
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Database initialized.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database initialized.");
     }
 
     /**
@@ -58,9 +58,9 @@ public class Database implements DatabaseInterface {
      */
     @Override
     public void close() {
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Closing database.");
+        writeLog(LogType.INFO, IDENTIFIER, "Closing database.");
         serializeDatabase();
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Database closed.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database closed.");
     }
 
     /**
@@ -81,7 +81,7 @@ public class Database implements DatabaseInterface {
      */
     private synchronized void clearLogFile() {
         try (FileWriter writer = new FileWriter(LOG_FILE, false)) {
-            writeLog(LogType.INFO, LOG_IDENTIFIER, "Log file cleared.");
+            writeLog(LogType.INFO, IDENTIFIER, "Log file cleared.");
         } catch (IOException e) {
             System.out.printf("Error clearing log file: %s%n", e.getMessage());
         }
@@ -111,20 +111,20 @@ public class Database implements DatabaseInterface {
      * Loads users from a file, validates them, and adds them to the users map.
      */
     public synchronized void loadDatabase() {
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Loading database from file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Loading database from file.");
         users.clear();
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             Object object = inputStream.readObject();
             if (object instanceof ConcurrentHashMap) {
                 users.putAll((ConcurrentHashMap<String, User>) object);
                 if (users.isEmpty()) {
-                    writeLog(LogType.ERROR, LOG_IDENTIFIER, "Database file is empty.");
+                    writeLog(LogType.ERROR, IDENTIFIER, "Database file is empty.");
                 } else {
-                    writeLog(LogType.INFO, LOG_IDENTIFIER, "Database loaded from file.");
+                    writeLog(LogType.INFO, IDENTIFIER, "Database loaded from file.");
                 }
             }
         } catch (Exception e) {
-            writeLog(LogType.ERROR, LOG_IDENTIFIER, "Failed to load database from file.");
+            writeLog(LogType.ERROR, IDENTIFIER, "Failed to load database from file.");
         }
     }
 
@@ -139,7 +139,7 @@ public class Database implements DatabaseInterface {
     public User getUser(String username) {
         User user = users.get(username);
         if (user == null) {
-            writeLog(LogType.INFO, LOG_IDENTIFIER, String.format("User %s not found.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
             return null;
         }
         return user;
@@ -174,9 +174,9 @@ public class Database implements DatabaseInterface {
     @Override
     public synchronized void removeUser(String username) {
         if (users.remove(username) != null) {
-            writeLog(LogType.INFO, LOG_IDENTIFIER, String.format("User %s removed.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s removed.", username));
         } else {
-            writeLog(LogType.INFO, LOG_IDENTIFIER, String.format("User %s not found.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
         }
     }
 
@@ -186,12 +186,12 @@ public class Database implements DatabaseInterface {
      */
     @Override
     public synchronized void serializeDatabase() {
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Saving database to file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Saving database to file.");
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
             outputStream.writeObject(users);
         } catch (Exception e) {
-            writeLog(LogType.ERROR, LOG_IDENTIFIER, "Failed to save database to file.");
+            writeLog(LogType.ERROR, IDENTIFIER, "Failed to save database to file.");
         }
-        writeLog(LogType.INFO, LOG_IDENTIFIER, "Database saved to file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database saved to file.");
     }
 }
