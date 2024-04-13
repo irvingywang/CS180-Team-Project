@@ -34,5 +34,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="bluecatcode.junit.4.12.extended" level="project" />
+    <orderEntry type="library" name="mockito.kotlin" level="project" />
   </component>
 </module>
