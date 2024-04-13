@@ -1,5 +1,5 @@
-[INFO] DATABASE 04-12-2024 20:54:29 Log file cleared.
-[INFO] DATABASE 04-12-2024 20:54:29 Initializing database.
-[INFO] DATABASE 04-12-2024 20:54:29 Loading database from file.
-[ERROR] DATABASE 04-12-2024 20:54:29 Database file is empty.
-[INFO] DATABASE 04-12-2024 20:54:29 Database initialized.
+[INFO] DATABASE 04-12-2024 20:04:59 Log file cleared.
+[INFO] DATABASE 04-12-2024 20:04:59 Initializing database.
+[INFO] DATABASE 04-12-2024 20:04:59 Loading database from file.
+[ERROR] DATABASE 04-12-2024 20:04:59 Database file is empty.
+[INFO] DATABASE 04-12-2024 20:04:59 Database initialized.

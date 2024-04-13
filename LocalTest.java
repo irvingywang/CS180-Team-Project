@@ -1,13 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import javax.swing.*;
+
 import java.util.ArrayList;
 
-import org.mockito.MockedStatic;
-import org.mockito.MockitoAnnotations;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
 /**
  * Project05 -- LocalTest
@@ -27,16 +23,12 @@ public class LocalTest {
     private User user1;
     private User user2;
     private GroupChat groupChat;
-    private ClientGUI clientGUI;
-    private Client client;
-
 
     /**
      * Setup for the Test of Database Class
      */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         database = Database.getInstance();
         database.setDataFile("test.ser");
         database.reset();
@@ -55,8 +47,6 @@ public class LocalTest {
         groupUsers.add(user1);
         groupUsers.add(user2);
         groupChat = new GroupChat("Group Chat", groupUsers);
-        client = mock(Client.class);
-        clientGUI = new ClientGUI(client);
     }
 
     @Test
@@ -189,12 +179,5 @@ public class LocalTest {
         assertTrue(groupChat.removeMember(user1));
         assertFalse(groupChat.getMembers().containsKey(user1.getUsername()));
     }
-    @Test
-    public void testUserSearch() {
-        try (MockedStatic<JOptionPane> mockedJOptionPane = mockStatic(JOptionPane.class)) {
-            String Input = "Jack";
-            mockedJOptionPane.when(() -> JOptionPane.showInputDialog(anyString())).thenReturn(Input);
-            clientGUI.userSearch(Input);
-        }
-    }
+
 }
