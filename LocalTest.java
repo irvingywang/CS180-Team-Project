@@ -46,7 +46,7 @@ public class LocalTest {
         ArrayList<User> groupUsers = new ArrayList<>();
         groupUsers.add(user1);
         groupUsers.add(user2);
-        groupChat = new GroupChat("Group Chat", groupUsers);
+        groupChat = new GroupChat("Group Chat", groupUsers , user1);
     }
 
     @Test
@@ -171,13 +171,13 @@ public class LocalTest {
     public void testAddMember() {
         User newUser = new User("newUser", "password", "New User", true);
         assertTrue(groupChat.addMember(newUser));
-        assertTrue(groupChat.getMembers().containsKey(newUser.getUsername()));
+        assertTrue(groupChat.isMember(newUser));
     }
 
     @Test
     public void testRemoveMember() {
         assertTrue(groupChat.removeMember(user1));
-        assertFalse(groupChat.getMembers().containsKey(user1.getUsername()));
+        assertFalse(groupChat.isMember(user1));
     }
 
 }
