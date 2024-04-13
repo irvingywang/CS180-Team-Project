@@ -84,5 +84,3 @@ public class ClientGUI implements GUIInterface {
     }
 }
 
-public void main() {
-}
