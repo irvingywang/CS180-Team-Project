@@ -24,7 +24,7 @@ public class User implements UserInterface, Serializable {
     private ArrayList<User> friends;
     private ArrayList<User> blocked;
     private ArrayList<Message> messages;
-    private String identifier;
+    private Identifier identifier = Identifier.USER;
 
     /**
      * Constructs a new User object
@@ -42,7 +42,6 @@ public class User implements UserInterface, Serializable {
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
         this.messages = new ArrayList<Message>();
-        this.identifier = "USER " + username;
     }
 
     /**
@@ -196,7 +195,7 @@ public class User implements UserInterface, Serializable {
         Message newMessage = new Message(this, recipient, message);
         this.messages.add(newMessage);
         if (recipient.receiveMessage(newMessage)) { // message received
-            Database.writeLog(LogType.INFO, username,
+            Database.writeLog(LogType.INFO, identifier,
                     String.format("Message from %s to %s successfully sent and received.",
                             this.username, recipient.getUsername()));
             return true;

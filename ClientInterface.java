@@ -17,5 +17,5 @@ public interface ClientInterface {
 
     NetworkMessage readMessage();
 
-    void listenToServer();
+    NetworkMessage listenToServer();
 }

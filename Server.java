@@ -9,7 +9,7 @@ public class Server implements ServerInterface, Runnable {
     private ServerSocket serverSocket;
     ObjectInputStream in;
     ObjectOutputStream out;
-    private static final String IDENTIFIER = "SERVER";
+    private static final Identifier IDENTIFIER = Identifier.SERVER;
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -64,13 +64,12 @@ public class Server implements ServerInterface, Runnable {
                 NetworkMessage message = readMessage();
                 if (message != null) {
                     System.out.println(message);
-                    switch (message.getServerCommand()) {
+                    switch ((ServerCommand) message.getCommand()) {
                         case LOGIN -> {
-                            String[] loginInfo = message.getMessage().split(",");
+                            String[] loginInfo = ((String) message.getMessage()).split(",");
                             if (login(loginInfo[0], loginInfo[1])) {
                                 Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
-                                System.out.println("Login successful");
-                                //TODO send success message
+                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS, IDENTIFIER, database.getUser(loginInfo[0])));
                             } else {
                                 System.out.println("Login failed");
                                 //TODO send failure message

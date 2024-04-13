@@ -24,7 +24,7 @@ public class Database implements DatabaseInterface {
     private static final String DIR = "data/";
     private static String DATA_FILE = DIR + "data.ser";
     private static final String LOG_FILE = DIR + "log.txt";
-    private static final String IDENTIFIER = "DATABASE";
+    private static final Identifier IDENTIFIER = Identifier.DATABASE;
 
     /**
      * There should only be one instance of the Database class.
@@ -95,7 +95,7 @@ public class Database implements DatabaseInterface {
      * @param identifier - the source of the log message
      * @param message - the message to be saved to the log
      */
-    public static synchronized void writeLog(LogType logType, String identifier, String message) {
+    public static synchronized void writeLog(LogType logType, Identifier identifier, String message) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE, true))) {
             String date = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
             String output =

@@ -7,7 +7,7 @@ public class Client implements ClientInterface, Runnable {
     private ObjectOutputStream out;
     private final ClientGUI clientGUI = new ClientGUI(this);
     private User user;
-    public static final String IDENTIFIER = "CLIENT";
+    public static final Identifier IDENTIFIER = Identifier.CLIENT;
 
 
     public static void main(String[] args) {
@@ -21,7 +21,14 @@ public class Client implements ClientInterface, Runnable {
         if (connectToServer()) {
             clientGUI.welcomePage();
             clientGUI.loginPage();
-            //user = database.getUser(); //TODO get user from server
+            NetworkMessage message = listenToServer();
+            switch ((ClientCommand) message.getCommand()) {
+                case LOGIN_SUCCESS -> {
+                    user = (User) message.getMessage();
+                    clientGUI.showError("Login successful.");
+                }
+                case LOGIN_FAILURE -> clientGUI.showError("Login failed.");
+            }
         } else {
             clientGUI.showError("Connection to server failed.");
         }
@@ -63,16 +70,14 @@ public class Client implements ClientInterface, Runnable {
     }
 
     @Override
-    public void listenToServer() {
+    public NetworkMessage listenToServer() {
         try {
             while (true) {
                 NetworkMessage message = readMessage();
                 if (message != null) {
-                    // Process the message from the server
-                    // For example:
                     System.out.println("Received: " + message.getMessage());
+                    return message;
                 } else {
-                    // Handle null message or decide if the loop should end
                     break;
                 }
             }
@@ -85,6 +90,7 @@ public class Client implements ClientInterface, Runnable {
                 clientGUI.showError("Error closing socket: " + e.getMessage());
             }
         }
+        return null;
     }
 
     //TODO Client Functions

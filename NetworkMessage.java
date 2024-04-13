@@ -1,25 +1,32 @@
 import java.io.Serializable;
 
 public class NetworkMessage implements Serializable {
-    private String message;
+    private Object message;
     private ServerCommand serverCommand;
-    private String identifier;
+    private Identifier identifier;
+    private ClientCommand clientCommand;
 
-    public NetworkMessage(ServerCommand serverCommand, String identifier, String message) {
+    public NetworkMessage(ServerCommand serverCommand, Identifier identifier, Object message) {
         this.message = message;
         this.serverCommand = serverCommand;
         this.identifier = identifier;
     }
 
-    public String getMessage() {
+    public NetworkMessage(ClientCommand clientCommand, Identifier identifier, Object message) {
+        this.message = message;
+        this.identifier = identifier;
+        this.clientCommand = clientCommand;
+    }
+
+    public Object getMessage() {
         return message;
     }
 
-    public ServerCommand getServerCommand() {
-        return serverCommand;
+    public Enum getCommand() {
+        return serverCommand != null ? serverCommand : clientCommand;
     }
 
-    public String getIdentifier() {
+    public Identifier getIdentifier() {
         return identifier;
     }
 
