@@ -3,22 +3,20 @@ import java.util.HashMap;
 
 /**
  * Project05 -- Chat
- *
+ * <p>
  * Represents a chat which has a list of members and messages.
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
- *
  * @version April 1, 2024
- *
  */
 public class Chat implements ChatInterface {
     private String id;
     private String name;
-    private HashMap<String, User> members; //username, user
-    private ArrayList<Message> messages;
+    private ArrayList<User> members; //username, user
+    private HashMap<Message, User> messages;
 
     /**
      * Constructs a new Chat object.
@@ -28,10 +26,10 @@ public class Chat implements ChatInterface {
      */
     public Chat(String name, ArrayList<User> users) {
         this.name = name;
-        members = new HashMap<>();
-        messages = new ArrayList<>();
+        members = new ArrayList<>();
+        messages = new HashMap<>();
         for (User user : users) {
-            members.put(user.getUsername(), user);
+            members.add(user);
         }
     }
 
@@ -44,16 +42,14 @@ public class Chat implements ChatInterface {
      */
     @Override
     public boolean addMessage(User sender, Message message) {
-        if (!members.containsKey(sender.getUsername())) {
-            return false;
-        }
-        for (User user : members.values()) {
-            if (user.getUsername().equals(sender.getUsername())) {
-                continue;
+
+        for (User e : members) {
+            if (sender.getUsername().equals(sender.getUsername())) {
+                messages.put(message, sender);
+                return true;
             }
-            user.receiveMessage(message);
         }
-        return true;
+        return false;
     }
 
     /**
@@ -63,7 +59,13 @@ public class Chat implements ChatInterface {
      */
     @Override
     public ArrayList<Message> getMessages() {
-        return messages;
+        ArrayList<Message> list = new ArrayList<Message>();
+
+        for (Message e : messages.keySet()) {
+            list.add(e);
+        }
+
+        return list;
     }
 
     /**
@@ -72,7 +74,7 @@ public class Chat implements ChatInterface {
      * @return the map of members
      */
     @Override
-    public HashMap<String, User> getMembers() {
+    public ArrayList<User> getMembers() {
         return members;
     }
 
@@ -84,6 +86,10 @@ public class Chat implements ChatInterface {
      */
     @Override
     public boolean isMember(User user) {
-        return members.containsKey(user.getUsername());
+        for (User e : members) {
+            if (e.getUsername().equals(user.getUsername())) return true;
+        }
+
+        return false;
     }
 }

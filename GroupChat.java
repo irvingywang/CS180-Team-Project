@@ -1,3 +1,4 @@
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 /**
@@ -9,21 +10,25 @@ import java.util.ArrayList;
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
+ * @author Karan Vankwani, L08
  *
  * @version April 1, 2024
  *
  */
 public class GroupChat extends Chat implements GroupChatInterface {
 
+    private User admin;
     /**
      * Constructs a new GroupChat object.
      *
      * @param name  - the name of the chat
      * @param users - the list of users to be added to the chat
      */
-    public GroupChat(String name, ArrayList<User> users) {
+    public GroupChat(String name, ArrayList<User> users, User admin) {
         super(name, users);
+        this.admin = admin;
     }
+
 
     /**
      * Adds a member to the chat.
@@ -32,10 +37,10 @@ public class GroupChat extends Chat implements GroupChatInterface {
      * @return true if the user was added, false otherwise
      */
     public boolean addMember(User user) {
-        if (super.getMembers().containsKey(user.getUsername())) {
+        if (super.isMember(user)) {
             return false;
         }
-        super.getMembers().put(user.getUsername(), user);
+        super.getMembers().add(user);
         return true;
     }
 
@@ -46,10 +51,10 @@ public class GroupChat extends Chat implements GroupChatInterface {
      * @return true if the user was removed, false otherwise
      */
     public boolean removeMember(User user) {
-        if (!super.getMembers().containsKey(user.getUsername())) {
+        if (!super.isMember(user)) {
             return false;
         }
-        super.getMembers().remove(user.getUsername());
+        super.getMembers().remove(user);
         return true;
     }
 }
