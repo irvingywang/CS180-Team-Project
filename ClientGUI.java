@@ -65,12 +65,24 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void homePage() {
-        //TODO Functionality
+    public void homePage() {//TODO Main page of the app
+        String[] options = {"User Search", "Create User", "Log Out"};
+        int choice = JOptionPane.showOptionDialog(null, "Choose option", "Yap", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        if (choice == 0) {
+            userSearch("");
+        } else if (choice == 1) {
+            createUser();
+        } else if (choice == 2) {
+            System.exit(0);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nothing selected");
+        }
     }
-
     @Override
     public void userInteraction(String choice, String info) {
         //TODO Functionality
     }
+}
+
+public void main() {
 }
