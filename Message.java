@@ -61,6 +61,7 @@ public class Message implements MessageInterface, Serializable {
     /**
      * @return the sender User
      */
+    @Override
     public User getSender() {
         return sender;
     }
@@ -68,6 +69,7 @@ public class Message implements MessageInterface, Serializable {
     /**
      * @return the recipient User
      */
+    @Override
     public User getRecipient() {
         return recipient;
     }
@@ -75,13 +77,23 @@ public class Message implements MessageInterface, Serializable {
     /**
      * @return the message string
      */
+    @Override
     public String getMessage() {
         return message;
     }
 
     /**
+     * @return the image path
+     */
+    @Override
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
      * @return the timestamp of the message
      */
+    @Override
     public Date getTimestamp() {
         return timestamp;
     }
@@ -89,6 +101,7 @@ public class Message implements MessageInterface, Serializable {
     /**
      * @return true if the message is read, false otherwise
      */
+    @Override
     public boolean isRead() {
         return isRead;
     }
@@ -96,6 +109,7 @@ public class Message implements MessageInterface, Serializable {
     /**
      * Marks the message as read.
      */
+    @Override
     public void markAsRead() {
         isRead = true;
     }

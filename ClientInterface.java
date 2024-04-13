@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * Project05 -- ClientInterface
  *
@@ -14,14 +12,12 @@ import java.util.List;
  *
  */
 public interface ClientInterface {
-    void connectToServer(String server);
-    void close();
-    void sendToServer(String message);
-    void receiveFromServer(String message);
-    void confirmation(String message);
-    void login(String username, String password);
-    void createAccount(String username, String password);
-    List<User> search(String info);
-    void restrict(String message, boolean restricted);
-    void delete(String message);
+    void setUser(User user);
+
+    boolean connectToServer();
+    boolean sendToServer(NetworkMessage message);
+
+    NetworkMessage readMessage();
+
+    NetworkMessage listenToServer();
 }

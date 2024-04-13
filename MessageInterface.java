@@ -1,3 +1,5 @@
+import java.util.Date;
+
 /**
  * Project05 -- MessageInterface
  *
@@ -15,6 +17,8 @@ public interface MessageInterface {
     User getSender();
     User getRecipient();
     String getMessage();
+    String getImagePath();
+    Date getTimestamp();
     boolean isRead();
     void markAsRead();
     String toString();

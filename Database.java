@@ -24,6 +24,7 @@ public class Database implements DatabaseInterface {
     private static final String DIR = "data/";
     private static String DATA_FILE = DIR + "data.ser";
     private static final String LOG_FILE = DIR + "log.txt";
+    private static final Identifier IDENTIFIER = Identifier.DATABASE;
 
     /**
      * There should only be one instance of the Database class.
@@ -44,57 +45,32 @@ public class Database implements DatabaseInterface {
     /**
      * Clears the log file and loads everything from disk.
      */
+    @Override
     public void initialize() {
         clearLogFile();
-        writeLog("Starting database.");
+        writeLog(LogType.INFO, IDENTIFIER, "Initializing database.");
         loadDatabase();
-        writeLog("Database initialized.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database initialized.");
     }
 
     /**
      * Saves everything and closes.
      */
+    @Override
     public void close() {
-        writeLog("Closing database.");
+        writeLog(LogType.INFO, IDENTIFIER, "Closing database.");
         serializeDatabase();
-        writeLog("Database closed.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database closed.");
     }
 
     /**
      * Clears everything, including the data file.
      */
+    @Override
     public void reset() {
         clearLogFile();
         users.clear();
         serializeDatabase();
-    }
-
-    public boolean login(String username, String password) {
-        User user = getUser(username);
-        if (user != null && user.getPassword().equals(password)) {
-            writeLog(String.format("User %s logged in.", username));
-            return true;
-        } else {
-            writeLog(String.format("Failed login attempt for user %s.", username));
-            return false;
-        }
-    }
-
-    /**
-     * This method is used to save a time stamped message to the log file.
-     * If an Exception occurs, it will print an error message to the console.
-     *
-     * @param message - the message to be saved to the log
-     */
-    public static synchronized void writeLog(String message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE, true))) {
-            String timestampedMessage = String.format("%s: %s",
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), message);
-            writer.write(timestampedMessage);
-            writer.newLine();
-        } catch (Exception e) {
-            System.out.printf("Failed to write to log: %s%n", e.getMessage());
-        }
     }
 
     /**
@@ -103,11 +79,31 @@ public class Database implements DatabaseInterface {
      * Then it logs that the log file has been cleared.
      * If an Exception occurs, it prints an error message to the console.
      */
-    private static synchronized void clearLogFile() {
+    private synchronized void clearLogFile() {
         try (FileWriter writer = new FileWriter(LOG_FILE, false)) {
-            writeLog("Log file cleared.");
+            writeLog(LogType.INFO, IDENTIFIER, "Log file cleared.");
         } catch (IOException e) {
             System.out.printf("Error clearing log file: %s%n", e.getMessage());
+        }
+    }
+
+    /**
+     * This method is used to save a time stamped message to the log file.
+     * If an Exception occurs, it will print an error message to the console.
+     *
+     * @param logType - the type of log message (ERROR, INFO, etc.)
+     * @param identifier - the source of the log message
+     * @param message - the message to be saved to the log
+     */
+    public static synchronized void writeLog(LogType logType, Identifier identifier, String message) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE, true))) {
+            String date = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
+            String output =
+                    String.format("[%s] %s %s %s", logType, identifier, date, message);
+            writer.write(output);
+            writer.newLine();
+        } catch (Exception e) {
+            System.out.printf("Failed to write to log: %s%n", e.getMessage());
         }
     }
 
@@ -115,20 +111,20 @@ public class Database implements DatabaseInterface {
      * Loads users from a file, validates them, and adds them to the users map.
      */
     public synchronized void loadDatabase() {
-        writeLog("Loading database from file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Loading database from file.");
         users.clear();
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
             Object object = inputStream.readObject();
             if (object instanceof ConcurrentHashMap) {
                 users.putAll((ConcurrentHashMap<String, User>) object);
                 if (users.isEmpty()) {
-                    writeLog("No users found in database file.");
+                    writeLog(LogType.ERROR, IDENTIFIER, "Database file is empty.");
                 } else {
-                    writeLog("Database successfully loaded from file.");
+                    writeLog(LogType.INFO, IDENTIFIER, "Database loaded from file.");
                 }
             }
         } catch (Exception e) {
-            writeLog(String.format("Failed to load database from file: %s", e.getMessage()));
+            writeLog(LogType.ERROR, IDENTIFIER, "Failed to load database from file.");
         }
     }
 
@@ -139,10 +135,11 @@ public class Database implements DatabaseInterface {
      * @param username - the username of the user
      * @return user - the User object associated with the username, or a new User object if not found
      */
+    @Override
     public User getUser(String username) {
         User user = users.get(username);
         if (user == null) {
-            writeLog(String.format("User %s not found.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
             return null;
         }
         return user;
@@ -153,28 +150,19 @@ public class Database implements DatabaseInterface {
      *
      * @return ArrayList<User> - a list of all users
      */
+    @Override
     public ArrayList<User> getUsers() {
         return new ArrayList<>(users.values());
     }
 
     /**
-     * Creates a new User object and adds it to the users map.
-     * If a user with the same username already exists, logs the event and does not create a new user.
+     * Adds a User object to the users map.
      *
-     * @param username    - the username of the new user
-     * @param password    - the password of the new user
-     * @param displayName - the display name of the new user
-     * @param publicProfile - the public status of the new user
+     * @param user - the User object to be added
      */
-    public synchronized void createUser(String username, String password, String displayName, Boolean publicProfile) {
-        if (users.containsKey(username)) {
-            writeLog(String.format("User %s already exists.", username));
-        } else {
-            User newUser = new User(username, password, displayName, publicProfile);
-            users.put(username, newUser);
-            writeLog(String.format("User %s successfully created.", username));
-            serializeDatabase();
-        }
+    @Override
+    public synchronized void addUser(User user) {
+        users.put(user.getUsername(), user);
     }
 
     /**
@@ -183,11 +171,12 @@ public class Database implements DatabaseInterface {
      *
      * @param username - the username of the user to be removed
      */
+    @Override
     public synchronized void removeUser(String username) {
         if (users.remove(username) != null) {
-            writeLog(String.format("User %s removed.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s removed.", username));
         } else {
-            writeLog(String.format("User %s not found.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
         }
     }
 
@@ -195,16 +184,14 @@ public class Database implements DatabaseInterface {
      * This method writes all data to a binary file.
      * If an exception occurs, it logs the error.
      */
+    @Override
     public synchronized void serializeDatabase() {
-        writeLog("Saving database to file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Saving database to file.");
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
             outputStream.writeObject(users);
-        } catch (IOException e) {
-            writeLog("Failed to write database to file.");
         } catch (Exception e) {
-            writeLog(String.format("An unexpected error occurred while saving database: %s", e.getMessage()));
-
+            writeLog(LogType.ERROR, IDENTIFIER, "Failed to save database to file.");
         }
-        writeLog("Database saved to file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database saved to file.");
     }
 }

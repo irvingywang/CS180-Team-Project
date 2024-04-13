@@ -34,9 +34,11 @@ public class LocalTest {
         database.reset();
         database.initialize();
 
-        database.createUser("purduepete", "boilerup", "Purdue Pete", false);
-        database.createUser("john123", "password", "John Doe", false);
-        database.createUser("hoosier123", "password", "IU student", true);
+        database.addUser(new User("purduepete", "boilerup", "Purdue Pete", false));
+
+        database.addUser(new User("john123", "password", "John Doe", false));
+
+        database.addUser(new User("hoosier123", "password", "IU student", true));
 
         user1 = new User("sender", "password1", "Sender", true);
         user2 = new User("receiver", "password2", "Recipient", true);
@@ -79,7 +81,8 @@ public class LocalTest {
 
     @Test
     public void testCreateUserAndRetrieve() {
-        database.createUser("User", "password", "User", true);
+        User user = new User("User", "password", "User", true);
+        database.addUser(user);
         User retrievedUser = database.getUser("User");
         assertNotNull(retrievedUser);
         assertEquals("User", retrievedUser.getUsername());
@@ -176,4 +179,5 @@ public class LocalTest {
         assertTrue(groupChat.removeMember(user1));
         assertFalse(groupChat.getMembers().containsKey(user1.getUsername()));
     }
+
 }
