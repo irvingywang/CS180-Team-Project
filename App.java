@@ -17,10 +17,18 @@ public class App {
 
         database.reset();
         database.addUser(new User("purduepete", "123", "Purdue Pete", true));
+        database.addUser(new User("john", "123", "Boilermaker", true));
+
+        Chat chat = new Chat("Purdue Chat", database.getUsers());
+        database.addChat(chat);
 
         database.serializeDatabase();
         for (User user : database.getUsers()) {
             System.out.println(user);
+        }
+
+        for (Chat c : database.getChats()) {
+            System.out.println(c);
         }
     }
 }

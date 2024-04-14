@@ -18,5 +18,7 @@ public interface ChatInterface {
 
     ArrayList<User> getMembers();
 
+    String getName();
+
     boolean isMember(User user);
 }

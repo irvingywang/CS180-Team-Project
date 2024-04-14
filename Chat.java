@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @version April 1, 2024
  */
 public class Chat implements ChatInterface {
-    private String id;
+    private String id; //For now the name is the id
     private String name;
     private ArrayList<User> members; //username, user
     private HashMap<Message, User> messages;
@@ -79,6 +79,16 @@ public class Chat implements ChatInterface {
     }
 
     /**
+     * Returns the name of the chat.
+     *
+     * @return the name of the chat
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Checks if a user is a member of the chat.
      *
      * @param user - the user to check
@@ -91,5 +101,10 @@ public class Chat implements ChatInterface {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Chat: %s, Member count: %d", name, members.size());
     }
 }
