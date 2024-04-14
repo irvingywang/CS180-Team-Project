@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Project05 -- Chat
@@ -16,38 +15,30 @@ public class Chat implements ChatInterface {
     private String id; //For now the name is the id
     private String name;
     private ArrayList<User> members; //username, user
-    private HashMap<Message, User> messages;
+    private ArrayList<Message> messages; //message
 
     /**
      * Constructs a new Chat object.
      *
      * @param name  - the name of the chat
-     * @param users - the list of users to be added to the chat
+     * @param members - the list of users to be added to the chat
      */
-    public Chat(String name, ArrayList<User> users) {
+    public Chat(String name, ArrayList<User> members) {
         this.name = name;
-        members = new ArrayList<>();
-        messages = new HashMap<>();
-        for (User user : users) {
-            members.add(user);
-        }
+        this.members = members;
+        messages = new ArrayList<>();
     }
 
     /**
      * Adds a message to the chat.
      *
-     * @param sender  - the sender of the message
      * @param message - the message to be added
-     * @return true if the message was added, false otherwise
      */
     @Override
-    public boolean addMessage(User sender, Message message) {
-
-        for (User e : members) {
-            if (sender.getUsername().equals(sender.getUsername())) {
-                messages.put(message, sender);
-                return true;
-            }
+    public boolean addMessage(Message message) {
+        if (this.isMember(message.getSender())) {
+            messages.add(message);
+            return true;
         }
         return false;
     }
@@ -59,13 +50,7 @@ public class Chat implements ChatInterface {
      */
     @Override
     public ArrayList<Message> getMessages() {
-        ArrayList<Message> list = new ArrayList<Message>();
-
-        for (Message e : messages.keySet()) {
-            list.add(e);
-        }
-
-        return list;
+        return messages;
     }
 
     /**

@@ -15,11 +15,9 @@ import java.util.Date;
  */
 public interface MessageInterface {
     User getSender();
-    User getRecipient();
+    Chat getChat();
     String getMessage();
     String getImagePath();
     Date getTimestamp();
-    boolean isRead();
-    void markAsRead();
     String toString();
 }

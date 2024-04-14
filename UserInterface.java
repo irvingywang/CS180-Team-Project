@@ -24,7 +24,9 @@ public interface UserInterface {
     boolean removeFriend(User friend);
     boolean blockUser(User user);
     boolean unblockUser(User user);
-    ArrayList<Message> getMessages();
-    boolean sendMessage(User recipient, String message);
-    boolean receiveMessage(Message message);
+    boolean sendMessage(Message message);
+    void setUsername(String username);
+    void setPassword(String password);
+    void setDisplayName(String displayName);
+    void setPublicProfile(Boolean publicProfile);
 }

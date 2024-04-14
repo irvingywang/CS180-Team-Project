@@ -12,13 +12,9 @@ import java.util.HashMap;
  * @version April 1, 2024
  **/
 public interface ChatInterface {
-    boolean addMessage(User sender, Message message);
-
+    boolean addMessage(Message message);
     ArrayList<Message> getMessages();
-
     ArrayList<User> getMembers();
-
     String getName();
-
     boolean isMember(User user);
 }

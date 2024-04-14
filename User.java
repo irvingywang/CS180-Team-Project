@@ -23,8 +23,6 @@ public class User implements UserInterface, Serializable {
     private Boolean publicProfile;
     private ArrayList<User> friends;
     private ArrayList<User> blocked;
-    private ArrayList<Message> messages;
-    private Identifier identifier = Identifier.USER;
 
     /**
      * Constructs a new User object
@@ -41,7 +39,6 @@ public class User implements UserInterface, Serializable {
         this.publicProfile = publicProfile;
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
-        this.messages = new ArrayList<Message>();
     }
 
     /**
@@ -162,73 +159,29 @@ public class User implements UserInterface, Serializable {
         }
     }
 
-    /**
-     * @return the list of messages of the user
-     */
     @Override
-    public ArrayList<Message> getMessages() {
-        return messages;
+    public boolean sendMessage(Message message) {
+        return message.getChat().addMessage(message);
     }
 
-    /**
-     * Sends a message to a recipient.
-     * The message is only sent if the recipient is not blocked.
-     *
-     * @param recipient - the recipient of the message
-     * @param message   - the message to be sent
-     * @return true if the message is sent, false otherwise
-     */
     @Override
-    public boolean sendMessage(User recipient, String message) {
-        if (blocked.contains(recipient)) {
-            Database.writeLog(LogType.WARNING, identifier,
-                    String.format("Message from %s to %s failed: recipient is blocked.", this.username, recipient.getUsername()));
-            return false;
-        }
-        if (!recipient.isPublicProfile() && !recipient.isFriend(this)) {
-            Database.writeLog(LogType.WARNING, identifier,
-                    String.format("Message from %s to %s failed: recipient is not a friend.",
-                            this.username, recipient.getUsername()));
-            return false;
-        }
-
-        Message newMessage = new Message(this, recipient, message);
-        this.messages.add(newMessage);
-        if (recipient.receiveMessage(newMessage)) { // message received
-            Database.writeLog(LogType.INFO, identifier,
-                    String.format("Message from %s to %s successfully sent and received.",
-                            this.username, recipient.getUsername()));
-            return true;
-        } else { // message not received
-            this.messages.remove(newMessage);
-            return false;
-        }
-
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    /**
-     * Receives a message.
-     * The message is only received if the sender is not blocked.
-     *
-     * @param message - the message to be received
-     * @return true if the message is received, false otherwise
-     */
     @Override
-    public boolean receiveMessage(Message message) {
-        if (blocked.contains(message.getSender())) {
-            Database.writeLog(LogType.WARNING, identifier,
-                    String.format("Message from %s to %s was blocked.",
-                    message.getSender().getUsername(), this.username));
-            return false;
-        }
-        if (!this.publicProfile && !this.isFriend(message.getSender())) {
-            Database.writeLog(LogType.WARNING, identifier,
-                    String.format("Message from %s to %s failed: sender is not a friend.",
-                    message.getSender().getUsername(), this.username));
-            return false;
-        }
-        this.messages.add(message);
-        return true;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public void setPublicProfile(Boolean publicProfile) {
+        this.publicProfile = publicProfile;
     }
 
     /**
