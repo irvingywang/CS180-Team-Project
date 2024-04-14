@@ -89,7 +89,62 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   - This interface provides a framework for the GUI.
   - As far as we know, interfaces cannot be tested.
   - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
-- 'App':
-  - Purpose is to act like a testing module in place of a functioning GUI.
-  - Proper GUI capabilities will be implemented in Phase 2.
+- `App`: Represents a framework for the messaging app.
+  - This class acts like a testing module in place of a functioning GUI.
+  - The various methods from the Database class verify its functionality.
+  - Overall, this class only acts like a test for user creation and database management.
+    Proper GUI capabilities will be implemented in Phase 2.
+- `Client`: Represents a client program.
+  - This class provides functionalities related to sending and receiving data to and from the server.
+  - Its functionality can be tested by running the server and the client and seeing that a connection
+    is established. 
+  - Overall, this class communicates with the server to provide an interface for the user to interact
+    with the messaging app.
+- `ClientCommand`: Enum to store the success/failure from the ServerCommand class.
+  - This creates a new data type that stores whether a user-selected command was successful or not.
+  - This program cannot really be tested because it does not perform any function.
+  - Overall, this class is useful for augmenting the simplicity of our code.
+- `ClientGUI`: GUI for the Client class
+  - This class creates a simple GUI to test the functionality of the client.
+  - I do not think the GUI itself can be tested with junit. However, if the client functions properly,
+    that means the GUI can be tested by simply running the class.
+  - Overall, this class is crucial for allowing users to interact with our messaging program.
+- `ClientInterface`: Interface for the Client class.
+  - This interface provides a framework for the Client class.
+  - As far as we know, interfaces cannot be tested.
+  - This interface is crucial for ensuring the proper functionality and implementation of Client.
+- `GUIInterface`: Interface for the GUI.
+  - This interface provides a framework for the GUI.
+  - As far as we know, interfaces cannot be tested.
+  - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
+- `Identifier`: Enum to store parts of the program.
+  - This creates a new data type that stores the name of different parts of the program, such as
+    client, server, database, and user.
+  - This program cannot really be tested because it does not perform any function.
+  - Overall, this class is useful for augmenting the simplicity of our code.
+- `LogType`: Enum to store the type of message.
+  - This creates a new data type that stores the name of different messages that could be shown,
+    such as info, error, and warning.
+  - This program cannot really be tested because it does not perform any function.
+  - Overall, this class is useful for augmenting the simplicity of our code.
+- `NetworkMessage`: Creates a framework for a network message.
+  - This class allows for the creation of a message that is to be sent between the client and 
+    server.
+  - The methods "readMessage", "listenToServer", "sendToClient", and "handleClient" verify that 
+    this class is functional.
+  - Overall, this class can be used within the server and client to simplify messaging.
+- `Server`: Represents a server program.
+  - This class provides functionalities related to sending and receiving data to and from the client.
+  - Its functionality can be tested by running the server and the client and seeing that a connection
+    is established.
+  - Overall, this class communicates with the client to provide an interface for the user to interact
+    with the messaging app. The server typically processes the requests from the client.
+- `ServerCommand`: Enum to store commands the user may want to run.
+  - This creates a new data type that stores the name of commands users may want to do.
+  - This program cannot really be tested because it does not perform any function.
+  - Overall, this class is useful for augmenting the simplicity of our code.
+- `ServerInterface`: Interface for the Server class.
+  - This interface provides a framework for the Server class.
+  - As far as we know, interfaces cannot be tested.
+  - This interface is crucial for ensuring the proper functionality and implementation of Server.
 

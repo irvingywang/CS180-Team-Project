@@ -1,5 +1,19 @@
 import java.io.Serializable;
 
+/**
+ * Project05 -- NetworkMessage
+ *
+ * Allows for the creation of a message that is to be sent between
+ * the client and server.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
+ */
 public class NetworkMessage implements Serializable {
     private Object object;
     private ServerCommand serverCommand;

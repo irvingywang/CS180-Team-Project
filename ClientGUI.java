@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class ClientGUI implements GUIInterface {
     private Client client;
@@ -6,10 +7,6 @@ public class ClientGUI implements GUIInterface {
     public ClientGUI(Client client) {
         this.client = client;
     }
-
-    //TODO create standard button
-
-    //TODO create standard text field
 
     //TODO create standard window
 
@@ -24,35 +21,43 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void loginPage() { //TODO display everything together on one page
-        String username = "";
-        String password = "";
-        while (username.isEmpty()) {
-            username = JOptionPane.showInputDialog("Enter your username:");
-            if (username == null || username.isEmpty()) {
-                showError("Username cannot be empty.");
-                return;
-            }
-        }
-        while (password.isEmpty()) {
-            password = JOptionPane.showInputDialog("Enter your password:");
-            if (password == null || password.isEmpty()) {
-                showError("Password cannot be empty.");
-                return;
-            }
-        }
-        client.sendToServer(
-                new NetworkMessage(ServerCommand.LOGIN, Client.IDENTIFIER, String.format("%s,%s", username, password)));
-        NetworkMessage message = client.listenToServer();
-        switch ((ClientCommand) message.getCommand()) {
-            case LOGIN_SUCCESS -> {
-                client.setUser((User) message.getObject());
-                showError("Login successful.");
-            }
-            case LOGIN_FAILURE -> {
-                showError("Login failed.");
-            }
-        }
+    public void loginPage() {
+        SwingUtilities.invokeLater(() -> {
+            GUI.Frame frame = new GUI.Frame("Login");
+            JPanel panel = new JPanel(new GridLayout(3, 1, 20, 20));
+
+            TextField usernameField = new TextField("Username");
+            TextField passwordField = new TextField("Password");
+
+            GUI.Button loginButton = new GUI.Button("Login", () -> {
+                String username = usernameField.getText();
+                String password = passwordField.getText();
+                if (username.isEmpty() || password.isEmpty()) {
+                    showError("Username and password cannot be empty.");
+                    return;
+                }
+                client.sendToServer(
+                        new NetworkMessage(ServerCommand.LOGIN, Client.IDENTIFIER, String.format("%s,%s", username, password)));
+
+                NetworkMessage message = client.listenToServer();
+                switch ((ClientCommand) message.getCommand()) {
+                    case LOGIN_SUCCESS -> {
+                        client.setUser((User) message.getObject());
+                        showError("Login successful.");
+                    }
+                    case LOGIN_FAILURE -> {
+                        showError("Login failed.");
+                    }
+                }
+
+            });
+
+            panel.add(usernameField);
+            panel.add(passwordField);
+            panel.add(loginButton);
+
+            frame.addComponent(panel);
+        });
     }
 
     @Override

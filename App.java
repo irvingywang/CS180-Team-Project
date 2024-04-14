@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * Project05 -- App
  * <p>
@@ -18,24 +15,24 @@ public class App {
 
         database.reset();
         database.addUser(new User("purduepete", "123", "Purdue Pete", true));
-        database.addUser(new User("john", "123", "Boilermaker", true));
-
-        try {
-            System.out.println(database.getUsers());
-            Chat chat = new Chat("Purdue Chat", database.getUsers());
-            database.addChat(chat);
-        } catch (InvalidChatException e) {
-            e.printStackTrace();
-        }
 
         database.serializeDatabase();
         for (User user : database.getUsers()) {
             System.out.println(user);
         }
 
-        for (Chat c : database.getChats()) {
-            System.out.println(c);
+        //Start the server
+        Server.main(args);
+
+        //FIXME join the server thread instead of sleep
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
+
+        //Start the client
+        Client.main(args);
     }
 }
 
