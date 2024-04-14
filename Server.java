@@ -72,7 +72,7 @@ public class Server implements ServerInterface, Runnable {
                                 sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS, IDENTIFIER, database.getUser(loginInfo[0])));
                             } else {
                                 System.out.println("Login failed");
-                                //TODO send failure message
+                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE, IDENTIFIER, null));
                             }
                         }
                         default -> {
