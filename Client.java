@@ -1,6 +1,20 @@
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Project05 -- Client
+ *
+ * This is the client for our messaging program. It allows users to
+ * make any requests from the program.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
+ */
 public class Client implements ClientInterface, Runnable {
     private Socket socket;
     private ObjectInputStream in;
