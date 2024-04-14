@@ -17,7 +17,7 @@ public interface ClientInterface {
     boolean connectToServer();
     boolean sendToServer(NetworkMessage message);
 
-    NetworkMessage readMessage();
+    NetworkMessage readNetworkMessage();
 
     NetworkMessage listenToServer();
 }

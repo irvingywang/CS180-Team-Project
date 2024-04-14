@@ -12,5 +12,5 @@
  *
  */
 public enum ServerCommand {
-    LOGIN, CREATE_USER, SEARCH_USER
+    LOGIN, CREATE_USER, SEARCH_USER, SEND_MESSAGE, CREATE_CHAT
 }

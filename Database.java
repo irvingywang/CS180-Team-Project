@@ -20,7 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Database implements DatabaseInterface {
     private static Database instance;
-    private static final ConcurrentHashMap<String, User> users = new ConcurrentHashMap<>(); // username, user
+    private static final ConcurrentHashMap<String, User> users = new ConcurrentHashMap<>();// username, user
+    private static final ConcurrentHashMap<String, Chat> chats = new ConcurrentHashMap<>();// chatId(name), chat
     private static final String DIR = "data/";
     private static String DATA_FILE = DIR + "data.ser";
     private static final String LOG_FILE = DIR + "log.txt";
@@ -108,27 +109,6 @@ public class Database implements DatabaseInterface {
     }
 
     /**
-     * Loads users from a file, validates them, and adds them to the users map.
-     */
-    public synchronized void loadDatabase() {
-        writeLog(LogType.INFO, IDENTIFIER, "Loading database from file.");
-        users.clear();
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
-            Object object = inputStream.readObject();
-            if (object instanceof ConcurrentHashMap) {
-                users.putAll((ConcurrentHashMap<String, User>) object);
-                if (users.isEmpty()) {
-                    writeLog(LogType.ERROR, IDENTIFIER, "Database file is empty.");
-                } else {
-                    writeLog(LogType.INFO, IDENTIFIER, "Database loaded from file.");
-                }
-            }
-        } catch (Exception e) {
-            writeLog(LogType.ERROR, IDENTIFIER, "Failed to load database from file.");
-        }
-    }
-
-    /**
      * Retrieves a User object from the users map using the provided username.
      * If the user does not exist, logs the event and returns a new User object.
      *
@@ -180,6 +160,56 @@ public class Database implements DatabaseInterface {
         }
     }
 
+    public Chat getChat(String name) {
+        Chat chat = chats.get(name);
+        if (chat == null) {
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found.", name));
+            return null;
+        }
+        return chat;
+    }
+
+    public ArrayList<Chat> getChats() {
+        return new ArrayList<>(chats.values());
+    }
+
+    public synchronized void addChat(Chat chat) {
+        chats.put(chat.getName(), chat);
+    }
+
+    public synchronized void removeChat(String name) {
+        if (chats.remove(name) != null) {
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s removed.", name));
+        } else {
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found.", name));
+        }
+    }
+
+    /**
+     * Loads users and chats from a file, validates them, and adds them to the users map.
+     */
+    @Override
+    public synchronized void loadDatabase() {
+        writeLog(LogType.INFO, IDENTIFIER, "Loading database from file.");
+        users.clear();
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(DATA_FILE))) {
+            Object object = inputStream.readObject();
+            if (object instanceof DatabaseContainer) {
+                users.putAll(((DatabaseContainer) object).getUsers());
+                chats.putAll(((DatabaseContainer) object).getChats());
+                if (users.isEmpty()) {
+                    writeLog(LogType.ERROR, IDENTIFIER, "No users found in database file.");
+                }
+                if (chats.isEmpty()) {
+                    writeLog(LogType.ERROR, IDENTIFIER, "No chats found in database file.");
+                }
+                writeLog(LogType.INFO, IDENTIFIER, "Database loaded from file.");
+            }
+        } catch (Exception e) {
+            writeLog(LogType.ERROR, IDENTIFIER, "Error loading database from file: " + e.getMessage());
+        }
+    }
+
     /**
      * This method writes all data to a binary file.
      * If an exception occurs, it logs the error.
@@ -188,9 +218,9 @@ public class Database implements DatabaseInterface {
     public synchronized void serializeDatabase() {
         writeLog(LogType.INFO, IDENTIFIER, "Saving database to file.");
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(DATA_FILE))) {
-            outputStream.writeObject(users);
+            outputStream.writeObject(new DatabaseContainer(users, chats));
         } catch (Exception e) {
-            writeLog(LogType.ERROR, IDENTIFIER, "Failed to save database to file.");
+            writeLog(LogType.ERROR, IDENTIFIER, "Failed to save database to file: " + e.getMessage());
         }
         writeLog(LogType.INFO, IDENTIFIER, "Database saved to file.");
     }

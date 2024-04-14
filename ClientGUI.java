@@ -102,6 +102,17 @@ public class ClientGUI implements GUIInterface {
             JOptionPane.showMessageDialog(null, "Nothing selected");
         }
     }
+
+    public void sendMessage()
+    {
+        String info = JOptionPane.showInputDialog("Enter name of the chat: ");
+        String text = JOptionPane.showInputDialog("Enter message: ");
+
+        userSearch(info);
+
+        client.sendToServer(
+            new NetworkMessage(ServerCommand.SEND_MESSAGE, Client.IDENTIFIER, text));
+    }
     @Override
     public void userInteraction(String choice, String info) { //TODO Functionality
 

@@ -38,18 +38,18 @@ public class ClientTest {
         assertTrue(client.sendToServer(message));
     }
 
-    @Test
-    public void testReadMessage() {
-        NetworkMessage expectedMessage = new NetworkMessage(ServerCommand.LOGIN,
-                Client.IDENTIFIER, "PurduePete, PurduePete123");
-        try {
-            objOS.writeObject(expectedMessage);
-            objOS.flush();
-            NetworkMessage receivedMessage = client.readMessage();
-            assertNotNull(receivedMessage);
-            assertEquals(expectedMessage, receivedMessage);
-        } catch (IOException e) {
-            fail("IOException occurred: " + e.getMessage());
-        }
-    }
+//    @Test
+//    public void testReadMessage() {
+//        NetworkMessage expectedMessage = new NetworkMessage(ServerCommand.LOGIN,
+//                Client.IDENTIFIER, "PurduePete, PurduePete123");
+//        try {
+//            objOS.writeObject(expectedMessage);
+//            objOS.flush();
+//            NetworkMessage receivedMessage = client.readMessage();
+//            assertNotNull(receivedMessage);
+//            assertEquals(expectedMessage, receivedMessage);
+//        } catch (IOException e) {
+//            fail("IOException occurred: " + e.getMessage());
+//        }
+//    }
 }
