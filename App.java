@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -20,6 +21,7 @@ public class App {
         database.addUser(new User("john", "123", "Boilermaker", true));
 
         try {
+            System.out.println(database.getUsers());
             Chat chat = new Chat("Purdue Chat", database.getUsers());
             database.addChat(chat);
         } catch (InvalidChatException e) {

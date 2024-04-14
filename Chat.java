@@ -24,8 +24,8 @@ public class Chat implements ChatInterface {
      * @param members - the list of users to be added to the chat
      */
     public Chat(String name, ArrayList<User> members) throws InvalidChatException {
-        if (members.size() != 2) {
-            throw new InvalidChatException("Chat must have 2 members");
+        if (!(members.size() >= 2)) {
+            throw new InvalidChatException("Chat must have at least 2 members");
         }
         this.name = name;
         this.members = members;
@@ -74,6 +74,34 @@ public class Chat implements ChatInterface {
     @Override
     public String getName() {
         return name;
+    }
+
+    /**
+     * Adds a member to the chat.
+     *
+     * @param user - the user to be added
+     * @return true if the user was added, false otherwise
+     */
+    public boolean addMember(User user) {
+        if (!isMember(user)) {
+            members.add(user);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Removes a member from the chat.
+     *
+     * @param user - the user to be removed
+     * @return true if the user was removed, false otherwise
+     */
+    public boolean removeMember(User user) {
+        if (isMember(user) && members.size() > 2) {
+            members.remove(user);
+            return true;
+        }
+        return false;
     }
 
     /**

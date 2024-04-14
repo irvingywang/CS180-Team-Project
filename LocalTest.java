@@ -22,7 +22,7 @@ public class LocalTest {
     private Database database;
     private User user1;
     private User user2;
-    private GroupChat groupChat;
+    private Chat chat;
 
     /**
      * Setup for the Test of Database Class
@@ -35,9 +35,7 @@ public class LocalTest {
         database.initialize();
 
         database.addUser(new User("purduepete", "boilerup", "Purdue Pete", false));
-
         database.addUser(new User("john123", "password", "John Doe", false));
-
         database.addUser(new User("hoosier123", "password", "IU student", true));
 
         user1 = new User("sender", "password1", "Sender", true);
@@ -115,14 +113,30 @@ public class LocalTest {
     @Test
     public void testAddMember() {
         User newUser = new User("newUser", "password", "New User", true);
-        assertTrue(groupChat.addMember(newUser));
-        assertTrue(groupChat.isMember(newUser));
+        try {
+            ArrayList<User> users = new ArrayList<>();
+            users.add(user1);
+            users.add(user2);
+            chat = new Chat("chat", database.getUsers());
+        } catch (InvalidChatException e) {
+            e.printStackTrace();
+        }
+        assertTrue(chat.addMember(newUser));
+        assertTrue(chat.isMember(newUser));
     }
 
     @Test
     public void testRemoveMember() {
-        assertTrue(groupChat.removeMember(user1));
-        assertFalse(groupChat.isMember(user1));
+        try {
+            ArrayList<User> users = new ArrayList<>();
+            users.add(user1);
+            users.add(user2);
+            chat = new Chat("chat", database.getUsers());
+        } catch (InvalidChatException e) {
+            e.printStackTrace();
+        }
+        assertFalse(chat.removeMember(user1));
+        assertFalse(chat.isMember(user1));
     }
 
     @Test
@@ -133,12 +147,19 @@ public class LocalTest {
 
         ArrayList<User> users = new ArrayList<>();
         users.add(purduepete);
-        users.add(john123);
-        users.add(hoosier123);
 
         assertThrows(InvalidChatException.class, () -> {
             Chat chat = new Chat("chat", users);
         });
+
+        users.add(john123);
+        users.add(hoosier123);
+
+        try {
+            Chat chat = new Chat("chat", users);
+        } catch (InvalidChatException e) {
+            e.printStackTrace();
+        }
     }
 
 }

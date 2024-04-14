@@ -69,12 +69,6 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   that this class is functional.
   - Overall, this class can be combined with the others to allow messages to be received and sent
   simultaneously.
-- `GroupChat`: Represents a group chat with a variable amount of members.
-  - This class extends chat but also allows for the creation of a group.
-  - The methods "testSendMessage", "testSendMessageToBlockedUser", and "testGetMessages" all verify
-  that this class is functional.
-  - Overall, this class can be combined with the others to allow the creation of a group chat by adding
-  (or removing) users.
 - `LocalTest`: Tests all the methods created.
   - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
   the functionality of the entire social media platform.
@@ -83,10 +77,6 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   - This interface provides a framework for the Chat class.
   - As far as we know, interfaces cannot be tested.
   - This interface is crucial for ensuring the proper functionality and implementation of Chat.
-- `GroupChatInterface`: Interface for the group chat class.
-  - This interface provides a framework for the GroupChat class.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of GroupChat.
 - `ClientInterface`: Interface for the client. 
   - This interface provides a framework for the client.
   - As far as we know, interfaces cannot be tested.
