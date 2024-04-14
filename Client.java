@@ -82,7 +82,7 @@ public class Client implements ClientInterface, Runnable {
      * @return the NetworkMessage read from the server, or null if an exception is thrown
      */
     @Override
-    public NetworkMessage readMessage() {
+    public NetworkMessage readNetworkMessage() {
         try {
             return (NetworkMessage) in.readObject();
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class Client implements ClientInterface, Runnable {
     @Override
     public NetworkMessage listenToServer() {
         try {
-            return readMessage();  // Directly return the message read from the server
+            return readNetworkMessage();  // Directly return the message read from the server
         } catch (Exception e) {
             clientGUI.showError("Error listening to server: " + e.getMessage());
             Database.writeLog(LogType.ERROR, IDENTIFIER, e.getMessage());
@@ -117,10 +117,10 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
-    public void sendMessage(User recipient, String message)
-    {
-        user.sendMessage(recipient,message);
+    public void sendUserMessage() {
+
     }
+
     //TODO simplify network communication with requests
 //    public NetworkMessage sendRequestToServer(NetworkMessage request) {
 //        try {

@@ -24,8 +24,14 @@ public class GroupChat extends Chat implements GroupChatInterface {
      * @param name  - the name of the chat
      * @param users - the list of users to be added to the chat
      */
-    public GroupChat(String name, ArrayList<User> users, User admin) {
+    public GroupChat(String name, ArrayList<User> users, User admin) throws InvalidChatException {
         super(name, users);
+        if (!users.contains(admin)) {
+            throw new InvalidChatException("Admin must be a member of the chat");
+        }
+        if (users.size() < 3) {
+            throw new InvalidChatException("Group chat must have at least 3 members");
+        }
         this.admin = admin;
     }
 

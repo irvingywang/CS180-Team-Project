@@ -19,8 +19,12 @@ public class App {
         database.addUser(new User("purduepete", "123", "Purdue Pete", true));
         database.addUser(new User("john", "123", "Boilermaker", true));
 
-        Chat chat = new Chat("Purdue Chat", database.getUsers());
-        database.addChat(chat);
+        try {
+            Chat chat = new Chat("Purdue Chat", database.getUsers());
+            database.addChat(chat);
+        } catch (InvalidChatException e) {
+            e.printStackTrace();
+        }
 
         database.serializeDatabase();
         for (User user : database.getUsers()) {

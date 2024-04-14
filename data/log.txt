@@ -1,7 +1,7 @@
-[INFO] DATABASE 04-14-2024 11:56:01 Log file cleared.
-[INFO] DATABASE 04-14-2024 11:56:01 Initializing database.
-[INFO] DATABASE 04-14-2024 11:56:01 Loading database from file.
-[ERROR] DATABASE 04-14-2024 11:56:01 No users found in database file.
-[ERROR] DATABASE 04-14-2024 11:56:01 No chats found in database file.
-[INFO] DATABASE 04-14-2024 11:56:01 Database loaded from file.
-[INFO] DATABASE 04-14-2024 11:56:01 Database initialized.
+[INFO] DATABASE 04-14-2024 17:12:32 Log file cleared.
+[INFO] DATABASE 04-14-2024 17:12:32 Initializing database.
+[INFO] DATABASE 04-14-2024 17:12:32 Loading database from file.
+[ERROR] DATABASE 04-14-2024 17:12:32 No users found in database file.
+[ERROR] DATABASE 04-14-2024 17:12:32 No chats found in database file.
+[INFO] DATABASE 04-14-2024 17:12:32 Database loaded from file.
+[INFO] DATABASE 04-14-2024 17:12:32 Database initialized.

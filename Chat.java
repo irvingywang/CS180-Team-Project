@@ -23,7 +23,10 @@ public class Chat implements ChatInterface {
      * @param name  - the name of the chat
      * @param members - the list of users to be added to the chat
      */
-    public Chat(String name, ArrayList<User> members) {
+    public Chat(String name, ArrayList<User> members) throws InvalidChatException {
+        if (members.size() != 2) {
+            throw new InvalidChatException("Chat must have 2 members");
+        }
         this.name = name;
         this.members = members;
         messages = new ArrayList<>();

@@ -100,21 +100,13 @@ public class ClientGUI implements GUIInterface {
 
     public void sendMessage()
     {
-        String info = JOptionPane.showInputDialog("Enter name of recipient: ");
+        String info = JOptionPane.showInputDialog("Enter name of the chat: ");
         String text = JOptionPane.showInputDialog("Enter message: ");
 
         userSearch(info);
 
-        NetworkMessage message = client.listenToServer();
-
-        switch ((ClientCommand) message.getCommand()) {
-            case SEARCH_SUCCESS -> {
-                client.sendMessage((User) message.getObject(),text);
-            }
-            case SEARCH_FAILURE -> {
-                showError("No user found.");
-            }
-        }
+        client.sendToServer(
+            new NetworkMessage(ServerCommand.SEND_MESSAGE, Client.IDENTIFIER, text));
     }
     @Override
     public void userInteraction(String choice, String info) { //TODO Functionality
