@@ -117,7 +117,7 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
-    public boolean sendMessage(User recipient, String message)
+    public void sendMessage(User recipient, String message)
     {
         user.sendMessage(recipient,message);
     }
