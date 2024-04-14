@@ -2,31 +2,39 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Button extends JButton {
+    Color idleColor = GUIConstants.PRIMARY_BLUE;
+    Color hoverColor = GUIConstants.DARKER_BLUE;
 
     public Button(String text, Runnable action) {
         super(text);
         this.addActionListener(e -> action.run());
-        initUI();
+        setVisible(true);
+        initStyle();
     }
 
-    private void initUI() {
-        this.setVisible(true);
+    private void initStyle() {
+        this.setOpaque(true);
+        this.setContentAreaFilled(true);
+
         //TODO styling
-        this.setBackground(Color.BLUE);
+        this.setBackground(idleColor);
 
         this.setBorderPainted(false);
 
         // Change color when mouse hovers over button
-        //FIXME: This is not working
-        this.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                setBackground(Color.CYAN);
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent event) {
+                setBackground(hoverColor);
+                repaint();
             }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                setBackground(Color.BLUE);
+            public void mouseExited(MouseEvent event) {
+                setBackground(idleColor);
+                repaint();
             }
         });
     }

@@ -1,8 +1,8 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TextField extends JTextField {
 
@@ -11,36 +11,26 @@ public class TextField extends JTextField {
     public TextField(String placeholder) {
         super(placeholder);
         this.placeholder = placeholder;
-        this.setEditable(true);
-        this.setFocusable(true);
-        initUI();
 
+        initStyle();
     }
 
-    private void initUI() {
+    private void initStyle() {
         //TODO styling
         setText(placeholder);
+        setEditable(true);
 
         setVisible(true);
 
-        //FIXME: This is not working
-        addFocusListener(new FocusAdapter() {
+        //FIXME: Clear text on click is not working
+        addMouseListener(new MouseAdapter() {
             @Override
-            public void focusGained(FocusEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 if (getText().equals(placeholder)) {
-                    System.out.println("Focus gained");
+                    System.out.println("Mouse clicked");
                     setText("");
+                    repaint();
                 }
-                repaint();
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (getText().isEmpty()) {
-                    System.out.println("Focus lost");
-                    setText(placeholder);
-                }
-                repaint();
             }
         });
     }

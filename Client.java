@@ -18,7 +18,7 @@ public class Client implements ClientInterface, Runnable {
     @Override
     public void run() {
         if (connectToServer()) {
-            clientGUI.welcomePage();
+            clientGUI.showError("Connected to server.");
             clientGUI.loginPage();
         } else {
             clientGUI.showError("Connection to server failed.");
@@ -131,4 +131,6 @@ public class Client implements ClientInterface, Runnable {
 //    }
 
     //TODO Client Functions
+    //TODO message
+
 }

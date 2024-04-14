@@ -1,10 +1,7 @@
-[INFO] DATABASE 04-13-2024 12:44:40 Log file cleared.
-[INFO] DATABASE 04-13-2024 12:44:40 Initializing database.
-[INFO] DATABASE 04-13-2024 12:44:40 Loading database from file.
-[INFO] DATABASE 04-13-2024 12:44:40 Database loaded from file.
-[INFO] DATABASE 04-13-2024 12:44:40 Database initialized.
-[INFO] DATABASE 04-13-2024 12:44:45 User Username not found.
-[INFO] SERVER 04-13-2024 12:44:45 User Username failed to log in.
-[INFO] SERVER 04-13-2024 12:44:56 User purduepete logged in.
-[INFO] SERVER 04-13-2024 12:44:56 Login successful
-[ERROR] SERVER 04-13-2024 12:44:58 Failed to read message: null
+[INFO] DATABASE 04-14-2024 11:20:13 Log file cleared.
+[INFO] DATABASE 04-14-2024 11:20:13 Initializing database.
+[INFO] DATABASE 04-14-2024 11:20:13 Loading database from file.
+[INFO] DATABASE 04-14-2024 11:20:13 Database loaded from file.
+[INFO] DATABASE 04-14-2024 11:20:13 Database initialized.
+[INFO] SERVER 04-14-2024 11:20:22 User purduepete logged in.
+[INFO] SERVER 04-14-2024 11:20:22 Login successful

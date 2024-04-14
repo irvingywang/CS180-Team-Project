@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 /**
  * Project05 -- App
  * <p>
@@ -22,6 +20,19 @@ public class App {
         for (User user : database.getUsers()) {
             System.out.println(user);
         }
+
+        //Start the server
+        Server.main(args);
+
+        //FIXME join the server thread instead of sleep
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        //Start the client
+        Client.main(args);
     }
 }
 

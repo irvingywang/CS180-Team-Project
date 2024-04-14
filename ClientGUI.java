@@ -23,10 +23,8 @@ public class ClientGUI implements GUIInterface {
     @Override
     public void loginPage() {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Login");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 300);
-            frame.setLayout(new GridLayout(3, 1, 10, 10));
+            GUI.Frame frame = new GUI.Frame("Login");
+            JPanel panel = new JPanel(new GridLayout(3, 1, 20, 20));
 
             TextField usernameField = new TextField("Username");
             TextField passwordField = new TextField("Password");
@@ -53,11 +51,12 @@ public class ClientGUI implements GUIInterface {
                 }
 
             });
-            frame.add(usernameField);
-            frame.add(passwordField);
-            frame.add(loginButton);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
+
+            panel.add(usernameField);
+            panel.add(passwordField);
+            panel.add(loginButton);
+
+            frame.addComponent(panel);
         });
     }
 
