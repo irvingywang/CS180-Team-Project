@@ -2,6 +2,20 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Project05 -- Server
+ *
+ * This is the server for our messaging program. It processes
+ * requests from the client.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ *
+ * @version April 1, 2024
+ *
+ */
 public class Server implements ServerInterface, Runnable {
     public static final int PORT = 1234;
     public static final String SERVER_ADDRESS = "localhost";
