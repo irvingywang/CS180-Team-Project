@@ -33,7 +33,6 @@ public class Server implements ServerInterface, Runnable {
 
     @Override
     public void run() {
-        database.initialize();
         try {
             serverSocket = new ServerSocket(PORT);
             System.out.println("Server is listening on port " + PORT);
