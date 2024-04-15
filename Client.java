@@ -11,8 +11,9 @@ import java.net.Socket;
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
+ * @author Karan Vankwani, L08
  *
- * @version April 1, 2024
+ * @version April 14, 2024
  *
  */
 public class Client implements ClientInterface, Runnable {
@@ -130,25 +131,29 @@ public class Client implements ClientInterface, Runnable {
             return null;
         }
     }
-
-    public void sendUserMessage() {
-
+    public synchronized boolean removeUser(String username) {
+        return sendToServer(new NetworkMessage(ServerCommand.REMOVE_USER, IDENTIFIER, username));
     }
-
-    //TODO simplify network communication with requests
-//    public NetworkMessage sendRequestToServer(NetworkMessage request) {
-//        try {
-//            out.writeObject(request);
-//            out.flush();
-//            // Directly read the response after sending the request
-//            return (NetworkMessage) in.readObject();
-//        } catch (Exception e) {
-//            clientGUI.showError("Communication error: " + e.getMessage());
-//            return null;
-//        }
-//    }
-
-    //TODO Client Functions
-    //TODO message
+    public synchronized boolean addUser(User user) {
+        return sendToServer(new NetworkMessage(ServerCommand.ADD_USER, IDENTIFIER, user));
+    }
+    public synchronized boolean sendMessage(String message, String username) {
+        return sendToServer(new NetworkMessage(ClientCommand.SEND_MESSAGE, IDENTIFIER, message));
+    }
+    public synchronized boolean deleteMessage(Chat chat, String messageText) {
+        return sendToServer(new NetworkMessage(ServerCommand.DELETE_MESSAGE, IDENTIFIER, new Object[]{user, chat, messageText}));
+    }
+    public synchronized boolean blockUser(User blockedUser) {
+        return sendToServer(new NetworkMessage(ServerCommand.BLOCK_USER, IDENTIFIER, blockedUser));
+    }
+    public synchronized boolean deleteAccount() {
+        return sendToServer(new NetworkMessage(ServerCommand.DELETE_ACCOUNT, IDENTIFIER, user));
+    }
+    public synchronized boolean changeName(String newName) {
+        return sendToServer(new NetworkMessage(ServerCommand.CHANGE_NAME, IDENTIFIER, new Object[]{user, newName}));
+    }
+    public synchronized boolean changePW(String newPW) {
+        return sendToServer(new NetworkMessage(ServerCommand.CHANGE_PASSWORD, IDENTIFIER, new Object[]{user, newPW}));
+    }
 
 }

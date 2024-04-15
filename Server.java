@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Project05 -- Server
@@ -12,8 +14,9 @@ import java.net.Socket;
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
+ * @author Karan Vankwani, L08
  *
- * @version April 1, 2024
+ * @version April 14, 2024
  *
  */
 public class Server implements ServerInterface, Runnable {
@@ -24,6 +27,13 @@ public class Server implements ServerInterface, Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
     private static final Identifier IDENTIFIER = Identifier.SERVER;
+
+    /**
+     * The entry point of the server application.
+     * It creates a server instance and starts a new thread to run it.
+     * 
+     * @param args The command-line arguments (not used).
+     */
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -42,9 +52,17 @@ public class Server implements ServerInterface, Runnable {
                 handleClient(clientSocket);
             }
         } catch (IOException e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Server socket failed to open: " + e.getMessage());
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Server socket" +
+                    " failed to open: " + e.getMessage());
         }
     }
+
+       /**
+     * Sends a message to a connected client.
+     * 
+     * @param message The message to send.
+     * @return True if the message was successfully sent, false otherwise.
+     */
 
     @Override
     public boolean sendToClient(NetworkMessage message) {
@@ -53,20 +71,34 @@ public class Server implements ServerInterface, Runnable {
             out.flush();
             return true;
         } catch (IOException e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to send to client: " + e.getMessage());
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed" +
+                    " to send to client: " + e.getMessage());
             return false;
         }
     }
+
+    /**
+     * Reads a message received from a client.
+     * 
+     * @return The received message, or null if an error occurred.
+     */
 
     @Override
     public NetworkMessage readMessage() {
         try {
             return (NetworkMessage) in.readObject();
         } catch (Exception e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to read message: " + e.getMessage());
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Reading" +
+                    " failure: " + e.getMessage());
             return null;
         }
     }
+
+    /**
+     * Handles a connection from a client.
+     * 
+     * @param clientSocket The socket representing the client connection.
+     */
 
     @Override
     public void handleClient(Socket clientSocket) {
@@ -82,14 +114,17 @@ public class Server implements ServerInterface, Runnable {
                             String[] loginInfo = ((String) message.getObject()).split(",");
                             if (login(loginInfo[0], loginInfo[1])) {
                                 Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
-                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS, IDENTIFIER, database.getUser(loginInfo[0])));
+                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS,
+                                        IDENTIFIER, database.getUser(loginInfo[0])));
                             } else {
                                 System.out.println("Login failed");
-                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE, IDENTIFIER, null));
+                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
+                                        IDENTIFIER, null));
                             }
                         }
                         default -> {
-                            Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid command received.");
+                            Database.writeLog(LogType.ERROR, IDENTIFIER,
+                                    "Invalid command received.");
                         }
                     }
                 } else {
@@ -97,16 +132,26 @@ public class Server implements ServerInterface, Runnable {
                 }
             }
         } catch (IOException e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Error handling client: " + e.getMessage());
+            Database.writeLog(LogType.ERROR, IDENTIFIER,
+                    "Error handling client: " + e.getMessage());
         } finally {
             try {
                 clientSocket.close();
             } catch (IOException e) {
-                Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to close client socket: " + e.getMessage());
+                Database.writeLog(LogType.ERROR, IDENTIFIER,
+                        "Failed to close client socket: " + e.getMessage());
             }
         }
     }
 
+     /**
+     * Authenticates a user login.
+     * 
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @return True if the login is successful, false otherwise.
+     */
+    
     @Override
     public boolean login(String username, String password) {
         User user = database.getUser(username);
@@ -114,7 +159,8 @@ public class Server implements ServerInterface, Runnable {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s logged in.", username));
             return true;
         } else {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s failed to log in.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("User %s failed to log in.", username));
             return false;
         }
     }
@@ -129,21 +175,175 @@ public class Server implements ServerInterface, Runnable {
      * @param publicProfile - the public status of the new user
      */
     @Override
-    public synchronized boolean createUser(String username, String password, String displayName, Boolean publicProfile) {
+    public synchronized boolean createUser(String username,
+                                           String password, String displayName, Boolean publicProfile) {
         if (database.getUser(username) != null) {
-            //FIXME show this in the GUI
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s already exists.", username));
+            // FIXME show this in the GUI
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("User %s already exists.", username));
             return false;
         } else {
             User newUser = new User(username, password, displayName, publicProfile);
             database.addUser(newUser);
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s created.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("Created user %s.", username));
             database.serializeDatabase();
             return true;
         }
     }
 
-    //TODO Server functionality
+    public synchronized boolean removeUser(String username) {
+        User removed = database.getUser(username);
+        if (removed != null) {
+            database.removeUser(removed.getUsername());
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("Removed user %s.", username));
+            database.serializeDatabase();
+            return true;
+        } else {
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("User %s not found.", username));
+            return false;
+        }
+    }
 
+    public synchronized User getUser(String username) {
+        return database.getUser(username);
+    }
+
+    public synchronized boolean addUser(User user) {
+        if (database.getUser(user.getUsername()) == null) {
+            database.addUser(user);
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("Added user %s.", user.getUsername()));
+            database.serializeDatabase();
+            return true;
+        } else {
+            Database.writeLog(LogType.INFO, IDENTIFIER,
+                    String.format("User %s previously added.", user.getUsername()));
+            return false;
+        }
+    }
+
+    public synchronized boolean sendMessage(String message, String username) {
+        NetworkMessage networkMessage;
+
+        if (username != null) {
+            networkMessage = new NetworkMessage(ClientCommand.SEND_MESSAGE, IDENTIFIER, message);
+        } else {
+            networkMessage = new NetworkMessage(ServerCommand.SHOW_MESSAGE, IDENTIFIER, message);
+        }
+        if (username != null) {
+            User receiver = database.getUser(username);
+            if (receiver != null) {
+                return sendToClient(networkMessage);
+            } else {
+                Database.writeLog(LogType.ERROR, IDENTIFIER,
+                        String.format("User %s not found.", username));
+                return false;
+            }
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER,
+                    "No user to send message to.");
+            return false;
+        }
+    }
+    public synchronized boolean deleteMessage(User sender, Chat chat, String messageText) {
+        Database database = Database.getInstance();
+        Chat chat1 = database.getChat(chat.getName());
+        if (chat1 != null) {
+            List<Message> chat1Messages = chat1.getMessages();
+            Message deleted = null;
+            for (Message m : chat1Messages) {
+                if (m.getSender().equals(sender) &&
+                        m.getMessage().equals(messageText)) {
+                    deleted = m;
+                    break;
+                }
+            }
+            if (deleted != null) {
+                chat1Messages.remove(deleted);
+                Database.writeLog(LogType.INFO, IDENTIFIER, "Message deleted");
+                return true;
+            } else {
+                Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Message" +
+                        " from %s not found", sender.getUsername()));
+                return false;
+            }
+        } else {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found", chat.getName()));
+            return false;
+        }
+    }
+    public synchronized boolean blockUser(User blockedUser, User mainUser) {
+        if (blockedUser.blockUser(mainUser)) {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s blocked user %s.",
+                    mainUser.getUsername(), blockedUser.getUsername()));
+            return true;
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot" +
+                    " block user %s.", blockedUser.getUsername()));
+            return false;
+        }
+    }
+    public synchronized boolean deleteAccount(User deleted) {
+        database.removeUser(deleted.getUsername());
+        if (database.getUser(deleted.getUsername()) == null) {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Deleted" +
+                    " user %s.", deleted.getUsername()));
+            return true;
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot" +
+                    " delete user %s.", deleted.getUsername()));
+            return false;
+        }
+    }
+    public synchronized boolean changeName(User user, String newName) {
+        if (newName == null || newName.isEmpty()) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid username.");
+            return false;
+        }
+
+        String oldName = user.getUsername();
+        if (oldName.equals(newName)) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "New username same as old.");
+            return false;
+        }
+        if (database.getUser(newName) != null) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Username" +
+                    " %s is already taken.", newName));
+            return false;
+        }
+
+        user.setUsername(newName);
+        if (database.getUser(newName) != null) {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("New username is %s.", newName));
+            return true;
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Cannot change username.");
+            return false;
+        }
+    }
+    public synchronized boolean changePW(User user, String newPW) {
+        if (newPW == null || newPW.isEmpty()) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid password.");
+            return false;
+        }
+
+        String oldPW = user.getPassword();
+        if (oldPW.equals(newPW)) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "New password same as old.");
+            return false;
+        }
+
+        user.setPassword(newPW);
+        if (user.getPassword().equals(newPW)) {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("New password is %s.", newPW));
+            return true;
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Cannot change password.");
+            return false;
+        }
+    }
 }
 

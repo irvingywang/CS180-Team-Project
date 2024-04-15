@@ -1,11 +1,9 @@
-[INFO] DATABASE 04-14-2024 18:01:53 Log file cleared.
-[INFO] DATABASE 04-14-2024 18:01:53 Saving database to file.
-[INFO] DATABASE 04-14-2024 18:01:53 Database saved to file.
-[INFO] DATABASE 04-14-2024 18:01:53 Saving database to file.
-[ERROR] DATABASE 04-14-2024 18:01:53 Failed to save database to file: Chat
-[INFO] DATABASE 04-14-2024 18:01:53 Database saved to file.
-[INFO] SERVER 04-14-2024 18:02:04 User purduepete logged in.
-[INFO] SERVER 04-14-2024 18:02:04 Login successful
-[INFO] SERVER 04-14-2024 18:02:07 User purduepete failed to log in.
-[INFO] SERVER 04-14-2024 18:02:15 User john logged in.
-[INFO] SERVER 04-14-2024 18:02:15 Login successful
+[INFO] DATABASE 04-15-2024 14:41:50 Log file cleared.
+[INFO] DATABASE 04-15-2024 14:41:50 Saving database to file.
+[INFO] DATABASE 04-15-2024 14:41:50 Database saved to file.
+[INFO] DATABASE 04-15-2024 14:41:50 Saving database to file.
+[ERROR] DATABASE 04-15-2024 14:41:50 Failed to save database to file: Chat
+[INFO] DATABASE 04-15-2024 14:41:50 Database saved to file.
+[INFO] SERVER 04-15-2024 14:42:10 User purduepete logged in.
+[INFO] SERVER 04-15-2024 14:42:10 Login successful
+[INFO] SERVER 04-15-2024 14:42:13 User purduepete failed to log in.

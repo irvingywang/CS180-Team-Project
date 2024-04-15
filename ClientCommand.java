@@ -7,11 +7,12 @@
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
+ * @author Karan Vankwani, L08
  *
- * @version April 1, 2024
+ * @version April 14, 2024
  *
  */
 public enum ClientCommand {
     LOGIN_SUCCESS, LOGIN_FAILURE,
-    SEARCH_SUCCESS, SEARCH_FAILURE
+    SEARCH_SUCCESS, SEND_MESSAGE, SEARCH_FAILURE
 }
