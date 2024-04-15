@@ -144,8 +144,11 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
 - `Frame`:
+  - Creates a frame functionality that displays "Login"
 - `Panel`:
+  - Creates a panel functionality that displays "Username" and "Password"
 - `Button`:
+  - Creates a panel functionality that inputs and stores "Username" and "Password"
 
 # Design Specifications
 Color Scheme:
