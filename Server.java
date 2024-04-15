@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * Project05 -- Server
- *
+ * <p>
  * This is the server for our messaging program. It processes
  * requests from the client.
  *
@@ -15,9 +15,7 @@ import java.util.Map;
  * @author Jack Kim, L08
  * @author John Guan, L08
  * @author Karan Vankwani, L08
- *
  * @version April 14, 2024
- *
  */
 public class Server implements ServerInterface, Runnable {
     public static final int PORT = 1234;
@@ -31,7 +29,7 @@ public class Server implements ServerInterface, Runnable {
     /**
      * The entry point of the server application.
      * It creates a server instance and starts a new thread to run it.
-     * 
+     *
      * @param args The command-line arguments (not used).
      */
 
@@ -57,9 +55,9 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
-       /**
+    /**
      * Sends a message to a connected client.
-     * 
+     *
      * @param message The message to send.
      * @return True if the message was successfully sent, false otherwise.
      */
@@ -79,7 +77,7 @@ public class Server implements ServerInterface, Runnable {
 
     /**
      * Reads a message received from a client.
-     * 
+     *
      * @return The received message, or null if an error occurred.
      */
 
@@ -96,7 +94,7 @@ public class Server implements ServerInterface, Runnable {
 
     /**
      * Handles a connection from a client.
-     * 
+     *
      * @param clientSocket The socket representing the client connection.
      */
 
@@ -144,14 +142,14 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
-     /**
+    /**
      * Authenticates a user login.
-     * 
+     *
      * @param username The username of the user.
      * @param password The password of the user.
      * @return True if the login is successful, false otherwise.
      */
-    
+
     @Override
     public boolean login(String username, String password) {
         User user = database.getUser(username);
@@ -192,6 +190,13 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    /**
+     * Removes a user from the database.
+     *
+     * @param username - the username of the user to be removed
+     * @return true if the user is successfully removed, false if the user is not found
+     */
+
     public synchronized boolean removeUser(String username) {
         User removed = database.getUser(username);
         if (removed != null) {
@@ -207,10 +212,23 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    /**
+     * Retrieves a user from the database.
+     *
+     * @param username - the username of the user to retrieve
+     * @return the User object corresponding to the given username, or null if not found
+     */
     public synchronized User getUser(String username) {
         return database.getUser(username);
     }
 
+
+    /**
+     * Adds a user to the database.
+     *
+     * @param user - the User object to add
+     * @return true if the user is added successfully, false if the user already exists
+     */
     public synchronized boolean addUser(User user) {
         if (database.getUser(user.getUsername()) == null) {
             database.addUser(user);
@@ -224,6 +242,14 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    /**
+     * Sends a message to a user or displays it in the server.
+     *
+     * @param message  - the message to be sent
+     * @param username - the username of the recipient, or null if it's a server message
+     * @return true if the message is sent successfully, false otherwise (e.g., if the recipient is not found)
+     */
 
     public synchronized boolean sendMessage(String message, String username) {
         NetworkMessage networkMessage;
@@ -248,6 +274,15 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    /**
+     * Deletes a specific message from a chat.
+     *
+     * @param sender      - the user who sent the message to be deleted
+     * @param chat        - the chat from which the message should be deleted
+     * @param messageText - the content of the message to be deleted
+     * @return true if the message is successfully deleted, false otherwise (e.g., if the message is not found)
+     */
     public synchronized boolean deleteMessage(User sender, Chat chat, String messageText) {
         Database database = Database.getInstance();
         Chat chat1 = database.getChat(chat.getName());
@@ -275,6 +310,15 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    /**
+     * Blocks a user from interacting with another user.
+     *
+     * @param blockedUser - the user to be blocked
+     * @param mainUser    - the user who is blocking the other user
+     * @return true if the user is successfully blocked, false otherwise
+     */
+
     public synchronized boolean blockUser(User blockedUser, User mainUser) {
         if (blockedUser.blockUser(mainUser)) {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s blocked user %s.",
@@ -286,6 +330,14 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    /**
+     * Deletes a user account from the database.
+     *
+     * @param deleted - the user account to be deleted
+     * @return true if the account is successfully deleted, false otherwise
+     */
+
     public synchronized boolean deleteAccount(User deleted) {
         database.removeUser(deleted.getUsername());
         if (database.getUser(deleted.getUsername()) == null) {
@@ -298,6 +350,15 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    /**
+     * Changes the username of a user.
+     *
+     * @param user    - the user whose username is to be changed
+     * @param newName - the new username to be assigned
+     * @return true if the username is successfully changed, false otherwise (e.g., if the new username is already taken)
+     */
+
     public synchronized boolean changeName(User user, String newName) {
         if (newName == null || newName.isEmpty()) {
             Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid username.");
@@ -324,6 +385,14 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    /**
+     * Changes the password of a user.
+     *
+     * @param user  - the user whose password is to be changed
+     * @param newPW - the new password to be assigned
+     * @return true if the password is successfully changed, false otherwise
+     */
     public synchronized boolean changePW(User user, String newPW) {
         if (newPW == null || newPW.isEmpty()) {
             Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid password.");

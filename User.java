@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * Project05 -- User
- *
+ * <p>
  * Represents a user which can send and receive messages.
  * A user has a unique username, a password, a display name,
  * a list of friends, a list of blocked users, and a list of messages.
@@ -13,9 +13,7 @@ import java.util.ArrayList;
  * @author Jack Kim, L08
  * @author John Guan, L08
  * @author Karan Vankwani, L08
- *
  * @version April 14, 2024
- *
  */
 public class User implements UserInterface, Serializable {
     private String username;
@@ -28,10 +26,10 @@ public class User implements UserInterface, Serializable {
     /**
      * Constructs a new User object
      *
-     * @param username    - the username of the user
-     * @param password    - the password of the user
-     * @param displayName - the display name of the user
-     * @param publicProfile    - the public status of the user
+     * @param username      - the username of the user
+     * @param password      - the password of the user
+     * @param displayName   - the display name of the user
+     * @param publicProfile - the public status of the user
      */
     public User(String username, String password, String displayName, Boolean publicProfile) {
         this.username = username;
@@ -160,26 +158,41 @@ public class User implements UserInterface, Serializable {
         }
     }
 
+    /**
+     * @return a message to a chat.
+     */
     @Override
     public boolean sendMessage(Message message) {
         return message.getChat().addMessage(message);
     }
 
+    /**
+     * @return the username for the user.
+     */
     @Override
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * @return the password for the user.
+     */
     @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * @return the display name for the user.
+     */
     @Override
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
+    /**
+     * @return whether the user's profile is public or not.
+     */
     @Override
     public void setPublicProfile(Boolean publicProfile) {
         this.publicProfile = publicProfile;
