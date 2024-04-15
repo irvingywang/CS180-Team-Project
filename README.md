@@ -73,8 +73,9 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
     and "setUp" all verify that this class is functional.
   - This is an integral part of our social media program as it stores all user information and distributes
     it accordingly.
-- `DatabaseContainer`: 
-  - 
+- `DatabaseContainer`: Contains data to be used from database
+  - This class serves as a collector for maintaining data, chats, and other user profile information
+  - It's designed to be serialized, in order to better standardize the data collection of this app
 - `LogType`: Enum to store the type of message.
   - This creates a new data type that stores the name of different messages that could be shown,
     such as info, error, and warning.
@@ -85,8 +86,9 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
 - `LocalTest`: Tests all the methods created.
   - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
   the functionality of the entire social media platform.
-- `ClientTest`:
-
+- `ClientTest`: Tests all methods of the client class.
+  - This class allows for the testing of the Client, specifically its ability to connect to a server and
+  send messages successfully.
 ## Networking
 - `ClientInterface`: Interface for the client. 
   - This interface provides a framework for the client.
