@@ -34,6 +34,7 @@ public class Message implements MessageInterface, Serializable {
      */
     public Message(User sender, Chat chat, String message, String imagePath) {
         this.sender = sender;
+        this.chat = chat;
         this.message = message;
         this.imagePath = imagePath;
         this.timestamp = new Date();
@@ -48,6 +49,7 @@ public class Message implements MessageInterface, Serializable {
      */
     public Message(User sender, Chat chat, String message) {
         this.sender = sender;
+        this.chat = chat;
         this.message = message;
         this.imagePath = imagePath;
         this.timestamp = new Date();

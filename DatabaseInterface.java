@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Project05 -- DatabaseInterface
@@ -18,7 +19,7 @@ public interface DatabaseInterface {
     void close();
     void reset();
     User getUser(String username);
-    ArrayList<User> getUsers();
+    ConcurrentHashMap<String, User> getUsers();
     void addUser(User user);
     void removeUser(String username);
     void loadDatabase();
