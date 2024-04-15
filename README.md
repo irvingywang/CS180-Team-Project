@@ -11,8 +11,19 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
 
 ## Submissions
 - Phase 1: [Vocareum Submission]() - Irving Wang
+- Phase 2: [Vocareum Submission]() - Irving Wang
 
-## Class Descriptions
+# Class Descriptions
+- `App`: Creates a framework for the messaging app by processing user input.
+  - This class allows the user to interact with the program and decide their actions within the social
+    media platform.
+  - The methods "testUserCreationAndMessaging" and "setUp" verify that this class is functional.
+  - Overall, this class can be combined with the others to provide them with user input and help the
+    computer decide which other methods and classes need to be called.
+## Objects
+- `UserInterface`: Interface for the User class.
+  - This interface provides a framework for the User class.
+  - This interface is crucial for ensuring the proper functionality and implementation of User.
 - `User`: Represents a user of the social media platform.
   - This class provides functionalities such as storing various information about a user, allowing
   users to add or block others, and send and receive messages from others.
@@ -22,6 +33,9 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   all verify that this class is functional. 
   - Overall, this class can be combined with the others to allow the user of the messaging system to
   perform the various crucial actions that define a social media platform.
+- `MessageInterface`: Interface for the Message class.
+  - This interface provides a framework for the Message class.
+  - This interface is crucial for ensuring the proper functionality and implementation of Message.
 - `Message`: Represents a message on the social media platform.
   - This class provides functionalities such as storing various information about a message and getting
   information about the sender, receiver, and even time.
@@ -30,38 +44,9 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   class is functional.
   - Overall, this class can be combined with the others to allow the messages of the system to store
   and deliver information that users want to use.
-- `Database`: Represents the database of the social media platform.
-  - This class serves as a database management system for users, messages, and relationships. It provides
-  functionalities to create, retrieve, update, and delete user data, as well as logging events and managing
-  data persistence.
-  - Its usage includes: - Creating a User: Use the createUser(username, password, displayName) method to 
-  create a new user. If a user with the same username already exists, the system logs an event. - Retrieving
-  a User: Call the getUser(username) method to retrieve a user object based on the provided username. If the
-  user does not exist, a new user object is returned. - Removing a User: Use the removeUser(username) method
-  to remove a user from the database. - Getting All Users: Call the getUsers() method to retrieve a list of
-  all user objects stored in the database.
-  - The methods "testUserCreationAndMessaging", "testCreateUserAndRetrieve", "testGetUserNotFound",
-  and "setUp" all verify that this class is functional.
-  - This is an integral part of our social media program as it stores all user information and distributes
-  it accordingly.
-- `UserInterface`: Interface for the User class.
-  - This interface provides a framework for the User class.
-  - As far as we know, interfaces cannot be tested. 
-  - This interface is crucial for ensuring the proper functionality and implementation of User.
-- `MessageInterface`: Interface for the Message class.
-  - This interface provides a framework for the Message class.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of Message.
-- `DatabaseInterface`: Interface for the Database class.
-  - This interface provides a framework for the Database class.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of Database.
-- `App`: Creates a framework for the messaging app by processing user input.
-  - This class allows the user to interact with the program and decide their actions within the social
-  media platform.
-  - The methods "testUserCreationAndMessaging" and "setUp" verify that this class is functional.
-  - Overall, this class can be combined with the others to provide them with user input and help the
-  computer decide which other methods and classes need to be called.
+- `ChatInterface`: Interface for the chat class.
+  - This interface provides a framework for the Chat class.
+  - This interface is crucial for ensuring the proper functionality and implementation of Chat.
 - `Chat`: Represents a chat which has a list of members and messages.
   - This class provides functionalities such as storing various information about a chat, like the users
   and messages getting sent.
@@ -69,31 +54,49 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   that this class is functional.
   - Overall, this class can be combined with the others to allow messages to be received and sent
   simultaneously.
+
+## Database
+- `DatabaseInterface`: Interface for the Database class.
+  - This interface provides a framework for the Database class.
+  - This interface is crucial for ensuring the proper functionality and implementation of Database.
+- `Database`: Represents the database of the social media platform.
+  - This class serves as a database management system for users, messages, and relationships. It provides
+    functionalities to create, retrieve, update, and delete user data, as well as logging events and managing
+    data persistence.
+  - Its usage includes: - Creating a User: Use the createUser(username, password, displayName) method to
+    create a new user. If a user with the same username already exists, the system logs an event. - Retrieving
+    a User: Call the getUser(username) method to retrieve a user object based on the provided username. If the
+    user does not exist, a new user object is returned. - Removing a User: Use the removeUser(username) method
+    to remove a user from the database. - Getting All Users: Call the getUsers() method to retrieve a list of
+    all user objects stored in the database.
+  - The methods "testUserCreationAndMessaging", "testCreateUserAndRetrieve", "testGetUserNotFound",
+    and "setUp" all verify that this class is functional.
+  - This is an integral part of our social media program as it stores all user information and distributes
+    it accordingly.
+- `DatabaseContainer`: 
+  - 
+- `LogType`: Enum to store the type of message.
+  - This creates a new data type that stores the name of different messages that could be shown,
+    such as info, error, and warning.
+  - This program cannot really be tested because it does not perform any function.
+  - Overall, this class is useful for augmenting the simplicity of our code.
+
+## Testing
 - `LocalTest`: Tests all the methods created.
   - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
   the functionality of the entire social media platform.
-  - This class does the testing itself, so it cannot be tested (as far as we know).
-- `ChatInterface`: Interface for the chat class. 
-  - This interface provides a framework for the Chat class.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of Chat.
+- `ClientTest`:
+
+## Networking
 - `ClientInterface`: Interface for the client. 
   - This interface provides a framework for the client.
-  - As far as we know, interfaces cannot be tested.
   - This interface is crucial for ensuring the proper functionality and implementation of the client.
 - `ServerInterface`: Interface for the server.
   - This interface provides a framework for the server.
-  - As far as we know, interfaces cannot be tested.
   - This interface is crucial for ensuring the proper functionality and implementation of the server.
-- `GUIInterface`: Interface for the GUI.
-  - This interface provides a framework for the GUI.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
-- `App`: Represents a framework for the messaging app.
-  - This class acts like a testing module in place of a functioning GUI.
-  - The various methods from the Database class verify its functionality.
-  - Overall, this class only acts like a test for user creation and database management.
-    Proper GUI capabilities will be implemented in Phase 2.
+- `ClientInterface`: Interface for the Client class.
+  - This interface provides a framework for the Client class.
+  - This interface is crucial for ensuring the proper functionality and implementation of Client.
 - `Client`: Represents a client program.
   - This class provides functionalities related to sending and receiving data to and from the server.
   - Its functionality can be tested by running the server and the client and seeing that a connection
@@ -104,33 +107,10 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   - This creates a new data type that stores whether a user-selected command was successful or not.
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
-- `ClientGUI`: GUI for the Client class
-  - This class creates a simple GUI to test the functionality of the client.
-  - I do not think the GUI itself can be tested with junit. However, if the client functions properly,
-    that means the GUI can be tested by simply running the class.
-  - Overall, this class is crucial for allowing users to interact with our messaging program.
-- `ClientInterface`: Interface for the Client class.
-  - This interface provides a framework for the Client class.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of Client.
-- `GUIInterface`: Interface for the GUI.
-  - This interface provides a framework for the GUI.
-  - As far as we know, interfaces cannot be tested.
-  - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
-- `Identifier`: Enum to store parts of the program.
-  - This creates a new data type that stores the name of different parts of the program, such as
-    client, server, database, and user.
-  - This program cannot really be tested because it does not perform any function.
-  - Overall, this class is useful for augmenting the simplicity of our code.
-- `LogType`: Enum to store the type of message.
-  - This creates a new data type that stores the name of different messages that could be shown,
-    such as info, error, and warning.
-  - This program cannot really be tested because it does not perform any function.
-  - Overall, this class is useful for augmenting the simplicity of our code.
 - `NetworkMessage`: Creates a framework for a network message.
-  - This class allows for the creation of a message that is to be sent between the client and 
+  - This class allows for the creation of a message that is to be sent between the client and
     server.
-  - The methods "readMessage", "listenToServer", "sendToClient", and "handleClient" verify that 
+  - The methods "readMessage", "listenToServer", "sendToClient", and "handleClient" verify that
     this class is functional.
   - Overall, this class can be used within the server and client to simplify messaging.
 - `Server`: Represents a server program.
@@ -145,6 +125,26 @@ git clone https://github.com/irvingywang/CS180-Team-Project.git
   - Overall, this class is useful for augmenting the simplicity of our code.
 - `ServerInterface`: Interface for the Server class.
   - This interface provides a framework for the Server class.
-  - As far as we know, interfaces cannot be tested.
   - This interface is crucial for ensuring the proper functionality and implementation of Server.
 
+## GUI
+- `ClientGUI`: GUI for the Client class
+  - This class creates a simple GUI to test the functionality of the client.
+  - I do not think the GUI itself can be tested with junit. However, if the client functions properly,
+    that means the GUI can be tested by simply running the class.
+  - Overall, this class is crucial for allowing users to interact with our messaging program.
+- `GUIInterface`: Interface for the GUI.
+  - This interface provides a framework for the GUI.
+  - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
+- `Identifier`: Enum to store parts of the program.
+  - This creates a new data type that stores the name of different parts of the program, such as
+    client, server, database, and user.
+  - This program cannot really be tested because it does not perform any function.
+  - Overall, this class is useful for augmenting the simplicity of our code.
+- `Frame`:
+- `Panel`:
+- `Button`:
+
+# Design Specifications
+Color Scheme:
+![Colors](design/Colors.png)
