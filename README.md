@@ -1,25 +1,26 @@
 ![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
 
-# CS180 Team Project: Social Media Platform
-This repository contains the Java program for the project.
+# Yap: Chat with your friends. Instantly.
+![Logo](design/logo.png)
 
 ## Setup Guide
 Clone the repository using the following command:
 ```bash
 git clone https://github.com/irvingywang/CS180-Team-Project.git
 ```
+## How to Run
+To run the program, simply run the main method of `App.java`. 
+Try the login demo with username: `purduepete` and password: `123`.
 
 ## Submissions
 - Phase 1: [Vocareum Submission]() - Irving Wang
 - Phase 2: [Vocareum Submission]() - Irving Wang
 
 # Class Descriptions
-- `App`: Creates a framework for the messaging app by processing user input.
+- `App`: Main class to run the program.
   - This class allows the user to interact with the program and decide their actions within the social
-    media platform.
-  - The methods "testUserCreationAndMessaging" and "setUp" verify that this class is functional.
-  - Overall, this class can be combined with the others to provide them with user input and help the
-    computer decide which other methods and classes need to be called.
+  - It will start a server and client, and then run the client GUI.
+
 ## Objects
 - `UserInterface`: Interface for the User class.
   - This interface provides a framework for the User class.
