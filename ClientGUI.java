@@ -1,6 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Project05 -- ClientGUI.java
+ *
+ * Stores the success/failure of commands from the ServerCommand class.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ *
+ * @version April 14, 2024
+ *
+ */
 public class ClientGUI implements GUIInterface {
     private Client client;
 

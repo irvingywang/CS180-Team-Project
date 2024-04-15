@@ -7,12 +7,15 @@
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
- * @version April 1, 2024
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
  */
 public class App {
     public static void main(String[] args) {
+         // Initialize the database
         Database database = Database.getInstance();
-
+        
+        // Reset the database and add some sample users
         database.reset();
         database.addUser(new User("purduepete", "123", "Purdue Pete", true));
         database.addUser(new User("john", "123", "Boilermaker", true));

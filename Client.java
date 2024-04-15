@@ -11,8 +11,9 @@ import java.net.Socket;
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
+ * @author Karan Vankwani, L08
  *
- * @version April 1, 2024
+ * @version April 14, 2024
  *
  */
 public class Client implements ClientInterface, Runnable {

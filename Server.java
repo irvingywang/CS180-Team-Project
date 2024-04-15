@@ -14,8 +14,9 @@ import java.util.Map;
  * @author Irving Wang, L08
  * @author Jack Kim, L08
  * @author John Guan, L08
+ * @author Karan Vankwani, L08
  *
- * @version April 1, 2024
+ * @version April 14, 2024
  *
  */
 public class Server implements ServerInterface, Runnable {
@@ -26,6 +27,13 @@ public class Server implements ServerInterface, Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
     private static final Identifier IDENTIFIER = Identifier.SERVER;
+
+    /**
+     * The entry point of the server application.
+     * It creates a server instance and starts a new thread to run it.
+     * 
+     * @param args The command-line arguments (not used).
+     */
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -49,6 +57,13 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+       /**
+     * Sends a message to a connected client.
+     * 
+     * @param message The message to send.
+     * @return True if the message was successfully sent, false otherwise.
+     */
+
     @Override
     public boolean sendToClient(NetworkMessage message) {
         try {
@@ -62,6 +77,12 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    /**
+     * Reads a message received from a client.
+     * 
+     * @return The received message, or null if an error occurred.
+     */
+
     @Override
     public NetworkMessage readMessage() {
         try {
@@ -72,6 +93,12 @@ public class Server implements ServerInterface, Runnable {
             return null;
         }
     }
+
+    /**
+     * Handles a connection from a client.
+     * 
+     * @param clientSocket The socket representing the client connection.
+     */
 
     @Override
     public void handleClient(Socket clientSocket) {
@@ -117,6 +144,14 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+     /**
+     * Authenticates a user login.
+     * 
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @return True if the login is successful, false otherwise.
+     */
+    
     @Override
     public boolean login(String username, String password) {
         User user = database.getUser(username);
