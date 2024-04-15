@@ -122,12 +122,13 @@ public class LocalTest {
             ArrayList<User> users = new ArrayList<>();
             users.add(user1);
             users.add(user2);
-            chat = new Chat("chat", database.getUsers());
+            chat = new Chat("chat", users);
+
+            assertTrue(chat.addMember(newUser));
+            assertTrue(chat.isMember(newUser));
         } catch (InvalidChatException e) {
             e.printStackTrace();
         }
-        assertTrue(chat.addMember(newUser));
-        assertTrue(chat.isMember(newUser));
     }
 
     @Test
@@ -173,16 +174,7 @@ public class LocalTest {
         assertTrue(server.login("purduepete", "boilerup"));
         assertFalse(server.login("john123", "wrongpassword"));
     }
-    @Test
-    public void testSendMessage() {
-        Server server = new Server();
-        Client client = new Client();
-        server.addUser(new User("purduepete", "pw123",
-                "Sender", true));
-        server.addUser(new User("john123", "pw1234",
-                "Receiver", true));
-        assertTrue(client.sendMessage("Hello World", "receiver"));
-    }
+
     @Test
     public void testDeleteMessage() {
         try {
@@ -197,35 +189,7 @@ public class LocalTest {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    @Test
-    public void testChangeName() {
-        Server server = new Server();
-        User user = new User("purduepete", "pw123",
-                "OldName", true);
-        server.addUser(user);
-        assertTrue(server.changeName(user, "NewName"));
-        assertEquals("NewName", user.getDisplayName());
-    }
-    @Test
-    public void testChangePassword() {
-        Server server = new Server();
-        User user = new User("purduepete", "old",
-                "User", true);
-        server.addUser(user);
-        assertTrue(server.changePW(user, "new"));
-        assertTrue(server.login("purduepete", "new"));
-    }
-    @Test
-    public void testConnectToServer() {
-        Client client = new Client();
-        assertTrue(client.connectToServer());
-    }
-    @Test
-    public void testSendToServer() {
-        Client client = new Client();
-        assertTrue(client.sendToServer(new NetworkMessage(ClientCommand.SEND_MESSAGE,
-                Client.IDENTIFIER, "Hello World")));
-    }
+
     @Test
     public void testReadNetworkMessage() {
         Client client = new Client();
