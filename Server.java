@@ -67,8 +67,8 @@ public class Server implements ServerInterface, Runnable {
         try {
             return (NetworkMessage) in.readObject();
         } catch (Exception e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed" +
-                    " to read message: " + e.getMessage());
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Reading" +
+                    " failure: " + e.getMessage());
             return null;
         }
     }
@@ -143,7 +143,7 @@ public class Server implements ServerInterface, Runnable {
     public synchronized boolean createUser(String username,
                                            String password, String displayName, Boolean publicProfile) {
         if (database.getUser(username) != null) {
-            //FIXME show this in the GUI
+            // FIXME show this in the GUI
             Database.writeLog(LogType.INFO, IDENTIFIER,
                     String.format("User %s already exists.", username));
             return false;
@@ -151,16 +151,16 @@ public class Server implements ServerInterface, Runnable {
             User newUser = new User(username, password, displayName, publicProfile);
             database.addUser(newUser);
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s created.", username));
+                    String.format("Created user %s.", username));
             database.serializeDatabase();
             return true;
         }
     }
 
     public synchronized boolean removeUser(String username) {
-        User userToRemove = database.getUser(username);
-        if (userToRemove != null) {
-            database.removeUser(userToRemove.getUsername());
+        User removed = database.getUser(username);
+        if (removed != null) {
+            database.removeUser(removed.getUsername());
             Database.writeLog(LogType.INFO, IDENTIFIER,
                     String.format("Removed user %s.", username));
             database.serializeDatabase();
@@ -199,8 +199,8 @@ public class Server implements ServerInterface, Runnable {
             networkMessage = new NetworkMessage(ServerCommand.SHOW_MESSAGE, IDENTIFIER, message);
         }
         if (username != null) {
-            User recipient = database.getUser(username);
-            if (recipient != null) {
+            User receiver = database.getUser(username);
+            if (receiver != null) {
                 return sendToClient(networkMessage);
             } else {
                 Database.writeLog(LogType.ERROR, IDENTIFIER,
@@ -209,35 +209,37 @@ public class Server implements ServerInterface, Runnable {
             }
         } else {
             Database.writeLog(LogType.ERROR, IDENTIFIER,
-                    "No username provided.");
+                    "No user to send message to.");
             return false;
         }
     }
-    public synchronized void deleteMessage(User sender, Chat chat, String messageText) {
+    public synchronized boolean deleteMessage(User sender, Chat chat, String messageText) {
         Database database = Database.getInstance();
-        Chat targetChat = database.getChat(chat.getName());
-        if (targetChat != null) {
-            List<Message> messages = targetChat.getMessages();
-            Message messageToDelete = null;
-            for (Message message : messages) {
-                if (message.getSender().equals(sender) &&
-                        message.getMessage().equals(messageText)) {
-                    messageToDelete = message;
+        Chat chat1 = database.getChat(chat.getName());
+        if (chat1 != null) {
+            List<Message> chat1Messages = chat1.getMessages();
+            Message deleted = null;
+            for (Message m : chat1Messages) {
+                if (m.getSender().equals(sender) &&
+                        m.getMessage().equals(messageText)) {
+                    deleted = m;
                     break;
                 }
             }
-            if (messageToDelete != null) {
-                messages.remove(messageToDelete);
+            if (deleted != null) {
+                chat1Messages.remove(deleted);
                 Database.writeLog(LogType.INFO, IDENTIFIER, "Message deleted");
+                return true;
             } else {
                 Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Message" +
                         " from %s not found", sender.getUsername()));
+                return false;
             }
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found", chat.getName()));
+            return false;
         }
     }
-    
     public synchronized boolean blockUser(User blockedUser, User mainUser) {
         if (blockedUser.blockUser(mainUser)) {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s blocked user %s.",
@@ -249,15 +251,15 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
-    public synchronized boolean deleteAccount(User deletedAccount) {
-        database.removeUser(deletedAccount.getUsername());
-        if (database.getUser(deletedAccount.getUsername()) == null) {
+    public synchronized boolean deleteAccount(User deleted) {
+        database.removeUser(deleted.getUsername());
+        if (database.getUser(deleted.getUsername()) == null) {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Deleted" +
-                    " user %s.", deletedAccount.getUsername()));
+                    " user %s.", deleted.getUsername()));
             return true;
         } else {
             Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot" +
-                    " delete user %s.", deletedAccount.getUsername()));
+                    " delete user %s.", deleted.getUsername()));
             return false;
         }
     }

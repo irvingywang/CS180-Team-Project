@@ -34,12 +34,17 @@ public class LocalTest {
         database.reset();
         database.initialize();
 
-        database.addUser(new User("purduepete", "boilerup", "Purdue Pete", false));
-        database.addUser(new User("john123", "password", "John Doe", false));
-        database.addUser(new User("hoosier123", "password", "IU student", true));
+        database.addUser(new User("purduepete", "boilerup",
+                "Purdue Pete", false));
+        database.addUser(new User("john123", "password",
+                "John Doe", false));
+        database.addUser(new User("hoosier123", "password",
+                "IU student", true));
 
-        user1 = new User("sender", "password1", "Sender", true);
-        user2 = new User("receiver", "password2", "Recipient", true);
+        user1 = new User("sender", "password1",
+                "Sender", true);
+        user2 = new User("receiver", "password2",
+                "Recipient", true);
     }
 
     @Test
@@ -48,7 +53,6 @@ public class LocalTest {
         User john123 = database.getUser("john123");
         User hoosier123 = database.getUser("hoosier123");
 
-        // check user creation
         assertNotNull(purduepete);
         assertNotNull(john123);
         assertNotNull(hoosier123);
@@ -56,7 +60,6 @@ public class LocalTest {
         assertEquals("John Doe", john123.getDisplayName());
         assertEquals("IU student", hoosier123.getDisplayName());
 
-        // test friend system
         purduepete.addFriend(john123);
         john123.addFriend(purduepete);
         assertTrue(purduepete.isFriend(john123));
@@ -67,7 +70,8 @@ public class LocalTest {
 
     @Test
     public void testCreateUserAndRetrieve() {
-        User user = new User("User", "password", "User", true);
+        User user = new User("User", "password",
+                "User", true);
         database.addUser(user);
         User retrievedUser = database.getUser("User");
         assertNotNull(retrievedUser);
@@ -78,7 +82,7 @@ public class LocalTest {
     @Test
     public void testGetUserNotFound() {
         User retrievedUser = database.getUser("User doesn't exist");
-        assertNull(retrievedUser); //should return null
+        assertNull(retrievedUser);
     }
 
     @Test
@@ -112,7 +116,8 @@ public class LocalTest {
 
     @Test
     public void testAddMember() {
-        User newUser = new User("newUser", "password", "New User", true);
+        User newUser = new User("purduepete", "password",
+                "New User", true);
         try {
             ArrayList<User> users = new ArrayList<>();
             users.add(user1);
@@ -162,4 +167,73 @@ public class LocalTest {
         }
     }
 
+    @Test
+    public void testLogin() {
+        Server server = new Server();
+        assertTrue(server.login("purduepete", "boilerup"));
+        assertFalse(server.login("john123", "wrongpassword"));
+    }
+    @Test
+    public void testSendMessage() {
+        Server server = new Server();
+        Client client = new Client();
+        server.addUser(new User("purduepete", "pw123",
+                "Sender", true));
+        server.addUser(new User("john123", "pw1234",
+                "Receiver", true));
+        assertTrue(client.sendMessage("Hello World", "receiver"));
+    }
+    @Test
+    public void testDeleteMessage() {
+        try {
+            Server server = new Server();
+            Chat chat = new Chat("Chat", new ArrayList<>());
+            User sender = new User("john123",
+                    "pw123", "Sender", true);
+            server.addUser(sender);
+            server.sendMessage("Hello World", "purduepete");
+            assertTrue(server.deleteMessage(sender, chat, "Hello World"));
+        } catch (InvalidChatException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+    @Test
+    public void testChangeName() {
+        Server server = new Server();
+        User user = new User("purduepete", "pw123",
+                "OldName", true);
+        server.addUser(user);
+        assertTrue(server.changeName(user, "NewName"));
+        assertEquals("NewName", user.getDisplayName());
+    }
+    @Test
+    public void testChangePassword() {
+        Server server = new Server();
+        User user = new User("purduepete", "old",
+                "User", true);
+        server.addUser(user);
+        assertTrue(server.changePW(user, "new"));
+        assertTrue(server.login("purduepete", "new"));
+    }
+    @Test
+    public void testConnectToServer() {
+        Client client = new Client();
+        assertTrue(client.connectToServer());
+    }
+    @Test
+    public void testSendToServer() {
+        Client client = new Client();
+        assertTrue(client.sendToServer(new NetworkMessage(ClientCommand.SEND_MESSAGE,
+                Client.IDENTIFIER, "Hello World")));
+    }
+    @Test
+    public void testReadNetworkMessage() {
+        Client client = new Client();
+        assertNull(client.readNetworkMessage());
+    }
+    @Test
+    public void testListenToServer() {
+        Client client = new Client();
+        assertNull(client.listenToServer());
+    }
 }
