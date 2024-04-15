@@ -19,5 +19,4 @@ public interface GUIInterface {
     void createUser();
     void userSearch(String user);
     void homePage();
-    void userInteraction(String choice, String info);
 }

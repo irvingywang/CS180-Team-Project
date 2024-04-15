@@ -74,7 +74,7 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void createUser() { //TODO Creates the user
+    public void createUser() {
         String username = JOptionPane.showInputDialog("Enter username:");
         if (username == null || username.trim().isEmpty()) {
             showError("Username cannot be empty.");
@@ -91,7 +91,7 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void userSearch(String search) { //TODO Finds user with search function
+    public void userSearch(String search) {
         String searchInput = JOptionPane.showInputDialog("Enter the name:");
         if (searchInput == null || searchInput.trim().isEmpty()) {
             showError("Search cannot be empty.");
@@ -102,7 +102,7 @@ public class ClientGUI implements GUIInterface {
     }
 
     @Override
-    public void homePage() { //TODO Main page of the app
+    public void homePage() {
         String[] options = {"User Search", "Create User", "Log Out"};
         int choice = JOptionPane.showOptionDialog(null, "Choose option", "Yap", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         if (choice == 0) {
@@ -125,9 +125,5 @@ public class ClientGUI implements GUIInterface {
 
         client.sendToServer(
             new NetworkMessage(ServerCommand.SEND_MESSAGE, Client.IDENTIFIER, text));
-    }
-    @Override
-    public void userInteraction(String choice, String info) { //TODO Functionality
-
     }
 }
