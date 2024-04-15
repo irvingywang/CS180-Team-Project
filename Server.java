@@ -237,15 +237,7 @@ public class Server implements ServerInterface, Runnable {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found", chat.getName()));
         }
     }
-    public String getUsername(User user) {
-        for (Map.Entry<String, User> entry : database.getUsers().entrySet()) {
-            if (entry.getValue().equals(user)) {
-                return entry.getKey();
-            }
-        }
-        Database.writeLog(LogType.INFO, IDENTIFIER, "Username not found");
-        return null;
-    }
+    
     public synchronized boolean blockUser(User blockedUser, User mainUser) {
         if (blockedUser.blockUser(mainUser)) {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s blocked user %s.",

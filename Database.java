@@ -131,8 +131,8 @@ public class Database implements DatabaseInterface {
      * @return ArrayList<User> - a list of all users
      */
     @Override
-    public ConcurrentHashMap<String, User> getUsers() {
-        return users;
+    public ArrayList<User> getUsers() {
+        return new ArrayList<>(users.values());
     }
 
     /**

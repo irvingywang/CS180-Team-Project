@@ -22,10 +22,8 @@ public class Client implements ClientInterface, Runnable {
     private final ClientGUI clientGUI = new ClientGUI(this);
     private User user;
     public static final Identifier IDENTIFIER = Identifier.CLIENT;
-    private Server server;
 
     public static void main(String[] args) {
-        Server server = new Server();
         Client client = new Client();
         Thread clientThread = new Thread(client);
         clientThread.start();
@@ -49,10 +47,6 @@ public class Client implements ClientInterface, Runnable {
     @Override
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
     }
 
     /**
@@ -139,9 +133,6 @@ public class Client implements ClientInterface, Runnable {
     public synchronized boolean removeUser(String username) {
         return sendToServer(new NetworkMessage(ServerCommand.REMOVE_USER, IDENTIFIER, username));
     }
-    public synchronized User getUser(String username) {
-        return server.getUser(username);
-    }
     public synchronized boolean addUser(User user) {
         return sendToServer(new NetworkMessage(ServerCommand.ADD_USER, IDENTIFIER, user));
     }
@@ -150,9 +141,6 @@ public class Client implements ClientInterface, Runnable {
     }
     public synchronized boolean deleteMessage(Chat chat, String messageText) {
         return sendToServer(new NetworkMessage(ServerCommand.DELETE_MESSAGE, IDENTIFIER, new Object[]{user, chat, messageText}));
-    }
-    public synchronized String getUsername(User user) {
-        return server.getUsername(user);
     }
     public synchronized boolean blockUser(User blockedUser) {
         return sendToServer(new NetworkMessage(ServerCommand.BLOCK_USER, IDENTIFIER, blockedUser));
@@ -164,7 +152,7 @@ public class Client implements ClientInterface, Runnable {
         return sendToServer(new NetworkMessage(ServerCommand.CHANGE_NAME, IDENTIFIER, new Object[]{user, newName}));
     }
     public synchronized boolean changePW(String newPW) {
-        return sendToServer(new NetworkMessage(ServerCommand.CHANGE_PW, IDENTIFIER, new Object[]{user, newPW}));
+        return sendToServer(new NetworkMessage(ServerCommand.CHANGE_PASSWORD, IDENTIFIER, new Object[]{user, newPW}));
     }
 
 }
