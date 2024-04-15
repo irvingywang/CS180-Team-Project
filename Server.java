@@ -143,7 +143,33 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    
+
     //TODO Server functionality
 
+    @Override
+    public synchronized boolean changeUsernameAndPassword(String oldUsername, String newUsername, String newPassword) {
+        User user = database.getUser(oldUsername);
+        if (user != null) {
+            // Check if the new username is available
+            if (!oldUsername.equals(newUsername) && database.getUser(newUsername) != null) {
+                // New username already exists
+                Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Failed to change username/password for user %s: New username %s already exists.", oldUsername, newUsername));
+                return false;
+            }
+            // Update username and password
+            user.setUsername(newUsername);
+            user.setPassword(newPassword);
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Username/password changed for user %s.", oldUsername));
+            database.serializeDatabase(); // Save changes to the database
+            return true;
+        } else {
+            // User not found
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Failed to change username/password: User %s not found.", oldUsername));
+            return false;
+        }
+    }
+
 }
+
 
