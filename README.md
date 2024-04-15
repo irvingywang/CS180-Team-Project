@@ -87,9 +87,6 @@ Try the login demo with username: `purduepete` and password: `123`.
 - `LocalTest`: Tests all the methods created.
   - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
   the functionality of the entire social media platform.
-- `ClientTest`: Tests all methods of the client class.
-  - This class allows for the testing of the Client, specifically its ability to connect to a server and
-  send messages successfully.
 ## Networking
 - `ClientInterface`: Interface for the client. 
   - This interface provides a framework for the client.
