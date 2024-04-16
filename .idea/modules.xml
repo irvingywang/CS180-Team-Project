@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CS180-Team-Project.iml" filepath="$PROJECT_DIR$/CS180-Team-Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Yap-App.iml" filepath="$PROJECT_DIR$/Yap-App.iml" />
     </modules>
   </component>
 </project>

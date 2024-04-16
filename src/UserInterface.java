@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * Project05 -- UserInterface
  *
