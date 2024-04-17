@@ -8,3 +8,5 @@
 [ERROR] CLIENT 04-17-2024 17:13:31 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
 [ERROR] CLIENT 04-17-2024 17:13:33 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
 [ERROR] CLIENT 04-17-2024 17:13:33 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
+[ERROR] CLIENT 04-17-2024 19:11:39 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
+[ERROR] CLIENT 04-17-2024 19:11:39 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null

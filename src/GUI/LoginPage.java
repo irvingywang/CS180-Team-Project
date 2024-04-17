@@ -22,6 +22,8 @@ public class LoginPage extends Page {
         Panel panel = new Panel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+        Label title = new Label("Login to your account", 35);
+
         TextField usernameField = new TextField("Enter Username:");
         TextField passwordField = new TextField("Enter Password:");
 
@@ -54,12 +56,15 @@ public class LoginPage extends Page {
         loginButton.setMaximumSize(new Dimension(400, 40));
 
         //Alignment
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
         usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
         passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //Spacing
         panel.add(Box.createVerticalStrut(250));
+        panel.add(title);
+        panel.add(Box.createVerticalStrut(60));
         panel.add(usernameField);
         panel.add(Box.createVerticalStrut(15));
         panel.add(passwordField);
