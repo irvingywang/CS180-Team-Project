@@ -22,8 +22,8 @@ public class LoginPage extends Page {
         Panel panel = new Panel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        TextField usernameField = new TextField(" Enter Username:");
-        TextField passwordField = new TextField(" Enter Password:");
+        TextField usernameField = new TextField("Enter Username:");
+        TextField passwordField = new TextField("Enter Password:");
 
         Button loginButton = new Button("Login", () -> {
             String username = usernameField.getText();

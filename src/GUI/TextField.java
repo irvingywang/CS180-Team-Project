@@ -1,6 +1,6 @@
 package GUI;
 
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -10,7 +10,8 @@ public class TextField extends JTextField {
 
     private String placeholder;
     private int radius = 10;
-    private int thickness = 5;
+    private int thickness = 3;
+    private int textPadding = 10;
 
     public TextField(String placeholder) {
         super(placeholder);
@@ -25,31 +26,30 @@ public class TextField extends JTextField {
         setVisible(true);
 
         setForeground(GUIConstants.PRIMARY_WHITE); //text color
-        setBackground(GUIConstants.TERTIARY_BLACK);
+        setBackground(GUIConstants.SECONDARY_BLACK);
         setCaretColor(GUIConstants.PRIMARY_WHITE);
 
-        setBorder(new Border() {
-            @Override
+        Border roundedBorder = new Border() {
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setStroke(new BasicStroke(thickness)); // Use thickness for the border
+                g2.setStroke(new BasicStroke(thickness));
                 g2.setColor(GUIConstants.PRIMARY_STROKE);
-                g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius); // Use radius for rounded corners
+                int adjustedRadius = Math.max(radius - thickness / 2, 0);
+                g2.drawRoundRect(x + thickness / 2, y + thickness / 2, width - thickness, height - thickness, adjustedRadius, adjustedRadius);
             }
 
-            @Override
             public Insets getBorderInsets(Component c) {
-                // Adjust insets based on thickness to avoid text overlapping the border
-                int inset = thickness + 2; // Added +2 for a little padding beyond the thickness
+                int inset = thickness + 2;
                 return new Insets(inset, inset, inset, inset);
             }
 
-            @Override
             public boolean isBorderOpaque() {
                 return false;
             }
-        });
+        };
+        Border padding = BorderFactory.createEmptyBorder(0, textPadding, 0, 0);
+        setBorder(BorderFactory.createCompoundBorder(roundedBorder, padding));
 
         addFocusListener(new FocusAdapter() {
             @Override
@@ -57,7 +57,6 @@ public class TextField extends JTextField {
                 if (getText().equals(placeholder)) {
                     setText("");
                 }
-                //thickness += 4;
             }
 
             @Override
@@ -65,9 +64,16 @@ public class TextField extends JTextField {
                 if (getText().isEmpty()) {
                     setText(placeholder);
                 }
-                //thickness -= 4;
             }
         });
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(getBackground());
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        super.paintComponent(g2);
+    }
 }
