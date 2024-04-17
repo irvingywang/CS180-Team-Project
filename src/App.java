@@ -1,3 +1,10 @@
+import Network.Client;
+import Database.Database;
+import Objects.Chat;
+import Network.Server;
+import Objects.InvalidChatException;
+import Objects.User;
+
 /**
  * Project05 -- App
  * <p>
@@ -22,7 +29,7 @@ public class App {
 
         try {
             System.out.println(database.getUsers());
-            Chat chat = new Chat("Purdue Chat", database.getUsers());
+            Chat chat = new Chat("Purdue Objects.Chat", database.getUsers());
             database.addChat(chat);
         } catch (InvalidChatException e) {
             e.printStackTrace();

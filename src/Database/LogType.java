@@ -1,5 +1,7 @@
+package Database;
+
 /**
- * Project05 -- LogType
+ * Project05 -- Database.LogType
  *
  * Stores log type of message.
  *

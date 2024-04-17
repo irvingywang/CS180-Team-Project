@@ -1,5 +1,7 @@
+package Network;
+
 /**
- * Project05 -- Identifier
+ * Project05 -- Network.Identifier
  *
  * Stores identifiers for crucial parts of the program.
  *

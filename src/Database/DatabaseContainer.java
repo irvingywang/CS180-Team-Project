@@ -1,8 +1,13 @@
+package Database;
+
+import Objects.Chat;
+import Objects.User;
+
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Project05 -- DatabaseContainer
+ * Project05 -- Database.DatabaseContainer
  *
  * This class represents a container for a database, which holds users and their chats.
  *
@@ -21,7 +26,7 @@ public class DatabaseContainer implements Serializable {
     private ConcurrentHashMap<String, Chat> chats;
 
     /**
-     * Constructs a new DatabaseContainer with the given users and chats.
+     * Constructs a new Database.DatabaseContainer with the given users and chats.
      *
      * @param users The map of users to be stored.
      * @param chats The map of chats to be stored.

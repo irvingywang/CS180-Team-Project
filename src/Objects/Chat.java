@@ -1,7 +1,9 @@
+package Objects;
+
 import java.util.ArrayList;
 
 /**
- * Project05 -- Chat
+ * Project05 -- Objects.Chat
  * <p>
  * Represents a chat which has a list of members and messages.
  *
@@ -19,14 +21,14 @@ public class Chat implements ChatInterface {
     private ArrayList<Message> messages; //message
 
     /**
-     * Constructs a new Chat object.
+     * Constructs a new Objects.Chat object.
      *
      * @param name  - the name of the chat
      * @param members - the list of users to be added to the chat
      */
     public Chat(String name, ArrayList<User> members) throws InvalidChatException {
         if (!(members.size() >= 2)) {
-            throw new InvalidChatException("Chat must have at least 2 members");
+            throw new InvalidChatException("Objects.Chat must have at least 2 members");
         }
         this.name = name;
         this.members = members;
@@ -122,6 +124,6 @@ public class Chat implements ChatInterface {
 
     @Override
     public String toString() {
-        return String.format("Chat: %s, Member count: %d", name, members.size());
+        return String.format("Objects.Chat: %s, Member count: %d", name, members.size());
     }
 }

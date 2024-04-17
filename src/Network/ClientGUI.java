@@ -1,9 +1,11 @@
+package Network;
+
 import javax.swing.*;
-import java.awt.*;
+
 /**
- * Project05 -- ClientGUI.java
+ * Project05 -- Client.ClientGUI.java
  *
- * Stores the success/failure of commands from the ServerCommand class.
+ * Stores the success/failure of commands from the Network.ServerCommand class.
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08
@@ -26,51 +28,6 @@ public class ClientGUI implements GUIInterface {
     @Override
     public void welcomePage() {
         JOptionPane.showMessageDialog(null, "Welcome to App!");
-    }
-
-    @Override
-    public void showError(String message) {
-        JOptionPane.showMessageDialog(null, message);
-    }
-
-    @Override
-    public void loginPage() {
-        SwingUtilities.invokeLater(() -> {
-            GUI.Frame frame = new GUI.Frame("Login");
-            JPanel panel = new JPanel(new GridLayout(3, 1, 20, 20));
-
-            TextField usernameField = new TextField("Username");
-            TextField passwordField = new TextField("Password");
-
-            GUI.Button loginButton = new GUI.Button("Login", () -> {
-                String username = usernameField.getText();
-                String password = passwordField.getText();
-                if (username.isEmpty() || password.isEmpty()) {
-                    showError("Username and password cannot be empty.");
-                    return;
-                }
-                client.sendToServer(
-                        new NetworkMessage(ServerCommand.LOGIN, Client.IDENTIFIER, String.format("%s,%s", username, password)));
-
-                NetworkMessage message = client.listenToServer();
-                switch ((ClientCommand) message.getCommand()) {
-                    case LOGIN_SUCCESS -> {
-                        client.setUser((User) message.getObject());
-                        showError("Login successful.");
-                    }
-                    case LOGIN_FAILURE -> {
-                        showError("Login failed.");
-                    }
-                }
-
-            });
-
-            panel.add(usernameField);
-            panel.add(passwordField);
-            panel.add(loginButton);
-
-            frame.addComponent(panel);
-        });
     }
 
     @Override
@@ -103,7 +60,7 @@ public class ClientGUI implements GUIInterface {
 
     @Override
     public void homePage() {
-        String[] options = {"User Search", "Create User", "Log Out"};
+        String[] options = {"Objects.User Search", "Create Objects.User", "Log Out"};
         int choice = JOptionPane.showOptionDialog(null, "Choose option", "Yap", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         if (choice == 0) {
             userSearch("");
@@ -125,5 +82,9 @@ public class ClientGUI implements GUIInterface {
 
         client.sendToServer(
             new NetworkMessage(ServerCommand.SEND_MESSAGE, Client.IDENTIFIER, text));
+    }
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 }

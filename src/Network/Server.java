@@ -1,10 +1,17 @@
+package Network;
+
+import Database.Database;
+import Objects.Chat;
+import Objects.Message;
+import Objects.User;
+import Database.LogType;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
 /**
- * Project05 -- Server
+ * Project05 -- Network.Server
  * <p>
  * This is the server for our messaging program. It processes
  * requests from the client.
@@ -42,14 +49,14 @@ public class Server implements ServerInterface, Runnable {
     public void run() {
         try {
             serverSocket = new ServerSocket(PORT);
-            System.out.println("Server is listening on port " + PORT);
+            System.out.println("Network.Server is listening on port " + PORT);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Connected to client");
                 handleClient(clientSocket);
             }
         } catch (IOException e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Server socket" +
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Network.Server socket" +
                     " failed to open: " + e.getMessage());
         }
     }
@@ -153,11 +160,11 @@ public class Server implements ServerInterface, Runnable {
     public boolean login(String username, String password) {
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s logged in.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s logged in.", username));
             return true;
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s failed to log in.", username));
+                    String.format("Objects.User %s failed to log in.", username));
             return false;
         }
     }
@@ -177,7 +184,7 @@ public class Server implements ServerInterface, Runnable {
         if (database.getUser(username) != null) {
             // FIXME show this in the GUI
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s already exists.", username));
+                    String.format("Objects.User %s already exists.", username));
             return false;
         } else {
             User newUser = new User(username, password, displayName, publicProfile);
@@ -206,7 +213,7 @@ public class Server implements ServerInterface, Runnable {
             return true;
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s not found.", username));
+                    String.format("Objects.User %s not found.", username));
             return false;
         }
     }
@@ -215,7 +222,7 @@ public class Server implements ServerInterface, Runnable {
      * Retrieves a user from the database.
      *
      * @param username - the username of the user to retrieve
-     * @return the User object corresponding to the given username, or null if not found
+     * @return the Objects.User object corresponding to the given username, or null if not found
      */
     public synchronized User getUser(String username) {
         return database.getUser(username);
@@ -225,7 +232,7 @@ public class Server implements ServerInterface, Runnable {
     /**
      * Adds a user to the database.
      *
-     * @param user - the User object to add
+     * @param user - the Objects.User object to add
      * @return true if the user is added successfully, false if the user already exists
      */
     public synchronized boolean addUser(User user) {
@@ -237,7 +244,7 @@ public class Server implements ServerInterface, Runnable {
             return true;
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s previously added.", user.getUsername()));
+                    String.format("Objects.User %s previously added.", user.getUsername()));
             return false;
         }
     }
@@ -264,7 +271,7 @@ public class Server implements ServerInterface, Runnable {
                 return sendToClient(networkMessage);
             } else {
                 Database.writeLog(LogType.ERROR, IDENTIFIER,
-                        String.format("User %s not found.", username));
+                        String.format("Objects.User %s not found.", username));
                 return false;
             }
         } else {
@@ -297,15 +304,15 @@ public class Server implements ServerInterface, Runnable {
             }
             if (deleted != null) {
                 chat1Messages.remove(deleted);
-                Database.writeLog(LogType.INFO, IDENTIFIER, "Message deleted");
+                Database.writeLog(LogType.INFO, IDENTIFIER, "objects.Message deleted");
                 return true;
             } else {
-                Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Message" +
+                Database.writeLog(LogType.INFO, IDENTIFIER, String.format("objects.Message" +
                         " from %s not found", sender.getUsername()));
                 return false;
             }
         } else {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found", chat.getName()));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.Chat %s not found", chat.getName()));
             return false;
         }
     }
@@ -320,7 +327,7 @@ public class Server implements ServerInterface, Runnable {
 
     public synchronized boolean blockUser(User blockedUser, User mainUser) {
         if (blockedUser.blockUser(mainUser)) {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s blocked user %s.",
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s blocked user %s.",
                     mainUser.getUsername(), blockedUser.getUsername()));
             return true;
         } else {

@@ -1,5 +1,9 @@
+package Network;
+
+import Objects.User;
+
 /**
- * Project05 -- ClientInterface
+ * Project05 -- Client.ClientInterface
  *
  * Creates an interface for the client class.
  *
@@ -14,11 +18,8 @@
  */
 public interface ClientInterface {
     void setUser(User user);
-
     boolean connectToServer();
     boolean sendToServer(NetworkMessage message);
-
     NetworkMessage readNetworkMessage();
-
     NetworkMessage listenToServer();
 }

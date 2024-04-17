@@ -1,5 +1,7 @@
+package Network;
+
 /**
- * Project05 -- GUIInterface
+ * Project05 -- Client.GUIInterface
  *
  * Creates an interface for the GUI of the app.
  *
@@ -15,7 +17,6 @@
 public interface GUIInterface {
     void welcomePage();
     void showError(String error);
-    void loginPage();
     void createUser();
     void userSearch(String user);
     void homePage();

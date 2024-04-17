@@ -1,8 +1,8 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class TextField extends JTextField {
 
@@ -19,17 +19,20 @@ public class TextField extends JTextField {
         //TODO styling
         setText(placeholder);
         setEditable(true);
-
         setVisible(true);
 
-        //FIXME: Clear text on click is not working
-        addMouseListener(new MouseAdapter() {
+        addFocusListener(new FocusAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void focusGained(FocusEvent e) {
                 if (getText().equals(placeholder)) {
-                    System.out.println("Mouse clicked");
                     setText("");
-                    repaint();
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (getText().isEmpty()) {
+                    setText(placeholder);
                 }
             }
         });

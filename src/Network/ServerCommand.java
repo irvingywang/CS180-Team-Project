@@ -1,5 +1,7 @@
+package Network;
+
 /**
- * Project05 -- ServerCommand
+ * Project05 -- Network.ServerCommand
  *
  * Stores the names of commands the user may want to run.
  *
