@@ -2,7 +2,7 @@ package Network;
 
 import Database.LogType;
 import Database.Database;
-import GUI.LoginPage;
+import Pages.LoginPage;
 import Objects.Chat;
 import Objects.User;
 

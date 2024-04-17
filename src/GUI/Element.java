@@ -1,7 +1,5 @@
 package GUI;
 
 public interface Element {
-    private void initStyle() {
-
-    }
+    void setMaxSize(int width, int height);
 }

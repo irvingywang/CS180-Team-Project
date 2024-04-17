@@ -5,8 +5,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
 public class Page {
-    Client client;
-    Frame frame;
+    public Client client;
+    public Frame frame;
 
     public Page(Client client) {
         this.client = client;

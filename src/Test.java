@@ -1,4 +1,4 @@
-import GUI.LoginPage;
+import Pages.LoginPage;
 import Network.Client;
 
 public class Test {

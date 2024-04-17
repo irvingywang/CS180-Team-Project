@@ -7,16 +7,15 @@ public class Panel extends JPanel {
 
     public Panel() {
         initStyle();
-        setVisible(true);
     }
 
     public Panel(LayoutManager layout) {
         super(layout);
         initStyle();
-        setVisible(true);
     }
 
-    private void initStyle() {
+    public void initStyle() {
+        setVisible(true);
         setOpaque(true);
         setBackground(GUIConstants.PRIMARY_BLACK);
     }

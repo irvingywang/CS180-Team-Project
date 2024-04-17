@@ -1,33 +1,32 @@
-package GUI;
+package Pages;
 
-import Network.Client;
-import Network.ClientCommand;
-import Network.NetworkMessage;
-import Network.ServerCommand;
+import GUI.*;
+import Network.*;
 import Objects.User;
 
 import javax.swing.BoxLayout;
 import javax.swing.Box;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class LoginPage extends Page {
 
     public LoginPage(Client client) {
         super(client);
-        frame = new Frame("Login");
+        frame = new GUI.Frame("Login");
     }
 
     @Override
     public void Content() {
-        Panel panel = new Panel();
+        GUI.Panel panel = new GUI.Panel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        Label title = new Label("Login to your account", 35);
+        GUI.Label title = new GUI.Label("Login to your account", 35);
 
-        TextField usernameField = new TextField("Enter Username:");
-        TextField passwordField = new TextField("Enter Password:");
+        GUI.TextField usernameField = new GUI.TextField("Enter Username:");
+        GUI.TextField passwordField = new GUI.TextField("Enter Password:");
 
-        Button loginButton = new Button("Login", () -> {
+        GUI.Button loginButton = new Button("Login", () -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
             if (username.isEmpty() || password.isEmpty()) {
