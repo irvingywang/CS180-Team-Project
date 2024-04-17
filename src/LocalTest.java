@@ -1,3 +1,9 @@
+import Network.Client;
+import Database.Database;
+import Objects.Chat;
+import Network.Server;
+import Objects.InvalidChatException;
+import Objects.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +31,7 @@ public class LocalTest {
     private Chat chat;
 
     /**
-     * Setup for the Test of Database Class
+     * Setup for the Test of Database.Database Class
      */
     @Before
     public void setUp() {
@@ -70,18 +76,18 @@ public class LocalTest {
 
     @Test
     public void testCreateUserAndRetrieve() {
-        User user = new User("User", "password",
-                "User", true);
+        User user = new User("Objects.User", "password",
+                "Objects.User", true);
         database.addUser(user);
-        User retrievedUser = database.getUser("User");
+        User retrievedUser = database.getUser("Objects.User");
         assertNotNull(retrievedUser);
-        assertEquals("User", retrievedUser.getUsername());
-        assertEquals("User", retrievedUser.getDisplayName());
+        assertEquals("Objects.User", retrievedUser.getUsername());
+        assertEquals("Objects.User", retrievedUser.getDisplayName());
     }
 
     @Test
     public void testGetUserNotFound() {
-        User retrievedUser = database.getUser("User doesn't exist");
+        User retrievedUser = database.getUser("Objects.User doesn't exist");
         assertNull(retrievedUser);
     }
 
@@ -117,7 +123,7 @@ public class LocalTest {
     @Test
     public void testAddMember() {
         User newUser = new User("purduepete", "password",
-                "New User", true);
+                "New Objects.User", true);
         try {
             ArrayList<User> users = new ArrayList<>();
             users.add(user1);
@@ -179,7 +185,7 @@ public class LocalTest {
     public void testDeleteMessage() {
         try {
             Server server = new Server();
-            Chat chat = new Chat("Chat", new ArrayList<>());
+            Chat chat = new Chat("Objects.Chat", new ArrayList<>());
             User sender = new User("john123",
                     "pw123", "Sender", true);
             server.addUser(sender);

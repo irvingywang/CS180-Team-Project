@@ -1,7 +1,9 @@
+package Network;
+
 import java.io.Serializable;
 
 /**
- * Project05 -- NetworkMessage
+ * Project05 -- objects.NetworkMessage
  *
  * Allows for the creation of a message that is to be sent between
  * the client and server.
@@ -22,7 +24,7 @@ public class NetworkMessage implements Serializable {
     private ClientCommand clientCommand;
 
     /**
-     * Creates a NetworkMessage with a ServerCommand.
+     * Creates a objects.NetworkMessage with a Network.ServerCommand.
      *
      * @param serverCommand - the command from the server
      * @param identifier    - the identifier for the message
@@ -35,7 +37,7 @@ public class NetworkMessage implements Serializable {
     }
 
     /**
-     * Creates a NetworkMessage with a ClientCommand.
+     * Creates a objects.NetworkMessage with a Client.ClientCommand.
      *
      * @param clientCommand - the command from the client
      * @param identifier    - the identifier for the message
@@ -75,12 +77,12 @@ public class NetworkMessage implements Serializable {
     }
 
     /**
-     * Returns a string representation of the NetworkMessage.
+     * Returns a string representation of the objects.NetworkMessage.
      *
-     * @return a string representation of the NetworkMessage
+     * @return a string representation of the objects.NetworkMessage
      */
     @Override
     public String toString() {
-        return String.format("ServerCommand: %s, Identifier: %s, Message: %s", serverCommand, identifier, object);
+        return String.format("Network.ServerCommand: %s, Network.Identifier: %s, objects.Message: %s", serverCommand, identifier, object);
     }
 }

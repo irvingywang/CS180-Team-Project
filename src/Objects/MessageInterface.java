@@ -1,7 +1,9 @@
+package Objects;
+
 import java.util.Date;
 
 /**
- * Project05 -- MessageInterface
+ * Project05 -- objects.MessageInterface
  *
  * Creates an interface for the message class.
  *

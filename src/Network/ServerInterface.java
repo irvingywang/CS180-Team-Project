@@ -1,7 +1,9 @@
+package Network;
+
 import java.net.Socket;
 
 /**
- * Project05 -- ServerInterface
+ * Project05 -- Network.ServerInterface
  *
  * Creates an interface for the server class.
  *

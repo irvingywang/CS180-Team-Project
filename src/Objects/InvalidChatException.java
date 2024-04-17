@@ -1,5 +1,7 @@
+package Objects;
+
 /**
- * Project05 -- InvalidChatException
+ * Project05 -- Objects.InvalidChatException
  *
  *Custom Java exception for handling invalid chat conditions
  *

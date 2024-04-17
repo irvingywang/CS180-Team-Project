@@ -13,6 +13,9 @@ public class Frame extends JFrame {
         setLayout(new BorderLayout());
         getContentPane().setBackground(GUIConstants.PRIMARY_BLACK);
         setVisible(true);
+        setResizable(false);
+
+        //TODO change frame color
     }
 
     public void addComponent(Component component) {

@@ -1,8 +1,10 @@
+package Objects;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Project05 -- User
+ * Project05 -- Objects.User
  * <p>
  * Represents a user which can send and receive messages.
  * A user has a unique username, a password, a display name,
@@ -24,7 +26,7 @@ public class User implements UserInterface, Serializable {
     private ArrayList<User> blocked;
 
     /**
-     * Constructs a new User object
+     * Constructs a new Objects.User object
      *
      * @param username      - the username of the user
      * @param password      - the password of the user
@@ -199,19 +201,19 @@ public class User implements UserInterface, Serializable {
     }
 
     /**
-     * @return a string representation of the User
+     * @return a string representation of the Objects.User
      */
     @Override
     public String toString() {
-        return String.format("User %s,\"%s\"", username, displayName);
+        return String.format("Objects.User %s,\"%s\"", username, displayName);
     }
 
     /**
-     * Checks if this User is equal to another object.
+     * Checks if this Objects.User is equal to another object.
      *
-     * @param obj - the object to compare this User to
-     * @return true if the object is a User and has the same username,
-     * password, and displayName as this User, false otherwise
+     * @param obj - the object to compare this Objects.User to
+     * @return true if the object is a Objects.User and has the same username,
+     * password, and displayName as this Objects.User, false otherwise
      */
     @Override
     public boolean equals(Object obj) {

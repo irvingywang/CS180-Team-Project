@@ -1,7 +1,11 @@
+package Database;
+
+import Objects.User;
+
 import java.util.ArrayList;
 
 /**
- * Project05 -- DatabaseInterface
+ * Project05 -- Database.DatabaseInterface
  *
  * Creates an interface for the database class.
  *

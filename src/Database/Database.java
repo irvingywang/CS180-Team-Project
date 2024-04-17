@@ -1,3 +1,9 @@
+package Database;
+
+import Network.Identifier;
+import Objects.Chat;
+import Objects.User;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -5,7 +11,7 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Project05 -- Database
+ * Project05 -- Database.Database
  *
  * This class is used to manage the database of users, messages, and relationships.
  * It is a singleton class, meaning there should only be one instance of it.
@@ -29,9 +35,9 @@ public class Database implements DatabaseInterface {
     private static final Identifier IDENTIFIER = Identifier.DATABASE;
 
     /**
-     * There should only be one instance of the Database class.
+     * There should only be one instance of the Database.Database class.
      *
-     * @return instance - the single instance of the Database class
+     * @return instance - the single instance of the Database.Database class
      */
     public static Database getInstance() {
         if (instance == null) {
@@ -52,7 +58,7 @@ public class Database implements DatabaseInterface {
         clearLogFile();
         writeLog(LogType.INFO, IDENTIFIER, "Initializing database.");
         loadDatabase();
-        writeLog(LogType.INFO, IDENTIFIER, "Database initialized.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database.Database initialized.");
     }
 
     /**
@@ -62,7 +68,7 @@ public class Database implements DatabaseInterface {
     public void close() {
         writeLog(LogType.INFO, IDENTIFIER, "Closing database.");
         serializeDatabase();
-        writeLog(LogType.INFO, IDENTIFIER, "Database closed.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database.Database closed.");
     }
 
     /**
@@ -110,26 +116,26 @@ public class Database implements DatabaseInterface {
     }
 
     /**
-     * Retrieves a User object from the users map using the provided username.
-     * If the user does not exist, logs the event and returns a new User object.
+     * Retrieves a Objects.User object from the users map using the provided username.
+     * If the user does not exist, logs the event and returns a new Objects.User object.
      *
      * @param username - the username of the user
-     * @return user - the User object associated with the username, or a new User object if not found
+     * @return user - the Objects.User object associated with the username, or a new Objects.User object if not found
      */
     @Override
     public User getUser(String username) {
         User user = users.get(username);
         if (user == null) {
-            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s not found.", username));
             return null;
         }
         return user;
     }
 
     /**
-     * Returns a list of all User objects in the users map.
+     * Returns a list of all Objects.User objects in the users map.
      *
-     * @return ArrayList<User> - a list of all users
+     * @return ArrayList<Objects.User> - a list of all users
      */
     @Override
     public ArrayList<User> getUsers() {
@@ -137,9 +143,9 @@ public class Database implements DatabaseInterface {
     }
 
     /**
-     * Adds a User object to the users map.
+     * Adds a Objects.User object to the users map.
      *
-     * @param user - the User object to be added
+     * @param user - the Objects.User object to be added
      */
     @Override
     public synchronized void addUser(User user) {
@@ -147,7 +153,7 @@ public class Database implements DatabaseInterface {
     }
 
     /**
-     * Removes a User object from the users map using the provided username.
+     * Removes a Objects.User object from the users map using the provided username.
      * If the user does not exist, logs the event.
      *
      * @param username - the username of the user to be removed
@@ -155,16 +161,16 @@ public class Database implements DatabaseInterface {
     @Override
     public synchronized void removeUser(String username) {
         if (users.remove(username) != null) {
-            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s removed.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s removed.", username));
         } else {
-            writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s not found.", username));
         }
     }
 
     public Chat getChat(String name) {
         Chat chat = chats.get(name);
         if (chat == null) {
-            writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found.", name));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.Chat %s not found.", name));
             return null;
         }
         return chat;
@@ -180,9 +186,9 @@ public class Database implements DatabaseInterface {
 
     public synchronized void removeChat(String name) {
         if (chats.remove(name) != null) {
-            writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s removed.", name));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.Chat %s removed.", name));
         } else {
-            writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found.", name));
+            writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.Chat %s not found.", name));
         }
     }
 
@@ -204,7 +210,7 @@ public class Database implements DatabaseInterface {
                 if (chats.isEmpty()) {
                     writeLog(LogType.ERROR, IDENTIFIER, "No chats found in database file.");
                 }
-                writeLog(LogType.INFO, IDENTIFIER, "Database loaded from file.");
+                writeLog(LogType.INFO, IDENTIFIER, "Database.Database loaded from file.");
             }
         } catch (Exception e) {
             writeLog(LogType.ERROR, IDENTIFIER, "Error loading database from file: " + e.getMessage());
@@ -223,6 +229,6 @@ public class Database implements DatabaseInterface {
         } catch (Exception e) {
             writeLog(LogType.ERROR, IDENTIFIER, "Failed to save database to file: " + e.getMessage());
         }
-        writeLog(LogType.INFO, IDENTIFIER, "Database saved to file.");
+        writeLog(LogType.INFO, IDENTIFIER, "Database.Database saved to file.");
     }
 }

@@ -1,6 +1,6 @@
 package GUI;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class GUIConstants {
     // Colors
@@ -11,12 +11,13 @@ public class GUIConstants {
     // Background
     public static final Color PRIMARY_BLACK = Color.decode("#1E1E1E");
     public static final Color SECONDARY_BLACK = Color.decode("#262626");
+    public static final Color TERTIARY_BLACK = Color.decode("#2F2F2F");
 
     // Text
     public static final Color PRIMARY_WHITE = Color.decode("#FDFDFD");
     public static final Color SECONDARY_WHITE = Color.decode("#D0D0D0");
 
-
-    public static final int WINDOW_WIDTH = 800;
-    public static final int WINDOW_HEIGHT = 600;
+    //Window Size
+    public static final int WINDOW_WIDTH = 900;
+    public static final int WINDOW_HEIGHT = 650;
 }
