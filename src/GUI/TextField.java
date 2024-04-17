@@ -16,10 +16,12 @@ public class TextField extends JTextField {
     }
 
     private void initStyle() {
-        //TODO styling
         setText(placeholder);
         setEditable(true);
         setVisible(true);
+
+        setForeground(GUIConstants.SECONDARY_WHITE);
+        setBackground(GUIConstants.SECONDARY_BLACK);
 
         addFocusListener(new FocusAdapter() {
             @Override
