@@ -6,7 +6,8 @@ import Network.NetworkMessage;
 import Network.ServerCommand;
 import Objects.User;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
 import java.awt.*;
 
 public class LoginPage extends Page {
@@ -18,10 +19,11 @@ public class LoginPage extends Page {
 
     @Override
     public void Content() {
-        Panel panel = new Panel(new GridLayout(3, 1));
+        Panel panel = new Panel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        TextField usernameField = new TextField("Username");
-        TextField passwordField = new TextField("Password");
+        TextField usernameField = new TextField(" Enter Username:");
+        TextField passwordField = new TextField(" Enter Password:");
 
         Button loginButton = new Button("Login", () -> {
             String username = usernameField.getText();
@@ -46,8 +48,22 @@ public class LoginPage extends Page {
             }
         });
 
+        //Sizing
+        usernameField.setMaximumSize(new Dimension(400, 40));
+        passwordField.setMaximumSize(new Dimension(400, 40));
+        loginButton.setMaximumSize(new Dimension(400, 40));
+
+        //Alignment
+        usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        //Spacing
+        panel.add(Box.createVerticalStrut(250));
         panel.add(usernameField);
+        panel.add(Box.createVerticalStrut(15));
         panel.add(passwordField);
+        panel.add(Box.createVerticalStrut(30));
         panel.add(loginButton);
 
         frame.addComponent(panel);

@@ -49,7 +49,7 @@ public class App {
 
         //FIXME join the server thread instead of sleep
         try {
-            Thread.sleep(1500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

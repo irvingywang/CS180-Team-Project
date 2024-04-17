@@ -6,7 +6,9 @@ import GUI.LoginPage;
 import Objects.Chat;
 import Objects.User;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
@@ -41,7 +43,7 @@ public class Client implements ClientInterface, Runnable {
     @Override
     public void run() {
         if (connectToServer()) {
-            clientGUI.showError("Connected to server.");
+            //clientGUI.showError("Connected to server.");
             LoginPage loginPage = new LoginPage(this);
         } else {
             clientGUI.showError("Connection to server failed.");

@@ -1,7 +1,8 @@
 package GUI;
 
-import javax.swing.*;
 import Network.Client;
+import javax.swing.SwingUtilities;
+import javax.swing.JOptionPane;
 
 public class Page {
     Client client;
