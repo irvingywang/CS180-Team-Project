@@ -3,7 +3,6 @@ package Network;
 import Database.LogType;
 import Database.Database;
 import GUI.Window;
-import Pages.LoginPage;
 import Objects.Chat;
 import Objects.User;
 import Pages.WelcomePage;

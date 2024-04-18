@@ -21,12 +21,10 @@ public class WelcomePage extends Page {
         label = new Label("Connect and chat with your friends. Instantly", 35);
 
         createAccountButton = new Button("Create an Account", () -> {
-
+            //TODO switch to create account page
         });
 
-        loginButton = new Button("Login", () -> {
-            window.switchPage(new LoginPage(client));
-        });
+        loginButton = new Button("Login", () -> window.switchPage(new LoginPage(client)));
 
         //Sizing
         createAccountButton.setMaximumSize(new Dimension(400, 40));
@@ -39,6 +37,5 @@ public class WelcomePage extends Page {
         panel.add(loginButton);
         panel.add(Box.createVerticalStrut(10));
         panel.add(createAccountButton);
-
     }
 }

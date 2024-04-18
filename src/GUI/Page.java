@@ -4,7 +4,7 @@ import Network.Client;
 
 import javax.swing.*;
 
-public class Page {
+public class Page implements PageInterface {
     public Client client;
     public Window window;
     public Panel panel;
@@ -16,7 +16,13 @@ public class Page {
         SwingUtilities.invokeLater(() -> initContent());
     }
 
-    public void initContent() {}
+    public void initContent() {
+        // Override this method
+    }
+
+    public void setupComponents() {
+        // Override this method
+    }
 
     public void showError(String message) {
         JOptionPane.showMessageDialog(null, message);

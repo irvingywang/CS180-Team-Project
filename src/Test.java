@@ -1,6 +1,4 @@
-import GUI.GUIConstants;
 import GUI.Window;
-import Pages.LoginPage;
 import Network.Client;
 import Pages.WelcomePage;
 
