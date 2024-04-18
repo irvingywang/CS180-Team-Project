@@ -1,8 +1,5 @@
 package GUI;
 
-import Network.Client;
-import Pages.WelcomePage;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -31,7 +28,7 @@ public class Window extends JFrame {
 
     public static Window getInstance() {
         if (instance == null) {
-            instance = new Window("App");
+            instance = new Window("Yap");
         }
         return instance;
     }

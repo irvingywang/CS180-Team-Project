@@ -21,6 +21,6 @@ public class GUIConstants {
     public static final Color SECONDARY_WHITE = Color.decode("#D0D0D0");
 
     //Window Size
-    public static final int WINDOW_WIDTH = 900;
-    public static final int WINDOW_HEIGHT = 650;
+    public static final int WINDOW_WIDTH = 1000;
+    public static final int WINDOW_HEIGHT = 700;
 }

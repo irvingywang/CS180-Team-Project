@@ -8,6 +8,7 @@ import java.awt.Dimension;
 
 public class WelcomePage extends Page {
     Label label;
+    Label label2;
     Button createAccountButton;
     Button loginButton;
 
@@ -18,9 +19,10 @@ public class WelcomePage extends Page {
 
     @Override
     public void initContent() {
-        label = new Label("Connect and chat with your friends. Instantly", 35);
+        label = new Label("Connect and chat with your", 40);
+        label2 = new Label("friends. Instantly.", 40);
 
-        createAccountButton = new Button("Create an Account", () -> {
+        createAccountButton = new Button("Create an account", () -> {
             //TODO switch to create account page
         });
 
@@ -33,6 +35,7 @@ public class WelcomePage extends Page {
         //Spacing
         panel.add(Box.createVerticalStrut(250));
         panel.add(label);
+        panel.add(label2);
         panel.add(Box.createVerticalStrut(60));
         panel.add(loginButton);
         panel.add(Box.createVerticalStrut(10));

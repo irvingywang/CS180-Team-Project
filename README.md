@@ -1,7 +1,7 @@
 ![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
 
 # Yap: Objects.Chat with your friends. Instantly.
-![Logo](assets/Welcome.png)
+![Logo](design/Welcome.png)
 
 ## Setup Guide
 Clone the repository using the following command:
@@ -150,4 +150,4 @@ Try the login demo with username: `purduepete` and password: `123`.
 
 # Design Specifications
 Color Scheme:
-![Colors](assets/Colors.png)
+![Colors](design/Colors.png)
