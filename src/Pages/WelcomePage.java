@@ -3,27 +3,29 @@ package Pages;
 import GUI.*;
 import Network.*;
 
-import javax.swing.Box;
+import javax.swing.*;
 import java.awt.Dimension;
 
 public class WelcomePage extends Page {
+    Label label;
+    Button createAccountButton;
+    Button loginButton;
 
     public WelcomePage(Client client) {
         super(client);
-        frame = new Frame("Login");
+        initContent();
     }
 
     @Override
-    public void Content() {
-        Panel panel = new Panel();
-        Label label = new Label("Connect and chat with your friends. Instantly", 35);
+    public void initContent() {
+        label = new Label("Connect and chat with your friends. Instantly", 35);
 
-        Button createAccountButton = new Button("Create an Account", () -> {
+        createAccountButton = new Button("Create an Account", () -> {
 
         });
 
-        Button loginButton = new Button("Login", () -> {
-            frame.switchPage(new LoginPage(client));
+        loginButton = new Button("Login", () -> {
+            window.switchPage(new LoginPage(client));
         });
 
         //Sizing
@@ -38,6 +40,5 @@ public class WelcomePage extends Page {
         panel.add(Box.createVerticalStrut(10));
         panel.add(createAccountButton);
 
-        frame.addComponent(panel);
     }
 }

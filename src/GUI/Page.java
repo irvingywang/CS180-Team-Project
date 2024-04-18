@@ -1,24 +1,28 @@
 package GUI;
 
 import Network.Client;
-import javax.swing.SwingUtilities;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 
 public class Page {
     public Client client;
-    public Frame frame;
+    public Window window;
+    public Panel panel;
 
     public Page(Client client) {
         this.client = client;
-        frame = new Frame("Page");
-        SwingUtilities.invokeLater(() -> Content());
+        window = Window.getInstance();
+        panel = new Panel();
+        SwingUtilities.invokeLater(() -> initContent());
     }
 
-    public void Content() {
-        // This method will be overridden by subclasses
-    }
+    public void initContent() {}
 
     public void showError(String message) {
         JOptionPane.showMessageDialog(null, message);
+    }
+
+    public JPanel getContent() {
+        return panel;
     }
 }

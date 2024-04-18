@@ -20,4 +20,5 @@ public class Panel extends JPanel {
         setOpaque(true);
         setBackground(GUIConstants.PRIMARY_BLACK);
     }
+
 }

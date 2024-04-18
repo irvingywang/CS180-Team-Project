@@ -2,6 +2,7 @@ package Network;
 
 import Database.LogType;
 import Database.Database;
+import GUI.Window;
 import Pages.LoginPage;
 import Objects.Chat;
 import Objects.User;
@@ -45,9 +46,7 @@ public class Client implements ClientInterface, Runnable {
     @Override
     public void run() {
         if (connectToServer()) {
-            //clientGUI.showError("Connected to server.");
-            WelcomePage welcomePage = new WelcomePage(this);
-            //LoginPage loginPage = new LoginPage(this);
+            Window.getInstance().switchPage(new WelcomePage(this));
         } else {
             clientGUI.showError("Connection to server failed.");
         }
