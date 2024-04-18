@@ -1,12 +1,13 @@
 package GUI;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.LayoutManager;
 
 public class Panel extends JPanel {
 
     public Panel() {
         initStyle();
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     public Panel(LayoutManager layout) {

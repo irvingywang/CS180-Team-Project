@@ -4,9 +4,7 @@ import GUI.*;
 import Network.*;
 import Objects.User;
 
-import javax.swing.BoxLayout;
 import javax.swing.Box;
-import java.awt.Component;
 import java.awt.Dimension;
 
 public class LoginPage extends Page {
@@ -19,8 +17,6 @@ public class LoginPage extends Page {
     @Override
     public void Content() {
         Panel panel = new Panel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
         Label title = new Label("Login to your account", 35);
 
         TextField usernameField = new TextField("Enter Username:");
@@ -49,26 +45,28 @@ public class LoginPage extends Page {
             }
         });
 
+        Button goBackButton = new Button("Go Back", () -> {
+            frame.switchPage(new WelcomePage(client));
+        });
+
         //Sizing
         usernameField.setMaximumSize(new Dimension(400, 40));
         passwordField.setMaximumSize(new Dimension(400, 40));
         loginButton.setMaximumSize(new Dimension(400, 40));
+        goBackButton.setMaximumSize(new Dimension(400, 40));
 
-        //Alignment
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //Spacing
-        panel.add(Box.createVerticalStrut(250));
+        panel.add(Box.createVerticalStrut(200));
         panel.add(title);
         panel.add(Box.createVerticalStrut(60));
         panel.add(usernameField);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(10));
         panel.add(passwordField);
         panel.add(Box.createVerticalStrut(30));
         panel.add(loginButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(goBackButton);
 
         frame.addComponent(panel);
     }

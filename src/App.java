@@ -45,17 +45,11 @@ public class App {
         }
 
         //Start the server
-        Server.main(args);
-
-        //FIXME join the server thread instead of sleep
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        Server.start();
 
         //Start the client
-        Client.main(args);
+        Client.start();
+
     }
 }
 

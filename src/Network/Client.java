@@ -5,6 +5,7 @@ import Database.Database;
 import Pages.LoginPage;
 import Objects.Chat;
 import Objects.User;
+import Pages.WelcomePage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,10 +34,11 @@ public class Client implements ClientInterface, Runnable {
     private final ClientGUI clientGUI = new ClientGUI(this);
     private User user;
     public static final Identifier IDENTIFIER = Identifier.CLIENT;
+    public static Thread clientThread;
 
-    public static void main(String[] args) {
+    public static void start() {
         Client client = new Client();
-        Thread clientThread = new Thread(client);
+        clientThread = new Thread(client);
         clientThread.start();
     }
 
@@ -44,7 +46,8 @@ public class Client implements ClientInterface, Runnable {
     public void run() {
         if (connectToServer()) {
             //clientGUI.showError("Connected to server.");
-            LoginPage loginPage = new LoginPage(this);
+            WelcomePage welcomePage = new WelcomePage(this);
+            //LoginPage loginPage = new LoginPage(this);
         } else {
             clientGUI.showError("Connection to server failed.");
         }

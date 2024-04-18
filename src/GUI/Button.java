@@ -21,6 +21,8 @@ public class Button extends JButton {
         setBackground(idleColor);
         setForeground(GUIConstants.PRIMARY_WHITE);
 
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+
         setBorderPainted(false);
 
         // Change color when mouse hovers over button

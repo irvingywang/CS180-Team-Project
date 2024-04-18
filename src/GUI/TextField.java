@@ -21,6 +21,7 @@ public class TextField extends JTextField {
         setForeground(GUIConstants.PRIMARY_WHITE); //text color
         setBackground(GUIConstants.SECONDARY_BLACK);
         setCaretColor(GUIConstants.PRIMARY_WHITE);
+        setAlignmentX(Component.CENTER_ALIGNMENT);
 
         Border roundedBorder = new Border() {
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {

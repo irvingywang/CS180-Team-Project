@@ -1,5 +1,8 @@
 package GUI;
 
+import Network.Client;
+import Pages.*;
+
 import java.awt.Color;
 
 public class GUIConstants {
@@ -20,4 +23,10 @@ public class GUIConstants {
     //Window Size
     public static final int WINDOW_WIDTH = 900;
     public static final int WINDOW_HEIGHT = 650;
+
+    // Pages
+    public static final Client CLIENT = new Client();
+    public static final Page WELCOME_PAGE = new WelcomePage(CLIENT);
+    public static final Page LOGIN_PAGE = new LoginPage(CLIENT);
+
 }

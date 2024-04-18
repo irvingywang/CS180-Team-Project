@@ -10,6 +10,7 @@ public class Page {
 
     public Page(Client client) {
         this.client = client;
+        frame = new Frame("Page");
         SwingUtilities.invokeLater(() -> Content());
     }
 

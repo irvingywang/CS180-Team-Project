@@ -32,17 +32,21 @@ public class Server implements ServerInterface, Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
     private static final Identifier IDENTIFIER = Identifier.SERVER;
+    static Thread serverThread;
 
     /**
      * The entry point of the server application.
      * It creates a server instance and starts a new thread to run it.
      *
-     * @param args The command-line arguments (not used).
      */
-    public static void main(String[] args) {
+    public static void start() {
         Server server = new Server();
-        Thread serverThread = new Thread(server);
+        serverThread = new Thread(server);
         serverThread.start();
+    }
+
+    public static Thread getThread() {
+        return serverThread;
     }
 
     @Override
