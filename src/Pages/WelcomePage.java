@@ -24,13 +24,9 @@ public class WelcomePage extends Page {
 
         createAccountButton = new Button("Create an account", () -> {
             //TODO switch to create account page
-        });
+        }, new Dimension(400, 40));
 
-        loginButton = new Button("Login", () -> window.switchPage(new LoginPage(client)));
-
-        //Sizing
-        createAccountButton.setMaximumSize(new Dimension(400, 40));
-        loginButton.setMaximumSize(new Dimension(400, 40));
+        loginButton = new Button("Login", () -> window.switchPage(new LoginPage(client)), new Dimension(400, 40));
 
         //Spacing
         panel.add(Box.createVerticalStrut(250));

@@ -12,9 +12,10 @@ public class TextField extends JTextField {
     private final int textPadding = 10;
     private String placeholder;
 
-    public TextField(String placeholder) {
+    public TextField(String placeholder, Dimension size) {
         super(placeholder);
         this.placeholder = placeholder;
+        setMaximumSize(size);
         setOpaque(false);
         setText(placeholder);
         setEditable(true);

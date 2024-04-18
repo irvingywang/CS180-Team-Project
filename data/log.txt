@@ -1,6 +1,12 @@
-[INFO] DATABASE 04-18-2024 17:02:39 Log file cleared.
-[INFO] DATABASE 04-18-2024 17:02:39 Saving database to file.
-[INFO] DATABASE 04-18-2024 17:02:39 Database saved to file.
-[INFO] DATABASE 04-18-2024 17:02:39 Saving database to file.
-[ERROR] DATABASE 04-18-2024 17:02:39 Failed to save database to file: Objects.Chat
-[INFO] DATABASE 04-18-2024 17:02:39 Database saved to file.
+[INFO] DATABASE 04-18-2024 18:48:52 Log file cleared.
+[INFO] DATABASE 04-18-2024 18:48:52 Saving database to file.
+[INFO] DATABASE 04-18-2024 18:48:52 Database saved to file.
+[INFO] DATABASE 04-18-2024 18:48:52 Saving database to file.
+[ERROR] DATABASE 04-18-2024 18:48:52 Failed to save database to file: Objects.Chat
+[INFO] DATABASE 04-18-2024 18:48:52 Database saved to file.
+[INFO] SERVER 04-18-2024 18:48:59 User purduepete logged in.
+[INFO] SERVER 04-18-2024 18:48:59 Login successful
+[INFO] SERVER 04-18-2024 18:49:05 User john logged in.
+[INFO] SERVER 04-18-2024 18:49:05 Login successful
+[INFO] DATABASE 04-18-2024 18:49:09 User joh not found.
+[INFO] SERVER 04-18-2024 18:49:09 User joh failed to log in.

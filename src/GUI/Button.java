@@ -10,9 +10,10 @@ public class Button extends JButton {
     private Color hoverColor = GUIConstants.DARKER_BLUE;
     private int radius = 10;
 
-    public Button(String text, Runnable action) {
+    public Button(String text, Runnable action, Dimension size) {
         super(text);
         addActionListener(e -> action.run());
+        setMaximumSize(size);
         setVisible(true);
         setOpaque(false);
         setContentAreaFilled(true);

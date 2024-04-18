@@ -24,21 +24,16 @@ public class LoginPage extends Page implements PageInterface {
         panel.removeAll();
 
         titleLabel = new Label("Login to your account", 35);
-        usernameField = new TextField("Enter Username:");
-        passwordField = new TextField("Enter Password:");
-        loginButton = new Button("Login", () -> performLogin());
-        goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)));
+        usernameField = new TextField("Enter Username:", new Dimension(400, 40));
+        passwordField = new TextField("Enter Password:", new Dimension(400, 40));
+        loginButton = new Button("Login", () -> performLogin(), new Dimension(400, 40));
+        goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), new Dimension(400, 40));
 
-        setupComponents();
+        this.addComponents();
     }
 
     @Override
-    public void setupComponents() {
-        usernameField.setMaximumSize(new Dimension(400, 40));
-        passwordField.setMaximumSize(new Dimension(400, 40));
-        loginButton.setMaximumSize(new Dimension(400, 40));
-        goBackButton.setMaximumSize(new Dimension(400, 40));
-
+    public void addComponents() {
         panel.add(Box.createVerticalStrut(200));
         panel.add(titleLabel);
         panel.add(Box.createVerticalStrut(60));

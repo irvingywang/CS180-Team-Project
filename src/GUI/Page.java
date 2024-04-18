@@ -20,7 +20,7 @@ public class Page implements PageInterface {
         // Override this method
     }
 
-    public void setupComponents() {
+    public void addComponents() {
         // Override this method
     }
 
