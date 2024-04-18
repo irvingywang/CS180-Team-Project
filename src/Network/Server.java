@@ -5,13 +5,14 @@ import Objects.Chat;
 import Objects.Message;
 import Objects.User;
 import Database.LogType;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
 /**
- * Project05 -- Network.Server
+ * Project05 - Server
  * <p>
  * This is the server for our messaging program. It processes
  * requests from the client.
@@ -31,32 +32,35 @@ public class Server implements ServerInterface, Runnable {
     ObjectInputStream in;
     ObjectOutputStream out;
     private static final Identifier IDENTIFIER = Identifier.SERVER;
+    static Thread serverThread;
 
     /**
      * The entry point of the server application.
      * It creates a server instance and starts a new thread to run it.
      *
-     * @param args The command-line arguments (not used).
      */
-
-    public static void main(String[] args) {
+    public static void start() {
         Server server = new Server();
-        Thread serverThread = new Thread(server);
+        serverThread = new Thread(server);
         serverThread.start();
+    }
+
+    public static Thread getThread() {
+        return serverThread;
     }
 
     @Override
     public void run() {
         try {
             serverSocket = new ServerSocket(PORT);
-            System.out.println("Network.Server is listening on port " + PORT);
+            System.out.println("Server is listening on port " + PORT);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Connected to client");
                 handleClient(clientSocket);
             }
         } catch (IOException e) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Network.Server socket" +
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Server socket" +
                     " failed to open: " + e.getMessage());
         }
     }
@@ -67,7 +71,6 @@ public class Server implements ServerInterface, Runnable {
      * @param message The message to send.
      * @return True if the message was successfully sent, false otherwise.
      */
-
     @Override
     public boolean sendToClient(NetworkMessage message) {
         try {
@@ -86,7 +89,6 @@ public class Server implements ServerInterface, Runnable {
      *
      * @return The received message, or null if an error occurred.
      */
-
     @Override
     public NetworkMessage readMessage() {
         try {
@@ -103,7 +105,6 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param clientSocket The socket representing the client connection.
      */
-
     @Override
     public void handleClient(Socket clientSocket) {
         try {
@@ -160,11 +161,11 @@ public class Server implements ServerInterface, Runnable {
     public boolean login(String username, String password) {
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s logged in.", username));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s logged in.", username));
             return true;
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("Objects.User %s failed to log in.", username));
+                    String.format("User %s failed to log in.", username));
             return false;
         }
     }
@@ -184,7 +185,7 @@ public class Server implements ServerInterface, Runnable {
         if (database.getUser(username) != null) {
             // FIXME show this in the GUI
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("Objects.User %s already exists.", username));
+                    String.format("User %s already exists.", username));
             return false;
         } else {
             User newUser = new User(username, password, displayName, publicProfile);
@@ -213,7 +214,7 @@ public class Server implements ServerInterface, Runnable {
             return true;
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("Objects.User %s not found.", username));
+                    String.format("User %s not found.", username));
             return false;
         }
     }
@@ -222,7 +223,7 @@ public class Server implements ServerInterface, Runnable {
      * Retrieves a user from the database.
      *
      * @param username - the username of the user to retrieve
-     * @return the Objects.User object corresponding to the given username, or null if not found
+     * @return the User object corresponding to the given username, or null if not found
      */
     public synchronized User getUser(String username) {
         return database.getUser(username);
@@ -232,7 +233,7 @@ public class Server implements ServerInterface, Runnable {
     /**
      * Adds a user to the database.
      *
-     * @param user - the Objects.User object to add
+     * @param user - the User object to add
      * @return true if the user is added successfully, false if the user already exists
      */
     public synchronized boolean addUser(User user) {
@@ -244,7 +245,7 @@ public class Server implements ServerInterface, Runnable {
             return true;
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("Objects.User %s previously added.", user.getUsername()));
+                    String.format("User %s previously added.", user.getUsername()));
             return false;
         }
     }
@@ -271,7 +272,7 @@ public class Server implements ServerInterface, Runnable {
                 return sendToClient(networkMessage);
             } else {
                 Database.writeLog(LogType.ERROR, IDENTIFIER,
-                        String.format("Objects.User %s not found.", username));
+                        String.format("User %s not found.", username));
                 return false;
             }
         } else {
@@ -304,15 +305,15 @@ public class Server implements ServerInterface, Runnable {
             }
             if (deleted != null) {
                 chat1Messages.remove(deleted);
-                Database.writeLog(LogType.INFO, IDENTIFIER, "objects.Message deleted");
+                Database.writeLog(LogType.INFO, IDENTIFIER, "Message deleted");
                 return true;
             } else {
-                Database.writeLog(LogType.INFO, IDENTIFIER, String.format("objects.Message" +
+                Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Message" +
                         " from %s not found", sender.getUsername()));
                 return false;
             }
         } else {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.Chat %s not found", chat.getName()));
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Chat %s not found", chat.getName()));
             return false;
         }
     }
@@ -324,10 +325,9 @@ public class Server implements ServerInterface, Runnable {
      * @param mainUser    - the user who is blocking the other user
      * @return true if the user is successfully blocked, false otherwise
      */
-
     public synchronized boolean blockUser(User blockedUser, User mainUser) {
         if (blockedUser.blockUser(mainUser)) {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("Objects.User %s blocked user %s.",
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s blocked user %s.",
                     mainUser.getUsername(), blockedUser.getUsername()));
             return true;
         } else {
@@ -343,7 +343,6 @@ public class Server implements ServerInterface, Runnable {
      * @param deleted - the user account to be deleted
      * @return true if the account is successfully deleted, false otherwise
      */
-
     public synchronized boolean deleteAccount(User deleted) {
         database.removeUser(deleted.getUsername());
         if (database.getUser(deleted.getUsername()) == null) {
@@ -364,7 +363,6 @@ public class Server implements ServerInterface, Runnable {
      * @param newName - the new username to be assigned
      * @return true if the username is successfully changed, false otherwise (e.g., if the new username is already taken)
      */
-
     public synchronized boolean changeName(User user, String newName) {
         if (newName == null || newName.isEmpty()) {
             Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid username.");

@@ -5,7 +5,7 @@ import Objects.User;
 import java.util.ArrayList;
 
 /**
- * Project05 -- Database.DatabaseInterface
+ * Project05 - DatabaseInterface
  *
  * Creates an interface for the database class.
  *

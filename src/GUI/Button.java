@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Button extends JButton implements Element {
+public class Button extends JButton {
     private Color idleColor = GUIConstants.PRIMARY_BLUE;
     private Color hoverColor = GUIConstants.DARKER_BLUE;
     private int radius = 10;
@@ -14,16 +14,14 @@ public class Button extends JButton implements Element {
         super(text);
         addActionListener(e -> action.run());
         setVisible(true);
-        initStyle();
-    }
-
-    private void initStyle() {
         setOpaque(false);
         setContentAreaFilled(true);
         setFocusPainted(false);
 
         setBackground(idleColor);
         setForeground(GUIConstants.PRIMARY_WHITE);
+
+        setAlignmentX(Component.CENTER_ALIGNMENT);
 
         setBorderPainted(false);
 

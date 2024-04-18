@@ -1,7 +1,7 @@
 ![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
 
 # Yap: Objects.Chat with your friends. Instantly.
-![Logo](design/logo.png)
+![Logo](design/Welcome.png)
 
 ## Setup Guide
 Clone the repository using the following command:

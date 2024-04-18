@@ -2,9 +2,10 @@ package Network;
 
 import Database.LogType;
 import Database.Database;
-import GUI.LoginPage;
+import GUI.Window;
 import Objects.Chat;
 import Objects.User;
+import Pages.WelcomePage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,7 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * Project05 -- Client.Client
+ * Project05 - Client
  *
  * This is the client for our messaging program. It allows users to
  * make any requests from the program.
@@ -33,25 +34,25 @@ public class Client implements ClientInterface, Runnable {
     private final ClientGUI clientGUI = new ClientGUI(this);
     private User user;
     public static final Identifier IDENTIFIER = Identifier.CLIENT;
+    public static Thread clientThread;
 
-    public static void main(String[] args) {
+    public static void start() {
         Client client = new Client();
-        Thread clientThread = new Thread(client);
+        clientThread = new Thread(client);
         clientThread.start();
     }
 
     @Override
     public void run() {
         if (connectToServer()) {
-            //clientGUI.showError("Connected to server.");
-            LoginPage loginPage = new LoginPage(this);
+            Window.getInstance().switchPage(new WelcomePage(this));
         } else {
             clientGUI.showError("Connection to server failed.");
         }
     }
 
     /**
-     * Sets the Objects.User object for this client.
+     * Sets the User object for this client.
      *
      * @param user - the user to be set
      */
@@ -81,12 +82,12 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
-     * Sends a objects.NetworkMessage to the server.
+     * Sends a NetworkMessage to the server.
      *
-     * This method attempts to write the objects.NetworkMessage object to the ObjectOutputStream and flushes the stream.
+     * This method attempts to write the NetworkMessage object to the ObjectOutputStream and flushes the stream.
      * Logs an error if an exception is thrown.
      *
-     * @param networkMessage - the objects.NetworkMessage to be sent
+     * @param networkMessage - the NetworkMessage to be sent
      * @return true if the message is sent successfully, false if an exception is thrown
      */
     @Override
@@ -102,9 +103,9 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
-     * Reads a objects.NetworkMessage from the server.
+     * Reads a NetworkMessage from the server.
      *
-     * @return the objects.NetworkMessage read from the server, or null if an exception is thrown
+     * @return the NetworkMessage read from the server, or null if an exception is thrown
      */
     @Override
     public NetworkMessage readNetworkMessage() {
@@ -119,10 +120,10 @@ public class Client implements ClientInterface, Runnable {
     /**
      * Listens for a single message from the server.
      *
-     * This method reads a objects.NetworkMessage from the server and immediately returns it.
+     * This method reads a NetworkMessage from the server and immediately returns it.
      * It does not close the socket after reading the message to allow continuous communication.
      *
-     * @return the objects.NetworkMessage read from the server, or null if an exception occurs
+     * @return the NetworkMessage read from the server, or null if an exception occurs
      */
     @Override
     public NetworkMessage listenToServer() {

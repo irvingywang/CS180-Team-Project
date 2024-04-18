@@ -7,19 +7,14 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class TextField extends JTextField {
-
+    private final int radius = 10;
+    private final int thickness = 3;
+    private final int textPadding = 10;
     private String placeholder;
-    private int radius = 10;
-    private int thickness = 3;
-    private int textPadding = 10;
 
     public TextField(String placeholder) {
         super(placeholder);
         this.placeholder = placeholder;
-        initStyle();
-    }
-
-    private void initStyle() {
         setOpaque(false);
         setText(placeholder);
         setEditable(true);
@@ -28,15 +23,16 @@ public class TextField extends JTextField {
         setForeground(GUIConstants.PRIMARY_WHITE); //text color
         setBackground(GUIConstants.SECONDARY_BLACK);
         setCaretColor(GUIConstants.PRIMARY_WHITE);
+        setAlignmentX(Component.CENTER_ALIGNMENT);
 
         Border roundedBorder = new Border() {
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setStroke(new BasicStroke(thickness));
-                g2.setColor(GUIConstants.PRIMARY_STROKE);
+                Graphics2D graphics = (Graphics2D) g;
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                graphics.setStroke(new BasicStroke(thickness));
+                graphics.setColor(GUIConstants.PRIMARY_STROKE);
                 int adjustedRadius = Math.max(radius - thickness / 2, 0);
-                g2.drawRoundRect(x + thickness / 2, y + thickness / 2, width - thickness, height - thickness, adjustedRadius, adjustedRadius);
+                graphics.drawRoundRect(x + thickness / 2, y + thickness / 2, width - thickness, height - thickness, adjustedRadius, adjustedRadius);
             }
 
             public Insets getBorderInsets(Component c) {
@@ -68,12 +64,16 @@ public class TextField extends JTextField {
         });
     }
 
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
-        super.paintComponent(g2);
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setColor(getBackground());
+        graphics.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        super.paintComponent(graphics);
     }
 }

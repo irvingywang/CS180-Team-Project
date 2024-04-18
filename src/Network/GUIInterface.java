@@ -1,7 +1,7 @@
 package Network;
 
 /**
- * Project05 -- Client.GUIInterface
+ * Project05 - GUIInterface
  *
  * Creates an interface for the GUI of the app.
  *

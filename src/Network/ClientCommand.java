@@ -1,7 +1,7 @@
 package Network;
 
 /**
- * Project05 -- Client.ClientCommand
+ * Project05 - ClientCommand
  *
  * Stores the success/failure of commands from the Network.ServerCommand class.
  *

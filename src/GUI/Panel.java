@@ -1,23 +1,24 @@
 package GUI;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.LayoutManager;
 
 public class Panel extends JPanel {
 
     public Panel() {
         initStyle();
-        setVisible(true);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     public Panel(LayoutManager layout) {
         super(layout);
         initStyle();
-        setVisible(true);
     }
 
-    private void initStyle() {
+    public void initStyle() {
+        setVisible(true);
         setOpaque(true);
         setBackground(GUIConstants.PRIMARY_BLACK);
     }
+
 }

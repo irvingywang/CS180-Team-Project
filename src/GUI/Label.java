@@ -10,5 +10,6 @@ public class Label extends JLabel {
         setVisible(true);
         setOpaque(false);
         setFont(new Font("Arial", Font.PLAIN, fontSize));
+        setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 }

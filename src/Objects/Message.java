@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Project05 -- objects.Message
+ * Project05 - Message
  *
  * Represents a message between two users.
  * A message has a sender, a recipient, a message string, and a read status.
@@ -28,9 +28,9 @@ public class Message implements MessageInterface, Serializable {
     SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm");
 
     /**
-     * Constructs a new objects.Message object.
+     * Constructs a new Message object.
      *
-     * @param sender    - the sender Objects.User
+     * @param sender    - the sender User
      * @param chat      - the chat the message is in
      * @param message   - the message string
      * @param imagePath - the image path
@@ -44,9 +44,9 @@ public class Message implements MessageInterface, Serializable {
     }
 
     /**
-     * Constructs a new objects.Message object.
+     * Constructs a new Message object.
      *
-     * @param sender    - the sender Objects.User
+     * @param sender    - the sender User
      * @param chat      - the chat the message is in
      * @param message   - the message string
      */
@@ -59,7 +59,7 @@ public class Message implements MessageInterface, Serializable {
     }
 
     /**
-     * @return the sender Objects.User
+     * @return the sender User
      */
     @Override
     public User getSender() {
@@ -96,20 +96,20 @@ public class Message implements MessageInterface, Serializable {
     }
 
     /**
-     * @return string representation of the objects.Message
+     * @return string representation of the Message
      */
     @Override
     public String toString() {
-        return String.format("%s, objects.Message from %s to %s: %s",
+        return String.format("%s, Message from %s to %s: %s",
                 dateFormat.format(timestamp), sender.getUsername(), chat.getName(), message);
     }
 
     /**
-     * Checks if this objects.Message is equal to another object.
+     * Checks if this Message is equal to another object.
      *
-     * @param obj - the object to compare this objects.Message to
-     * @return true if the object is a objects.Message and has the same sender, recipient,
-     * message, and read status as this objects.Message, false otherwise
+     * @param obj - the object to compare this Message to
+     * @return true if the object is a Message and has the same sender, recipient,
+     * message, and read status as this Message, false otherwise
      */
     @Override
     public boolean equals(Object obj) {

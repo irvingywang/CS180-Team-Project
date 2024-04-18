@@ -1,12 +1,6 @@
-[INFO] DATABASE 04-17-2024 17:13:24 Log file cleared.
-[INFO] DATABASE 04-17-2024 17:13:24 Saving database to file.
-[INFO] DATABASE 04-17-2024 17:13:24 Database.Database saved to file.
-[INFO] DATABASE 04-17-2024 17:13:24 Saving database to file.
-[ERROR] DATABASE 04-17-2024 17:13:24 Failed to save database to file: Objects.Chat
-[INFO] DATABASE 04-17-2024 17:13:24 Database.Database saved to file.
-[ERROR] CLIENT 04-17-2024 17:13:31 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
-[ERROR] CLIENT 04-17-2024 17:13:31 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
-[ERROR] CLIENT 04-17-2024 17:13:33 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
-[ERROR] CLIENT 04-17-2024 17:13:33 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
-[ERROR] CLIENT 04-17-2024 19:11:39 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
-[ERROR] CLIENT 04-17-2024 19:11:39 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
+[INFO] DATABASE 04-18-2024 17:02:39 Log file cleared.
+[INFO] DATABASE 04-18-2024 17:02:39 Saving database to file.
+[INFO] DATABASE 04-18-2024 17:02:39 Database saved to file.
+[INFO] DATABASE 04-18-2024 17:02:39 Saving database to file.
+[ERROR] DATABASE 04-18-2024 17:02:39 Failed to save database to file: Objects.Chat
+[INFO] DATABASE 04-18-2024 17:02:39 Database saved to file.

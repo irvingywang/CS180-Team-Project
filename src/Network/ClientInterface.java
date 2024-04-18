@@ -3,7 +3,7 @@ package Network;
 import Objects.User;
 
 /**
- * Project05 -- Client.ClientInterface
+ * Project05 - ClientInterface
  *
  * Creates an interface for the client class.
  *

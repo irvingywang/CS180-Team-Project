@@ -1,7 +1,7 @@
 package Objects;
 
 /**
- * Project05 -- Objects.UserInterface
+ * Project05 - UserInterface
  *
  * Creates an interface for the user class.
  *
