@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * Project05 -- Client.Client
+ * Project05 - Client
  *
  * This is the client for our messaging program. It allows users to
  * make any requests from the program.
@@ -51,7 +51,7 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
-     * Sets the Objects.User object for this client.
+     * Sets the User object for this client.
      *
      * @param user - the user to be set
      */
@@ -81,12 +81,12 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
-     * Sends a objects.NetworkMessage to the server.
+     * Sends a NetworkMessage to the server.
      *
-     * This method attempts to write the objects.NetworkMessage object to the ObjectOutputStream and flushes the stream.
+     * This method attempts to write the NetworkMessage object to the ObjectOutputStream and flushes the stream.
      * Logs an error if an exception is thrown.
      *
-     * @param networkMessage - the objects.NetworkMessage to be sent
+     * @param networkMessage - the NetworkMessage to be sent
      * @return true if the message is sent successfully, false if an exception is thrown
      */
     @Override
@@ -102,9 +102,9 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
-     * Reads a objects.NetworkMessage from the server.
+     * Reads a NetworkMessage from the server.
      *
-     * @return the objects.NetworkMessage read from the server, or null if an exception is thrown
+     * @return the NetworkMessage read from the server, or null if an exception is thrown
      */
     @Override
     public NetworkMessage readNetworkMessage() {
@@ -119,10 +119,10 @@ public class Client implements ClientInterface, Runnable {
     /**
      * Listens for a single message from the server.
      *
-     * This method reads a objects.NetworkMessage from the server and immediately returns it.
+     * This method reads a NetworkMessage from the server and immediately returns it.
      * It does not close the socket after reading the message to allow continuous communication.
      *
-     * @return the objects.NetworkMessage read from the server, or null if an exception occurs
+     * @return the NetworkMessage read from the server, or null if an exception occurs
      */
     @Override
     public NetworkMessage listenToServer() {

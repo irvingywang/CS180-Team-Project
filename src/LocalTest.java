@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Project05 -- LocalTest
+ * Project05 - LocalTest
  *
  * Tests all the methods created.
  *

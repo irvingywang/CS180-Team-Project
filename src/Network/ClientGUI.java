@@ -3,9 +3,9 @@ package Network;
 import javax.swing.*;
 
 /**
- * Project05 -- Client.ClientGUI.java
+ * Project05 - ClientGUI.java
  *
- * Stores the success/failure of commands from the Network.ServerCommand class.
+ * Stores the success/failure of commands from the ServerCommand class.
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08

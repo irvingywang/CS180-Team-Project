@@ -13,20 +13,20 @@ public class LoginPage extends Page {
 
     public LoginPage(Client client) {
         super(client);
-        frame = new GUI.Frame("Login");
+        frame = new Frame("Login");
     }
 
     @Override
     public void Content() {
-        GUI.Panel panel = new GUI.Panel();
+        Panel panel = new Panel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        GUI.Label title = new GUI.Label("Login to your account", 35);
+        Label title = new Label("Login to your account", 35);
 
-        GUI.TextField usernameField = new GUI.TextField("Enter Username:");
-        GUI.TextField passwordField = new GUI.TextField("Enter Password:");
+        TextField usernameField = new TextField("Enter Username:");
+        TextField passwordField = new TextField("Enter Password:");
 
-        GUI.Button loginButton = new Button("Login", () -> {
+        Button loginButton = new Button("Login", () -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
             if (username.isEmpty() || password.isEmpty()) {

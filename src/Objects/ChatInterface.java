@@ -3,7 +3,7 @@ package Objects;
 import java.util.ArrayList;
 
 /**
- * Project05 -- Objects.ChatInterface*
+ * Project05 - ChatInterface
  * Creates an interface for the chat class.
  *
  * @author Amir Elnashar, L08

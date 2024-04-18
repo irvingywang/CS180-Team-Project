@@ -6,7 +6,7 @@ import Objects.InvalidChatException;
 import Objects.User;
 
 /**
- * Project05 -- App
+ * Project05 - App
  * <p>
  * Creates a framework for the messaging app by processing user input.
  *
@@ -29,7 +29,7 @@ public class App {
 
         try {
             System.out.println(database.getUsers());
-            Chat chat = new Chat("Purdue Objects.Chat", database.getUsers());
+            Chat chat = new Chat("Purdue Chat", database.getUsers());
             database.addChat(chat);
         } catch (InvalidChatException e) {
             e.printStackTrace();

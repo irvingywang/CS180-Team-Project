@@ -1,10 +1,11 @@
 package GUI;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
 public class Frame extends JFrame {
+    Panel currentPanel;
 
     public Frame(String title) {
         super(title);
@@ -19,12 +20,18 @@ public class Frame extends JFrame {
         //TODO change frame color
     }
 
-    public void addComponent(Component component) {
-        getContentPane().add(component);
+    public void changePanel(Panel newPanel) {
+        if (currentPanel != null) {
+            getContentPane().remove(currentPanel);
+            currentPanel = null;
+        }
+        currentPanel = newPanel;
+        getContentPane().add(currentPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
-    public void clearFrame() {
-        getContentPane().removeAll();
-        revalidate();
+    public void addComponent(Component component) {
+        getContentPane().add(component);
     }
 }
