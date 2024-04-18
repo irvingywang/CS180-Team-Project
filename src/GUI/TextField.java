@@ -10,9 +10,11 @@ public class TextField extends JTextField {
     private final int radius = 10;
     private final int thickness = 3;
     private final int textPadding = 10;
+    private String placeholder;
 
     public TextField(String placeholder) {
         super(placeholder);
+        this.placeholder = placeholder;
         setOpaque(false);
         setText(placeholder);
         setEditable(true);
@@ -60,6 +62,10 @@ public class TextField extends JTextField {
                 }
             }
         });
+    }
+
+    public String getPlaceholder() {
+        return placeholder;
     }
 
     @Override

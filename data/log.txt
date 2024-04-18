@@ -1,10 +1,8 @@
-[INFO] DATABASE 04-18-2024 15:32:20 Log file cleared.
-[INFO] DATABASE 04-18-2024 15:32:20 Saving database to file.
-[INFO] DATABASE 04-18-2024 15:32:20 Database saved to file.
-[INFO] DATABASE 04-18-2024 15:32:20 Saving database to file.
-[ERROR] DATABASE 04-18-2024 15:32:20 Failed to save database to file: Objects.Chat
-[INFO] DATABASE 04-18-2024 15:32:20 Database saved to file.
-[INFO] DATABASE 04-18-2024 15:32:27 User Enter Username: not found.
-[INFO] SERVER 04-18-2024 15:32:27 User Enter Username: failed to log in.
-[ERROR] CLIENT 04-18-2024 15:35:58 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
-[ERROR] CLIENT 04-18-2024 15:35:58 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
+[INFO] DATABASE 04-18-2024 16:03:43 Log file cleared.
+[INFO] DATABASE 04-18-2024 16:03:43 Saving database to file.
+[INFO] DATABASE 04-18-2024 16:03:43 Database saved to file.
+[INFO] DATABASE 04-18-2024 16:03:43 Saving database to file.
+[ERROR] DATABASE 04-18-2024 16:03:43 Failed to save database to file: Objects.Chat
+[INFO] DATABASE 04-18-2024 16:03:43 Database saved to file.
+[INFO] SERVER 04-18-2024 16:03:48 User purduepete logged in.
+[INFO] SERVER 04-18-2024 16:03:48 Login successful

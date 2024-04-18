@@ -21,44 +21,50 @@ public class LoginPage extends Page {
 
     @Override
     public void initContent() {
+        panel.removeAll();
+
         titleLabel = new Label("Login to your account", 35);
         usernameField = new TextField("Enter Username:");
         passwordField = new TextField("Enter Password:");
 
-        loginButton = new Button("Login", () -> {
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            if (username.isEmpty() || password.isEmpty()) {
-                showError("Username and password cannot be empty.");
-                return;
+        loginButton = new Button("Login", () -> performLogin());
+
+        goBackButton = new Button("Go Back", () -> window.switchPage(new WelcomePage(client)));
+
+        setupComponents();
+    }
+
+    private void performLogin() {
+        String username = usernameField.getText().equals(usernameField.getPlaceholder()) ? "" : usernameField.getText();
+        String password = passwordField.getText().equals(usernameField.getPlaceholder()) ? "" : passwordField.getText();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            showError("Username and password cannot be empty.");
+            return;
+        }
+
+        client.sendToServer(
+                new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password))
+        );
+
+        NetworkMessage message = client.listenToServer();
+        switch ((ClientCommand) message.getCommand()) {
+            case LOGIN_SUCCESS -> {
+                client.setUser((User) message.getObject());
+                showError("Login successful.");
             }
-
-            client.sendToServer(
-                    new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password)));
-
-            NetworkMessage message = client.listenToServer();
-            switch ((ClientCommand) message.getCommand()) {
-                case LOGIN_SUCCESS -> {
-                    client.setUser((User) message.getObject());
-                    showError("Login successful.");
-                }
-                case LOGIN_FAILURE -> {
-                    showError("Login failed.");
-                }
+            case LOGIN_FAILURE -> {
+                showError("Login failed.");
             }
-        });
+        }
+    }
 
-        goBackButton = new Button("Go Back", () -> {
-            window.switchPage(new WelcomePage(client));
-        });
-
-        // Sizing
+    private void setupComponents() {
         usernameField.setMaximumSize(new Dimension(400, 40));
         passwordField.setMaximumSize(new Dimension(400, 40));
         loginButton.setMaximumSize(new Dimension(400, 40));
         goBackButton.setMaximumSize(new Dimension(400, 40));
 
-        // Spacing
         panel.add(Box.createVerticalStrut(200));
         panel.add(titleLabel);
         panel.add(Box.createVerticalStrut(60));
@@ -69,5 +75,8 @@ public class LoginPage extends Page {
         panel.add(loginButton);
         panel.add(Box.createVerticalStrut(10));
         panel.add(goBackButton);
+
+        panel.revalidate();
+        panel.repaint();
     }
 }
