@@ -7,9 +7,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class TextField extends JTextField {
-    private final int radius = 10;
-    private final int thickness = 3;
-    private final int textPadding = 10;
+    private final int leftPadding = 10;
     private String placeholder;
 
     public TextField(String placeholder, Dimension size) {
@@ -26,28 +24,13 @@ public class TextField extends JTextField {
         setCaretColor(GUIConstants.PRIMARY_WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Border roundedBorder = new Border() {
-            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-                Graphics2D graphics = (Graphics2D) g;
-                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                graphics.setStroke(new BasicStroke(thickness));
-                graphics.setColor(GUIConstants.PRIMARY_STROKE);
-                int adjustedRadius = Math.max(radius - thickness / 2, 0);
-                graphics.drawRoundRect(x + thickness / 2, y + thickness / 2, width - thickness, height - thickness, adjustedRadius, adjustedRadius);
-            }
+        Border padding = BorderFactory.createEmptyBorder(0, leftPadding, 0, 0);
+        setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(), padding));
 
-            public Insets getBorderInsets(Component c) {
-                int inset = thickness + 2;
-                return new Insets(inset, inset, inset, inset);
-            }
+        addFocusEffect();
+    }
 
-            public boolean isBorderOpaque() {
-                return false;
-            }
-        };
-        Border padding = BorderFactory.createEmptyBorder(0, textPadding, 0, 0);
-        setBorder(BorderFactory.createCompoundBorder(roundedBorder, padding));
-
+    public void addFocusEffect() {
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -74,7 +57,7 @@ public class TextField extends JTextField {
         Graphics2D graphics = (Graphics2D) g;
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics.setColor(getBackground());
-        graphics.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        graphics.fillRoundRect(0, 0, getWidth(), getHeight(), GUIConstants.EDGE_RADIUS, GUIConstants.EDGE_RADIUS);
         super.paintComponent(graphics);
     }
 }

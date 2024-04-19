@@ -23,4 +23,11 @@ public class GUIConstants {
     //Window Size
     public static final int WINDOW_WIDTH = 1000;
     public static final int WINDOW_HEIGHT = 700;
+
+    // Fonts
+    public static final String FONT = "Arial";
+
+    //Styling
+    public static final int EDGE_RADIUS = 10;
+    public static final int STROKE_THICKNESS = 3;
 }

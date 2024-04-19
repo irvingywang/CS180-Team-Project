@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 public class Button extends JButton {
     private Color idleColor = GUIConstants.PRIMARY_BLUE;
     private Color hoverColor = GUIConstants.DARKER_BLUE;
-    private int radius = 10;
 
     public Button(String text, Runnable action, Dimension size) {
         super(text);
@@ -16,7 +15,7 @@ public class Button extends JButton {
         setMaximumSize(size);
         setVisible(true);
         setOpaque(false);
-        setContentAreaFilled(true);
+        setContentAreaFilled(false);
         setFocusPainted(false);
 
         setBackground(idleColor);
@@ -26,7 +25,24 @@ public class Button extends JButton {
 
         setBorderPainted(false);
 
-        // Change color when mouse hovers over button
+        addHoverEffect();
+    }
+
+    public Button(String text, Runnable action, Dimension size, Boolean altStyle) {
+        this(text, action, size);
+        if (altStyle) {
+            idleColor = GUIConstants.SECONDARY_BLACK;
+            hoverColor = GUIConstants.PRIMARY_BLACK;
+            setBackground(idleColor);
+
+            setBorder(new RoundedBorder());
+            setBorderPainted(true);
+
+            addHoverEffect();
+        }
+    }
+
+    public void addHoverEffect() {
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent event) {
                 setBackground(hoverColor);
@@ -45,7 +61,7 @@ public class Button extends JButton {
         Graphics2D graphics = (Graphics2D) g;
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics.setColor(getBackground());
-        graphics.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, radius, radius);
+        graphics.fillRoundRect(0, 0, getWidth(), getHeight(), GUIConstants.EDGE_RADIUS, GUIConstants.EDGE_RADIUS);
         super.paintComponent(graphics);
     }
 }

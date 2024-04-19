@@ -1,12 +1,12 @@
 package GUI;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.*;
 
 public class Window extends JFrame {
-    private static Window instance = null;
-    private Panel contentPanel;
-    private CardLayout cardLayout;
+    private static volatile Window instance = null;
+    private final Panel contentPanel;
+    private final CardLayout cardLayout;
 
     public Window(String title) {
         super(title);
@@ -15,7 +15,6 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Create the content panel with CardLayout
         cardLayout = new CardLayout();
         contentPanel = new Panel(cardLayout);
         getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -26,7 +25,7 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
-    public static Window getInstance() {
+    public synchronized static Window getInstance() {
         if (instance == null) {
             instance = new Window("Yap");
         }
@@ -39,9 +38,5 @@ public class Window extends JFrame {
         cardLayout.show(contentPanel, "content");
         revalidate();
         repaint();
-    }
-
-    public void addComponent(Component component) {
-        getContentPane().add(component);
     }
 }

@@ -4,7 +4,6 @@ import GUI.*;
 import Network.*;
 import Objects.User;
 
-import javax.swing.*;
 import java.awt.Dimension;
 
 public class LoginPage extends Page implements PageInterface {
@@ -23,26 +22,26 @@ public class LoginPage extends Page implements PageInterface {
     public void initContent() {
         panel.removeAll();
 
-        titleLabel = new Label("Login to your account", 35);
+        titleLabel = new Label("Login to your account", 42);
         usernameField = new TextField("Enter Username:", new Dimension(400, 40));
         passwordField = new TextField("Enter Password:", new Dimension(400, 40));
         loginButton = new Button("Login", () -> performLogin(), new Dimension(400, 40));
-        goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), new Dimension(400, 40));
+        goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), new Dimension(400, 40), true);
 
         this.addComponents();
     }
 
     @Override
     public void addComponents() {
-        panel.add(Box.createVerticalStrut(200));
+        panel.add(new Spacer(200));
         panel.add(titleLabel);
-        panel.add(Box.createVerticalStrut(60));
+        panel.add(new Spacer(40));
         panel.add(usernameField);
-        panel.add(Box.createVerticalStrut(10));
+        panel.add(new Spacer(10));
         panel.add(passwordField);
-        panel.add(Box.createVerticalStrut(30));
+        panel.add(new Spacer(40));
         panel.add(loginButton);
-        panel.add(Box.createVerticalStrut(10));
+        panel.add(new Spacer(10));
         panel.add(goBackButton);
 
         panel.revalidate();
@@ -59,8 +58,7 @@ public class LoginPage extends Page implements PageInterface {
         }
 
         client.sendToServer(
-                new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password))
-        );
+                new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password)));
 
         NetworkMessage message = client.listenToServer();
         switch ((ClientCommand) message.getCommand()) {

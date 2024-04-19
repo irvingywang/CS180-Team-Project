@@ -1,9 +1,8 @@
 package Pages;
 
 import GUI.*;
-import Network.*;
+import Network.Client;
 
-import javax.swing.*;
 import java.awt.Dimension;
 
 public class WelcomePage extends Page {
@@ -24,17 +23,17 @@ public class WelcomePage extends Page {
 
         createAccountButton = new Button("Create an account", () -> {
             //TODO switch to create account page
-        }, new Dimension(400, 40));
+        }, new Dimension(400, 40), true);
 
         loginButton = new Button("Login", () -> window.switchPage(new LoginPage(client)), new Dimension(400, 40));
 
         //Spacing
-        panel.add(Box.createVerticalStrut(250));
+        panel.add(new Spacer(250));
         panel.add(label);
         panel.add(label2);
-        panel.add(Box.createVerticalStrut(60));
+        panel.add(new Spacer(60));
         panel.add(loginButton);
-        panel.add(Box.createVerticalStrut(10));
+        panel.add(new Spacer(10));
         panel.add(createAccountButton);
     }
 }
