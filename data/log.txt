@@ -1,8 +1,6 @@
-[INFO] DATABASE 04-19-2024 17:10:11 Log file cleared.
-[INFO] DATABASE 04-19-2024 17:10:11 Saving database to file.
-[INFO] DATABASE 04-19-2024 17:10:11 Database saved to file.
-[INFO] DATABASE 04-19-2024 17:10:11 Saving database to file.
-[ERROR] DATABASE 04-19-2024 17:10:11 Failed to save database to file: Objects.Chat
-[INFO] DATABASE 04-19-2024 17:10:11 Database saved to file.
-[INFO] SERVER 04-19-2024 17:10:19 User purduepete logged in.
-[INFO] SERVER 04-19-2024 17:10:19 Login successful
+[INFO] DATABASE 04-19-2024 19:16:00 Log file cleared.
+[INFO] DATABASE 04-19-2024 19:16:00 Initializing 
+[INFO] DATABASE 04-19-2024 19:16:00 Loading database from file.
+[ERROR] DATABASE 04-19-2024 19:16:00 No chats found in database file.
+[INFO] DATABASE 04-19-2024 19:16:00 Database loaded from file.
+[INFO] DATABASE 04-19-2024 19:16:00 Database initialized.

@@ -57,7 +57,7 @@ public class Server implements ServerInterface, Runnable {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Connected to client");
-                handleClient(clientSocket);
+                handleCommands(clientSocket);
             }
         } catch (IOException e) {
             Database.writeLog(LogType.ERROR, IDENTIFIER, "Server socket" +
@@ -106,7 +106,7 @@ public class Server implements ServerInterface, Runnable {
      * @param clientSocket The socket representing the client connection.
      */
     @Override
-    public void handleClient(Socket clientSocket) {
+    public void handleCommands(Socket clientSocket) {
         try {
             in = new ObjectInputStream(clientSocket.getInputStream());
             out = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -124,6 +124,16 @@ public class Server implements ServerInterface, Runnable {
                             } else {
                                 System.out.println("Login failed");
                                 sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
+                                        IDENTIFIER, null));
+                            }
+                        }
+                        case CREATE_USER -> {
+                            String[] userInfo = ((String) message.getObject()).split(",");
+                            if (createUser(userInfo[0], userInfo[1], userInfo[2])) {
+                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
+                                        IDENTIFIER, database.getUser(userInfo[0])));
+                            } else {
+                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
                                         IDENTIFIER, null));
                             }
                         }
@@ -177,18 +187,18 @@ public class Server implements ServerInterface, Runnable {
      * @param username      - the username of the new user
      * @param password      - the password of the new user
      * @param displayName   - the display name of the new user
-     * @param publicProfile - the public status of the new user
+     * //FIXME the public profile is set public by default
      */
     @Override
     public synchronized boolean createUser(String username,
-                                           String password, String displayName, Boolean publicProfile) {
+                                           String password, String displayName) {
         if (database.getUser(username) != null) {
             // FIXME show this in the GUI
             Database.writeLog(LogType.INFO, IDENTIFIER,
                     String.format("User %s already exists.", username));
             return false;
         } else {
-            User newUser = new User(username, password, displayName, publicProfile);
+            User newUser = new User(username, password, displayName, true);
             database.addUser(newUser);
             Database.writeLog(LogType.INFO, IDENTIFIER,
                     String.format("Created user %s.", username));

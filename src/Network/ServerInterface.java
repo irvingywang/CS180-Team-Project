@@ -18,11 +18,8 @@ import java.net.Socket;
  */
 public interface ServerInterface {
     boolean sendToClient(NetworkMessage message);
-
     NetworkMessage readMessage();
-
-    void handleClient(Socket clientSocket);
-
+    void handleCommands(Socket clientSocket);
     boolean login(String username, String password);
-    boolean createUser(String username, String password, String displayName, Boolean publicProfile);
+    boolean createUser(String username, String password, String displayName);
 }

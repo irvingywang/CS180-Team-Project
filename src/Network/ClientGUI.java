@@ -4,6 +4,7 @@ import javax.swing.*;
 
 /**
  * Project05 - ClientGUI.java
+ * @deprecated This class is meant to be replaced
  *
  * Stores the success/failure of commands from the ServerCommand class.
  *
@@ -16,21 +17,13 @@ import javax.swing.*;
  * @version April 14, 2024
  *
  */
-public class ClientGUI implements GUIInterface {
+public class ClientGUI {
     private Client client;
 
     public ClientGUI(Client client) {
         this.client = client;
     }
 
-    //TODO create standard window
-
-    @Override
-    public void welcomePage() {
-        JOptionPane.showMessageDialog(null, "Welcome to App!");
-    }
-
-    @Override
     public void createUser() {
         String username = JOptionPane.showInputDialog("Enter username:");
         if (username == null || username.trim().isEmpty()) {
@@ -42,12 +35,10 @@ public class ClientGUI implements GUIInterface {
             showError("Password cannot be empty.");
             return;
         }
-        client.sendToServer(
-                new NetworkMessage(ServerCommand.CREATE_USER, Client.IDENTIFIER, String.format("%s,%s", username, password)));
+
         JOptionPane.showMessageDialog(null, "Successful!");
     }
 
-    @Override
     public void userSearch(String search) {
         String searchInput = JOptionPane.showInputDialog("Enter the name:");
         if (searchInput == null || searchInput.trim().isEmpty()) {
@@ -58,7 +49,6 @@ public class ClientGUI implements GUIInterface {
                 new NetworkMessage(ServerCommand.SEARCH_USER, Client.IDENTIFIER, searchInput));
     }
 
-    @Override
     public void homePage() {
         String[] options = {"Objects.User Search", "Create Objects.User", "Log Out"};
         int choice = JOptionPane.showOptionDialog(null, "Choose option", "Yap", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);

@@ -1,17 +1,17 @@
 package Pages;
-
 import GUI.*;
 import Network.*;
-import Objects.User;
 
-public class LoginPage extends Page implements PageInterface {
+public class CreateUserPage extends Page {
     private Label titleLabel;
     private TextField usernameField;
+    private TextField displayNameField;
     private TextField passwordField;
-    private Button loginButton;
+    private Button createButton;
     private Button goBackButton;
 
-    public LoginPage(Client client) {
+
+    public CreateUserPage(Client client) {
         super(client);
         initContent();
     }
@@ -20,10 +20,11 @@ public class LoginPage extends Page implements PageInterface {
     public void initContent() {
         panel.removeAll();
 
-        titleLabel = new Label("Login to your account", 42);
-        usernameField = new TextField("Enter Username:", GUIConstants.SIZE_400_40);
-        passwordField = new TextField("Enter Password:", GUIConstants.SIZE_400_40);
-        loginButton = new Button("Login", () -> performLogin(), GUIConstants.SIZE_400_40);
+        titleLabel = new Label("Create a new account", 42);
+        usernameField = new TextField("Username:", GUIConstants.SIZE_400_40);
+        displayNameField = new TextField("Display name:", GUIConstants.SIZE_400_40);
+        passwordField = new TextField("Enter password:", GUIConstants.SIZE_400_40);
+        createButton = new GUI.Button("Create", () -> performCreate(), GUIConstants.SIZE_400_40);
         goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
 
         addComponents();
@@ -36,9 +37,11 @@ public class LoginPage extends Page implements PageInterface {
         panel.add(new Spacer(40));
         panel.add(usernameField);
         panel.add(new Spacer(10));
+        panel.add(displayNameField);
+        panel.add(new Spacer(10));
         panel.add(passwordField);
         panel.add(new Spacer(40));
-        panel.add(loginButton);
+        panel.add(createButton);
         panel.add(new Spacer(10));
         panel.add(goBackButton);
 
@@ -46,8 +49,9 @@ public class LoginPage extends Page implements PageInterface {
         panel.repaint();
     }
 
-    private void performLogin() {
+    public void performCreate() {
         String username = usernameField.getText();
+        String displayName = displayNameField.getText();
         String password = passwordField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -55,17 +59,22 @@ public class LoginPage extends Page implements PageInterface {
             return;
         }
 
+        if (username.contains(" ")) {
+            showError("Username cannot contain spaces.");
+            return;
+        }
+
         client.sendToServer(
-                new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password)));
+                new NetworkMessage(ServerCommand.CREATE_USER, Client.IDENTIFIER, String.format("%s,%s,%s", username, password, displayName)));
 
         NetworkMessage message = client.listenToServer();
         switch ((ClientCommand) message.getCommand()) {
-            case LOGIN_SUCCESS -> {
-                client.setUser((User) message.getObject());
-                showError("Login successful.");
+            case CREATE_USER_SUCCESS -> {
+                showError("Account created. You may now log in.");
+                window.switchPage(new WelcomePage(client));
             }
-            case LOGIN_FAILURE -> {
-                showError("Login failed.");
+            case CREATE_USER_FAILURE -> {
+                showError("Username already exists. Please try again.");
             }
         }
     }

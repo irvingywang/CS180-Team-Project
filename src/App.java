@@ -19,29 +19,12 @@ import Objects.User;
  */
 public class App {
     public static void main(String[] args) {
-         // Initialize the database
         Database database = Database.getInstance();
-        
-        // Reset the database and add some sample users
-        database.reset();
-        database.addUser(new User("purduepete", "123", "Purdue Pete", true));
-        database.addUser(new User("john", "123", "Boilermaker", true));
+        database.initialize();
 
-        try {
-            System.out.println(database.getUsers());
-            Chat chat = new Chat("Purdue Chat", database.getUsers());
-            database.addChat(chat);
-        } catch (InvalidChatException e) {
-            e.printStackTrace();
-        }
-        database.serializeDatabase();
-
+        System.out.println("Current users: ");
         for (User user : database.getUsers()) {
             System.out.println(user);
-        }
-
-        for (Chat c : database.getChats()) {
-            System.out.println(c);
         }
 
         //Start the server

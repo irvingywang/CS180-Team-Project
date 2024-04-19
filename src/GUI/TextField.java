@@ -19,7 +19,7 @@ public class TextField extends JTextField {
         setEditable(true);
         setVisible(true);
 
-        setForeground(GUIConstants.PRIMARY_WHITE); //text color
+        setForeground(GUIConstants.TERTIARY_WHITE); //initial text color
         setBackground(GUIConstants.SECONDARY_BLACK);
         setCaretColor(GUIConstants.PRIMARY_WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -34,7 +34,8 @@ public class TextField extends JTextField {
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (getText().equals(placeholder)) {
+                if (getText().isEmpty()) {
+                    setForeground(GUIConstants.PRIMARY_WHITE);
                     setText("");
                 }
             }
@@ -42,14 +43,16 @@ public class TextField extends JTextField {
             @Override
             public void focusLost(FocusEvent e) {
                 if (getText().isEmpty()) {
+                    setForeground(GUIConstants.TERTIARY_WHITE);
                     setText(placeholder);
                 }
             }
         });
     }
 
-    public String getPlaceholder() {
-        return placeholder;
+    @Override
+    public String getText() {
+        return super.getText().equals(placeholder) ? "" : super.getText();
     }
 
     @Override
