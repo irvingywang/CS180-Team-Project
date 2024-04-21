@@ -1,6 +1,6 @@
-[INFO] DATABASE 04-19-2024 19:16:00 Log file cleared.
-[INFO] DATABASE 04-19-2024 19:16:00 Initializing 
-[INFO] DATABASE 04-19-2024 19:16:00 Loading database from file.
-[ERROR] DATABASE 04-19-2024 19:16:00 No chats found in database file.
-[INFO] DATABASE 04-19-2024 19:16:00 Database loaded from file.
-[INFO] DATABASE 04-19-2024 19:16:00 Database initialized.
+[INFO] DATABASE 04-21-2024 15:58:04 Log file cleared.
+[INFO] DATABASE 04-21-2024 15:58:04 Initializing 
+[INFO] DATABASE 04-21-2024 15:58:04 Loading database from file.
+[ERROR] DATABASE 04-21-2024 15:58:04 No chats found in database file.
+[INFO] DATABASE 04-21-2024 15:58:04 Database loaded from file.
+[INFO] DATABASE 04-21-2024 15:58:04 Database initialized.

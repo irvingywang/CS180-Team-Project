@@ -26,11 +26,14 @@ public class GUIConstants {
     public static final int WINDOW_HEIGHT = 700;
 
     // Fonts
-    public static final String FONT = "Arial";
+    public static final String FONT_NAME = "Arial";
+    public static final int LEFT_PADDING = 15;
+    public static final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 15);
 
-    //Styling
+
+    // Styling
     public static final int EDGE_RADIUS = 10;
-    public static final int STROKE_THICKNESS = 3;
+    public static final int STROKE_THICKNESS = 2;
 
     // Sizing
     public static final Dimension SIZE_400_40 = new Dimension(400, 40);

@@ -21,10 +21,10 @@ public class CreateUserPage extends Page {
         panel.removeAll();
 
         titleLabel = new Label("Create a new account", 42);
-        usernameField = new TextField("Username:", GUIConstants.SIZE_400_40);
-        displayNameField = new TextField("Display name:", GUIConstants.SIZE_400_40);
-        passwordField = new TextField("Enter password:", GUIConstants.SIZE_400_40);
-        createButton = new GUI.Button("Create", () -> performCreate(), GUIConstants.SIZE_400_40);
+        usernameField = new TextField("Username", GUIConstants.SIZE_400_40);
+        displayNameField = new TextField("Display name", GUIConstants.SIZE_400_40);
+        passwordField = new TextField("Enter password", GUIConstants.SIZE_400_40);
+        createButton = new Button("Create", () -> performCreate(), GUIConstants.SIZE_400_40);
         goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
 
         addComponents();

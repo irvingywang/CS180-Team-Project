@@ -21,8 +21,8 @@ public class LoginPage extends Page implements PageInterface {
         panel.removeAll();
 
         titleLabel = new Label("Login to your account", 42);
-        usernameField = new TextField("Enter Username:", GUIConstants.SIZE_400_40);
-        passwordField = new TextField("Enter Password:", GUIConstants.SIZE_400_40);
+        usernameField = new TextField("Enter Username", GUIConstants.SIZE_400_40);
+        passwordField = new TextField("Enter Password", GUIConstants.SIZE_400_40);
         loginButton = new Button("Login", () -> performLogin(), GUIConstants.SIZE_400_40);
         goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
 
@@ -62,7 +62,7 @@ public class LoginPage extends Page implements PageInterface {
         switch ((ClientCommand) message.getCommand()) {
             case LOGIN_SUCCESS -> {
                 client.setUser((User) message.getObject());
-                showError("Login successful.");
+                window.switchPage(new Menu(client));
             }
             case LOGIN_FAILURE -> {
                 showError("Login failed.");

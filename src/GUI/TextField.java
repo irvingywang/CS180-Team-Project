@@ -7,7 +7,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class TextField extends JTextField {
-    private final int leftPadding = 10;
     private String placeholder;
 
     public TextField(String placeholder, Dimension size) {
@@ -19,12 +18,14 @@ public class TextField extends JTextField {
         setEditable(true);
         setVisible(true);
 
+        setFont(GUIConstants.TEXT_FONT);
+
         setForeground(GUIConstants.TERTIARY_WHITE); //initial text color
         setBackground(GUIConstants.SECONDARY_BLACK);
         setCaretColor(GUIConstants.PRIMARY_WHITE);
         setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        Border padding = BorderFactory.createEmptyBorder(0, leftPadding, 0, 0);
+        Border padding = BorderFactory.createEmptyBorder(3, GUIConstants.LEFT_PADDING, 0, 0);
         setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(), padding));
 
         addFocusEffect();

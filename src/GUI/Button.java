@@ -1,6 +1,7 @@
 package GUI;
 
-import javax.swing.JButton;
+import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,7 +21,9 @@ public class Button extends JButton {
 
         setBackground(idleColor);
         setForeground(GUIConstants.PRIMARY_WHITE);
-
+        setFont(GUIConstants.TEXT_FONT);
+        Border padding = BorderFactory.createEmptyBorder(3, 0, 0, 0);
+        setBorder(BorderFactory.createCompoundBorder(new RoundedBorder(), padding));
         setAlignmentX(Component.CENTER_ALIGNMENT);
 
         setBorderPainted(false);

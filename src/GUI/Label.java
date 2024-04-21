@@ -9,7 +9,7 @@ public class Label extends JLabel {
         setForeground(GUIConstants.PRIMARY_WHITE);
         setVisible(true);
         setOpaque(false);
-        setFont(new Font(GUIConstants.FONT, Font.PLAIN, fontSize)); //uses system default
+        setFont(new Font(GUIConstants.FONT_NAME, Font.BOLD, fontSize)); //uses system default
         setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 }
