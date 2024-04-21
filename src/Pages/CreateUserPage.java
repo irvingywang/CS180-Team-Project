@@ -8,7 +8,7 @@ public class CreateUserPage extends Page {
     private TextField displayNameField;
     private TextField passwordField;
     private Button createButton;
-    private Button goBackButton;
+    private Button backButton;
 
 
     public CreateUserPage(Client client) {
@@ -25,7 +25,7 @@ public class CreateUserPage extends Page {
         displayNameField = new TextField("Display name", GUIConstants.SIZE_400_40);
         passwordField = new TextField("Enter password", GUIConstants.SIZE_400_40);
         createButton = new Button("Create", () -> performCreate(), GUIConstants.SIZE_400_40);
-        goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
+        backButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
 
         addComponents();
     }
@@ -43,7 +43,7 @@ public class CreateUserPage extends Page {
         panel.add(new Spacer(40));
         panel.add(createButton);
         panel.add(new Spacer(10));
-        panel.add(goBackButton);
+        panel.add(backButton);
 
         panel.revalidate();
         panel.repaint();

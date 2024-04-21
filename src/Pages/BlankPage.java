@@ -1,5 +1,5 @@
 package Pages;
-import GUI.Page;
+import GUI.*;
 import Network.Client;
 
 public class BlankPage extends Page {
@@ -7,12 +7,13 @@ public class BlankPage extends Page {
 
     public BlankPage(Client client) {
         super(client);
-        initContent();
     }
 
     @Override
     public void initContent() {
         // Initialize components here
+
+
         addComponents();
     }
 
@@ -21,6 +22,5 @@ public class BlankPage extends Page {
         // Add components to panel here
 
         panel.revalidate();
-        panel.repaint();
     }
 }

@@ -9,7 +9,7 @@ public class LoginPage extends Page implements PageInterface {
     private TextField usernameField;
     private TextField passwordField;
     private Button loginButton;
-    private Button goBackButton;
+    private Button backButton;
 
     public LoginPage(Client client) {
         super(client);
@@ -23,8 +23,8 @@ public class LoginPage extends Page implements PageInterface {
         titleLabel = new Label("Login to your account", 42);
         usernameField = new TextField("Enter Username", GUIConstants.SIZE_400_40);
         passwordField = new TextField("Enter Password", GUIConstants.SIZE_400_40);
-        loginButton = new Button("Login", () -> performLogin(), GUIConstants.SIZE_400_40);
-        goBackButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
+        loginButton = new Button("Login", () -> loginAction(), GUIConstants.SIZE_400_40);
+        backButton = new Button("Go back", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
 
         addComponents();
     }
@@ -40,13 +40,13 @@ public class LoginPage extends Page implements PageInterface {
         panel.add(new Spacer(40));
         panel.add(loginButton);
         panel.add(new Spacer(10));
-        panel.add(goBackButton);
+        panel.add(backButton);
 
         panel.revalidate();
         panel.repaint();
     }
 
-    private void performLogin() {
+    private void loginAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -62,7 +62,7 @@ public class LoginPage extends Page implements PageInterface {
         switch ((ClientCommand) message.getCommand()) {
             case LOGIN_SUCCESS -> {
                 client.setUser((User) message.getObject());
-                window.switchPage(new Menu(client));
+                window.switchPage(new MainMenu(client));
             }
             case LOGIN_FAILURE -> {
                 showError("Login failed.");

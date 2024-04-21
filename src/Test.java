@@ -1,8 +1,7 @@
 import Database.Database;
 import GUI.Window;
 import Network.Client;
-import Pages.Menu;
-import Pages.WelcomePage;
+import Pages.MainMenu;
 
 public class Test {
     public static void main(String[] args) {
@@ -13,6 +12,6 @@ public class Test {
         Client client = new Client();
         client.setUser(database.getUser("purduepete"));
         Window window = Window.getInstance();
-        window.switchPage(new Menu(client));
+        window.switchPage(new MainMenu(client));
     }
 }

@@ -1,8 +1,5 @@
 package GUI;
 
-import Network.Client;
-import Pages.*;
-
 import java.awt.*;
 
 public class GUIConstants {
@@ -29,7 +26,6 @@ public class GUIConstants {
     public static final String FONT_NAME = "Arial";
     public static final int LEFT_PADDING = 15;
     public static final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 15);
-
 
     // Styling
     public static final int EDGE_RADIUS = 10;

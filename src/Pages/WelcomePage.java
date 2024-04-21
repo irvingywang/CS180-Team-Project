@@ -11,7 +11,6 @@ public class WelcomePage extends Page {
 
     public WelcomePage(Client client) {
         super(client);
-        initContent();
     }
 
     @Override
@@ -37,5 +36,7 @@ public class WelcomePage extends Page {
         panel.add(loginButton);
         panel.add(new Spacer(10));
         panel.add(createAccountButton);
+
+        panel.revalidate();
     }
 }

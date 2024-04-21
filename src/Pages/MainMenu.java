@@ -2,7 +2,7 @@ package Pages;
 import GUI.*;
 import Network.Client;
 
-public class Menu extends Page {
+public class MainMenu extends Page {
     // Declare components here
     Label titleLabel;
     Button viewChatsButton;
@@ -10,12 +10,9 @@ public class Menu extends Page {
     Button searchUsersButton;
     Button editProfileButton;
     Button logoutButton;
-    Dropdown chatDropdown;
 
-
-    public Menu(Client client) {
+    public MainMenu(Client client) {
         super(client);
-        initContent();
     }
 
     @Override
@@ -23,22 +20,19 @@ public class Menu extends Page {
         // Initialize components here
         titleLabel = new Label("Welcome " + client.getUsername(), 42);
 
-        viewChatsButton = new Button("View Chats", () -> {}, GUIConstants.SIZE_400_40, true);
-        createChatButton = new Button("Create Chat", () -> {}, GUIConstants.SIZE_400_40, true);
-        searchUsersButton = new Button("Search Users", () -> {}, GUIConstants.SIZE_400_40, true);
-        editProfileButton = new Button("Edit Profile", () -> {}, GUIConstants.SIZE_400_40, true);
-        logoutButton = new Button("Logout", () -> {}, GUIConstants.SIZE_400_40, true);
-
-        chatDropdown = new Dropdown(new String[]{"Chat 1", "Chat 2", "Chat 3"}, GUIConstants.SIZE_400_40);
+        viewChatsButton = new Button("View Chats", () -> window.switchPage(new AllChatsPage(client)), GUIConstants.SIZE_400_40, true);
+        createChatButton = new Button("Create Chat", () -> window.switchPage(new CreateChatPage(client)), GUIConstants.SIZE_400_40, true);
+        searchUsersButton = new Button("Search Users", () -> window.switchPage(new SearchUsersPage(client)), GUIConstants.SIZE_400_40, true);
+        editProfileButton = new Button("Edit Profile", () -> window.switchPage(new EditProfilePage(client)), GUIConstants.SIZE_400_40, true);
+        logoutButton = new Button("Logout", () -> window.switchPage(new WelcomePage(client)), GUIConstants.SIZE_400_40, true);
 
         addComponents();
     }
 
     @Override
     public void addComponents() {
-        panel.removeAll();
         // Add components to panel here
-        panel.add(new Spacer(100));
+        panel.add(new Spacer(200));
         panel.add(titleLabel);
         panel.add(new Spacer(40));
         panel.add(viewChatsButton);
@@ -50,8 +44,6 @@ public class Menu extends Page {
         panel.add(editProfileButton);
         panel.add(new Spacer(10));
         panel.add(logoutButton);
-        panel.add(new Spacer(10));
-        panel.add(chatDropdown);
 
         panel.revalidate();
     }
