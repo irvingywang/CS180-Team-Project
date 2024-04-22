@@ -116,63 +116,11 @@ public class Server implements ServerInterface, Runnable {
                 if (message != null) {
                     System.out.println(message);
                     switch ((ServerCommand) message.getCommand()) {
-                        case LOGIN -> {
-                            String[] loginInfo = ((String) message.getObject()).split(",");
-                            if (login(loginInfo[0], loginInfo[1])) {
-                                Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
-                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS,
-                                        IDENTIFIER, database.getUser(loginInfo[0])));
-                            } else {
-                                System.out.println("Login failed");
-                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
-                                        IDENTIFIER, null));
-                            }
-                        }
-                        case CREATE_USER -> {
-                            String[] userInfo = ((String) message.getObject()).split(",");
-                            if (createUser(userInfo[0], userInfo[1], userInfo[2])) {
-                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
-                                        IDENTIFIER, database.getUser(userInfo[0])));
-                            } else {
-                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
-                                        IDENTIFIER, null));
-                            }
-                        }
-                        case SEARCH_USER -> {
-                            String query = (String) message.getObject();
-                            ArrayList<User> matchedUsers = new ArrayList<>();
-                            query = query.toLowerCase();
-                            for (User user : database.getUsers()) {
-                                if (user.getUsername().toLowerCase().contains(query) ||
-                                        user.getDisplayName().toLowerCase().contains(query)) {
-                                    matchedUsers.add(user);
-                                }
-                            }
-                            User[] results = matchedUsers.toArray(new User[0]);
-
-                            sendToClient(new NetworkMessage(ClientCommand.SEARCH_USER_RESULT,
-                                    IDENTIFIER, results));
-                        }
-                        case SAVE_PROFILE -> {
-                            String[] profileInfo = ((String) message.getObject()).split(",");
-                            User user = database.getUser(profileInfo[1]);
-                            if (user != null) {
-                                user.setDisplayName(profileInfo[0]);
-                                user.setPassword(profileInfo[2]);
-                                user.setPublicProfile(profileInfo[3].equals("Public"));
-                                database.serializeDatabase();
-                                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_SUCCESS,
-                                        IDENTIFIER, user));
-                            } else {
-                                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_FAILURE,
-                                        IDENTIFIER, null));
-                            }
-
-                        }
-                        default -> {
-                            Database.writeLog(LogType.ERROR, IDENTIFIER,
-                                    "Invalid command received.");
-                        }
+                        case LOGIN -> login(message);
+                        case CREATE_USER -> createUser(message);
+                        case SEARCH_USER -> searchUser(message);
+                        case SAVE_PROFILE -> saveProfile(message);
+                        default -> Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid command received.");
                     }
                 } else {
                     break;
@@ -191,51 +139,99 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
-    /**
-     * Authenticates a user login.
-     *
-     * @param username The username of the user.
-     * @param password The password of the user.
-     * @return True if the login is successful, false otherwise.
-     */
+    private synchronized void searchUser(NetworkMessage message) {
+        String query = (String) message.getObject();
+        ArrayList<User> matchedUsers = new ArrayList<>();
+        query = query.toLowerCase();
+        for (User user : database.getUsers()) {
+            if (user.getUsername().toLowerCase().contains(query) ||
+                    user.getDisplayName().toLowerCase().contains(query)) {
+                matchedUsers.add(user);
+            }
+        }
+        User[] results = matchedUsers.toArray(new User[0]);
 
-    @Override
-    public boolean login(String username, String password) {
+        sendToClient(new NetworkMessage(ClientCommand.SEARCH_USER_RESULT,
+                IDENTIFIER, results));
+    }
+
+    /**
+     * Processes a login request from a client.
+     *
+     * @param message The network message containing login credentials.
+     */
+    public synchronized void login(NetworkMessage message) {
+        String[] loginInfo = ((String) message.getObject()).split(",");
+        String username = loginInfo[0];
+        String password = loginInfo[1];
+
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s logged in.", username));
-            return true;
+            sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS,
+                    IDENTIFIER, user));
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s failed to log in.", username));
-            return false;
+                    String.format("Login attempt failed for user %s.", username));
+            System.out.println("Login failed for user: " + username);
+            sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
+                    IDENTIFIER, null));
+        }
+    }
+
+
+    private synchronized void saveProfile(NetworkMessage message) {
+        String[] profileInfo = ((String) message.getObject()).split(",");
+        User user = database.getUser(profileInfo[1]);
+        if (user != null) {
+            user.setDisplayName(profileInfo[0]);
+            user.setUsername(profileInfo[1]);
+            user.setPassword(profileInfo[2]);
+            user.setPublicProfile(profileInfo[3].equals("Public"));
+            database.serializeDatabase();
+            database.loadDatabase();
+            System.out.println("Profile saved on server");
+
+            User updatedUser = database.getUser(profileInfo[1]);
+            if(updatedUser != null) {
+                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_SUCCESS,
+                        IDENTIFIER, updatedUser));
+            } else {
+                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_FAILURE,
+                        IDENTIFIER, null));
+            }
+        } else {
+            sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_FAILURE,
+                    IDENTIFIER, null));
         }
     }
 
     /**
-     * Creates a new user and adds it to the database.
-     * If the user already exists, the method will return false.
+     * Handles the creation of a new user based on the information provided in the message.
      *
-     * @param username      - the username of the new user
-     * @param password      - the password of the new user
-     * @param displayName   - the display name of the new user
-     * //FIXME the public profile is set public by default
+     * @param message The network message containing user creation data.
      */
-    @Override
-    public synchronized boolean createUser(String username,
-                                           String password, String displayName) {
+    public synchronized void createUser(NetworkMessage message) {
+        String[] userInfo = ((String) message.getObject()).split(",");
+        String username = userInfo[0];
+        String password = userInfo[1];
+        String displayName = userInfo[2];
+
         if (database.getUser(username) != null) {
-            // FIXME show this in the GUI
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s already exists.", username));
-            return false;
+                    String.format("Attempt to create user %s failed: user already exists.", username));
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
+                    IDENTIFIER, "User already exists."));
         } else {
             User newUser = new User(username, password, displayName, true);
             database.addUser(newUser);
             Database.writeLog(LogType.INFO, IDENTIFIER,
                     String.format("Created user %s.", username));
             database.serializeDatabase();
-            return true;
+            database.loadDatabase();
+
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
+                    IDENTIFIER, newUser));
         }
     }
 

@@ -23,13 +23,12 @@ public class EditProfilePage extends Page {
     public void initContent() {
         // Initialize components here
         titleLabel = new Label("Edit Profile", 42);
-        User user = client.getUser();
-        String displayName = client.getUser().getDisplayName();
+        String displayName = client.getDisplayName();
         displayName = displayName.isEmpty() ? "Enter Display Name" : displayName;
         displayNameField = new TextField(displayName, GUIConstants.SIZE_400_40);
-        usernameField = new TextField(user.getUsername(), GUIConstants.SIZE_400_40);
-        passwordField = new TextField(user.getPassword(), GUIConstants.SIZE_400_40);
-        String[] privacy = user.isPublicProfile() ? new String[]{"Public", "Private"} : new String[]{"Private", "Public"};
+        usernameField = new TextField(client.getUsername(), GUIConstants.SIZE_400_40);
+        passwordField = new TextField(client.getPassword(), GUIConstants.SIZE_400_40);
+        String[] privacy = client.isPublicProfile() ? new String[]{"Public", "Private"} : new String[]{"Private", "Public"};
         publicDropdown = new Dropdown(privacy, GUIConstants.SIZE_400_40);
         saveButton = new Button("Save", () -> saveAction(), GUIConstants.SIZE_400_40);
         backButton = new Button("Back to menu", () -> window.switchPage(new MainMenu(client)), GUIConstants.SIZE_400_40, true);
@@ -60,11 +59,11 @@ public class EditProfilePage extends Page {
 
     private void saveAction() {
         String displayName = displayNameField.getText();
-        displayName = displayName.isEmpty() ? client.getUser().getDisplayName() : displayName;
+        displayName = displayName.isEmpty() ? client.getDisplayName() : displayName;
         String username = usernameField.getText();
-        username = username.isEmpty() ? client.getUser().getUsername() : username;
+        username = username.isEmpty() ? client.getUsername() : username;
         String password = passwordField.getText();
-        password = password.isEmpty() ? client.getUser().getPassword() : password;
+        password = password.isEmpty() ? client.getPassword() : password;
         String privacy = (String) publicDropdown.getSelectedItem();
 
         client.sendToServer(
@@ -75,13 +74,11 @@ public class EditProfilePage extends Page {
         switch ((ClientCommand) response.getCommand()) {
             case SAVE_PROFILE_SUCCESS -> {
                 client.setUser((User) response.getObject());
-                showError("Profile saved.");
+                window.switchPage(new EditProfilePage(client));
             }
             case SAVE_PROFILE_FAILURE -> {
                 showError("Error. User already exists.");
             }
         }
-
-        //FIXME bug where new info is not updated
     }
 }

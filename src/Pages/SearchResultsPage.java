@@ -22,7 +22,8 @@ public class SearchResultsPage extends Page {
         // Initialize components here
         String[] resultUsernames = new String[results.length];
         for (int i = 0; i < results.length; i++) {
-            resultUsernames[i] = results[i].getUsername();
+            //resultUsernames[i] = String.format("%s - @%s", results[i].getDisplayName(), results[i].getUsername());
+            resultUsernames[i] = "@" + results[i].getUsername();
         }
         titleLabel = new Label("Search Results", 42);
         searchResultsDropdown = new Dropdown(resultUsernames, GUIConstants.SIZE_400_40);

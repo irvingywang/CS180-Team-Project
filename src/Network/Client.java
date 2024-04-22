@@ -55,6 +55,22 @@ public class Client implements ClientInterface, Runnable {
         return user.getUsername();
     }
 
+    public String getDisplayName() {
+        return user.getDisplayName();
+    }
+
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    public boolean isPublicProfile() {
+        return user.isPublicProfile();
+    }
+
+    //TODO bio
+//    public String getBio() {
+//        return user.getBio();
+//    }
     public User getUser() {
         return user;
     }

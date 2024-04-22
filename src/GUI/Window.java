@@ -34,7 +34,7 @@ public class Window extends JFrame {
 
     public void switchPage(Page newPage) {
         contentPanel.removeAll();
-        contentPanel.add(newPage.getContent(), "content");
+        contentPanel.add(newPage.getPanel(), "content");
         cardLayout.show(contentPanel, "content");
         revalidate();
         repaint();

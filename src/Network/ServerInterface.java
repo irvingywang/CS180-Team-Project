@@ -20,6 +20,6 @@ public interface ServerInterface {
     boolean sendToClient(NetworkMessage message);
     NetworkMessage readMessage();
     void handleCommands(Socket clientSocket);
-    boolean login(String username, String password);
-    boolean createUser(String username, String password, String displayName);
+    void login(NetworkMessage message);
+    void createUser(NetworkMessage message);
 }

@@ -28,7 +28,7 @@ public class Page implements PageInterface {
         JOptionPane.showMessageDialog(null, message);
     }
 
-    public JPanel getContent() {
+    public JPanel getPanel() {
         return panel;
     }
 }

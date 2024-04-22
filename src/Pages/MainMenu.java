@@ -18,7 +18,8 @@ public class MainMenu extends Page {
     @Override
     public void initContent() {
         // Initialize components here
-        titleLabel = new Label("Welcome " + client.getUsername(), 42);
+        String title = client.getDisplayName().isEmpty() ? client.getUsername() : client.getDisplayName();
+        titleLabel = new Label("Welcome " + title, 42);
 
         viewChatsButton = new Button("View Chats", () -> window.switchPage(new AllChatsPage(client)), GUIConstants.SIZE_400_40, true);
         createChatButton = new Button("Create Chat", () -> window.switchPage(new CreateChatPage(client)), GUIConstants.SIZE_400_40, true);

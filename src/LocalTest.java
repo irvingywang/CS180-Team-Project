@@ -174,12 +174,12 @@ public class LocalTest {
         }
     }
 
-    @Test
-    public void testLogin() {
-        Server server = new Server();
-        assertTrue(server.login("purduepete", "boilerup"));
-        assertFalse(server.login("john123", "wrongpassword"));
-    }
+//    @Test
+//    public void testLogin() {
+//        Server server = new Server();
+//        assertTrue(server.login("purduepete", "boilerup"));
+//        assertFalse(server.login("john123", "wrongpassword"));
+//    }
 
     @Test
     public void testDeleteMessage() {
