@@ -56,6 +56,11 @@ public class TextField extends JTextField {
         return super.getText().equals(placeholder) ? "" : super.getText();
     }
 
+    public void setPlaceholder(String text) {
+        placeholder = text;
+        setText(text);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D graphics = (Graphics2D) g;

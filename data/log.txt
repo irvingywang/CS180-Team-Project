@@ -1,8 +1,12 @@
-[INFO] DATABASE 04-21-2024 16:48:21 Log file cleared.
-[INFO] DATABASE 04-21-2024 16:48:21 Initializing 
-[INFO] DATABASE 04-21-2024 16:48:21 Loading database from file.
-[ERROR] DATABASE 04-21-2024 16:48:21 No chats found in database file.
-[INFO] DATABASE 04-21-2024 16:48:21 Database loaded from file.
-[INFO] DATABASE 04-21-2024 16:48:21 Database initialized.
-[INFO] SERVER 04-21-2024 16:48:26 User purduepete logged in.
-[INFO] SERVER 04-21-2024 16:48:26 Login successful
+[INFO] DATABASE 04-21-2024 23:59:35 Log file cleared.
+[INFO] DATABASE 04-21-2024 23:59:35 Initializing 
+[INFO] DATABASE 04-21-2024 23:59:35 Loading database from file.
+[ERROR] DATABASE 04-21-2024 23:59:35 No chats found in database file.
+[INFO] DATABASE 04-21-2024 23:59:35 Database loaded from file.
+[INFO] DATABASE 04-21-2024 23:59:35 Database initialized.
+[INFO] SERVER 04-21-2024 23:59:41 User purduepete logged in.
+[INFO] SERVER 04-21-2024 23:59:41 Login successful
+[INFO] DATABASE 04-21-2024 23:59:44 Saving database to file.
+[INFO] DATABASE 04-21-2024 23:59:44 Database saved to file.
+[INFO] SERVER 04-21-2024 23:59:54 User purduepete logged in.
+[INFO] SERVER 04-21-2024 23:59:54 Login successful

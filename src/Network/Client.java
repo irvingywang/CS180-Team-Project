@@ -55,6 +55,10 @@ public class Client implements ClientInterface, Runnable {
         return user.getUsername();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     /**
      * Sets the User object for this client.
      *

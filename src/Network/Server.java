@@ -9,6 +9,7 @@ import Database.LogType;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -136,6 +137,37 @@ public class Server implements ServerInterface, Runnable {
                                 sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
                                         IDENTIFIER, null));
                             }
+                        }
+                        case SEARCH_USER -> {
+                            String query = (String) message.getObject();
+                            ArrayList<User> matchedUsers = new ArrayList<>();
+                            query = query.toLowerCase();
+                            for (User user : database.getUsers()) {
+                                if (user.getUsername().toLowerCase().contains(query) ||
+                                        user.getDisplayName().toLowerCase().contains(query)) {
+                                    matchedUsers.add(user);
+                                }
+                            }
+                            User[] results = matchedUsers.toArray(new User[0]);
+
+                            sendToClient(new NetworkMessage(ClientCommand.SEARCH_USER_RESULT,
+                                    IDENTIFIER, results));
+                        }
+                        case SAVE_PROFILE -> {
+                            String[] profileInfo = ((String) message.getObject()).split(",");
+                            User user = database.getUser(profileInfo[1]);
+                            if (user != null) {
+                                user.setDisplayName(profileInfo[0]);
+                                user.setPassword(profileInfo[2]);
+                                user.setPublicProfile(profileInfo[3].equals("Public"));
+                                database.serializeDatabase();
+                                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_SUCCESS,
+                                        IDENTIFIER, user));
+                            } else {
+                                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_FAILURE,
+                                        IDENTIFIER, null));
+                            }
+
                         }
                         default -> {
                             Database.writeLog(LogType.ERROR, IDENTIFIER,

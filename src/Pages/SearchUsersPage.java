@@ -1,7 +1,8 @@
 package Pages;
 
 import GUI.*;
-import Network.Client;
+import Network.*;
+import Objects.User;
 
 public class SearchUsersPage extends Page {
     // Declare components here
@@ -42,16 +43,12 @@ public class SearchUsersPage extends Page {
 
     private void searchAction() {
         //TODO search users
-        String search = searchField.getText();
-        System.out.println("Searching for users: " + search);
-        /*
-        put search results into String[]
-        String[] results = new String[]{"User 1", "User 2", "User 3"};
+        String query = searchField.getText();
+        System.out.println("Searching for users: " + query);
+        client.sendToServer(new NetworkMessage(ServerCommand.SEARCH_USER, client.IDENTIFIER, query));
 
-        if (results not empty)
-        window.switchPage(new SearchResultsPage(client, results);
-        else
-        show error no results found
-        */
+        NetworkMessage message = client.listenToServer();
+        User[] results = (User[]) message.getObject();
+        window.switchPage(new SearchResultsPage(client, results));
     }
 }
