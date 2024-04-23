@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -120,6 +121,8 @@ public class Server implements ServerInterface, Runnable {
                         case CREATE_USER -> createUser(message);
                         case SEARCH_USER -> searchUser(message);
                         case SAVE_PROFILE -> saveProfile(message);
+                        case CREATE_CHAT -> createChat(message);
+                        case GET_CHATS -> getChats(message);
                         default -> Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid command received.");
                     }
                 } else {
@@ -235,6 +238,38 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    public synchronized void createChat(NetworkMessage message) {
+        String[] chatInfo = ((String[]) message.getObject());
+        String chatName = chatInfo[0];
+        String[] memberUsernames = chatInfo[1].split(",");
+        ArrayList<User> chatMembers = new ArrayList<>();
+        for (String member : memberUsernames) {
+            User user = database.getUser(member);
+            if (user != null) {
+                chatMembers.add(user);
+            } else {
+                Database.writeLog(LogType.ERROR, IDENTIFIER, "User not found: " + member);
+                sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_FAILURE, IDENTIFIER, "Member not found."));
+            }
+        }
+        try {
+            Chat chat = new Chat(chatName, chatMembers);
+            database.addChat(chat);
+            database.serializeDatabase();
+            database.loadDatabase();
+            Database.writeLog(LogType.INFO, IDENTIFIER, "Chat created successfully.");
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_SUCCESS, IDENTIFIER, database.getChat(chatName)));
+        } catch (Exception e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to create chat: " + e.getMessage());
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_FAILURE, IDENTIFIER, "Failed to create chat."));
+        }
+    }
+
+    public void getChats(NetworkMessage message) {
+        sendToClient(new NetworkMessage(ClientCommand.GET_CHATS_RESULT, IDENTIFIER,
+                database.getChats((User) message.getObject()).toArray(new Chat[0])));
+    }
+
     /**
      * Removes a user from the database.
      *
@@ -267,26 +302,6 @@ public class Server implements ServerInterface, Runnable {
         return database.getUser(username);
     }
 
-
-    /**
-     * Adds a user to the database.
-     *
-     * @param user - the User object to add
-     * @return true if the user is added successfully, false if the user already exists
-     */
-    public synchronized boolean addUser(User user) {
-        if (database.getUser(user.getUsername()) == null) {
-            database.addUser(user);
-            Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("Added user %s.", user.getUsername()));
-            database.serializeDatabase();
-            return true;
-        } else {
-            Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s previously added.", user.getUsername()));
-            return false;
-        }
-    }
 
     /**
      * Sends a message to a user or displays it in the server.
@@ -424,35 +439,6 @@ public class Server implements ServerInterface, Runnable {
             return true;
         } else {
             Database.writeLog(LogType.ERROR, IDENTIFIER, "Cannot change username.");
-            return false;
-        }
-    }
-
-    /**
-     * Changes the password of a user.
-     *
-     * @param user  - the user whose password is to be changed
-     * @param newPW - the new password to be assigned
-     * @return true if the password is successfully changed, false otherwise
-     */
-    public synchronized boolean changePW(User user, String newPW) {
-        if (newPW == null || newPW.isEmpty()) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid password.");
-            return false;
-        }
-
-        String oldPW = user.getPassword();
-        if (oldPW.equals(newPW)) {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "New password same as old.");
-            return false;
-        }
-
-        user.setPassword(newPW);
-        if (user.getPassword().equals(newPW)) {
-            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("New password is %s.", newPW));
-            return true;
-        } else {
-            Database.writeLog(LogType.ERROR, IDENTIFIER, "Cannot change password.");
             return false;
         }
     }

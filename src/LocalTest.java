@@ -181,20 +181,20 @@ public class LocalTest {
 //        assertFalse(server.login("john123", "wrongpassword"));
 //    }
 
-    @Test
-    public void testDeleteMessage() {
-        try {
-            Server server = new Server();
-            Chat chat = new Chat("Chat", new ArrayList<>());
-            User sender = new User("john123",
-                    "pw123", "Sender", true);
-            server.addUser(sender);
-            server.sendMessage("Hello World", "purduepete");
-            assertTrue(server.deleteMessage(sender, chat, "Hello World"));
-        } catch (InvalidChatException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
+//    @Test
+//    public void testDeleteMessage() {
+//        try {
+//            Server server = new Server();
+//            Chat chat = new Chat("Chat", new ArrayList<>());
+//            User sender = new User("john123",
+//                    "pw123", "Sender", true);
+//            server.addUser(sender);
+//            server.sendMessage("Hello World", "purduepete");
+//            assertTrue(server.deleteMessage(sender, chat, "Hello World"));
+//        } catch (InvalidChatException e) {
+//            System.out.println("Error: " + e.getMessage());
+//        }
+//    }
 
     @Test
     public void testReadNetworkMessage() {

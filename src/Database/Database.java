@@ -180,6 +180,16 @@ public class Database implements DatabaseInterface {
         return new ArrayList<>(chats.values());
     }
 
+    public ArrayList<Chat> getChats(User user) {
+        ArrayList<Chat> userChats = new ArrayList<>();
+        for (Chat chat : chats.values()) {
+            if (chat.getMembers().contains(user)) {
+                userChats.add(chat);
+            }
+        }
+        return userChats;
+    }
+
     public synchronized void addChat(Chat chat) {
         chats.put(chat.getName(), chat);
     }
