@@ -6,13 +6,15 @@ import Objects.User;
 
 public class EditProfilePage extends Page {
     // Declare components here
-    Label titleLabel;
-    TextField displayNameField;
-    TextField usernameField;
-    TextField passwordField;
-    Dropdown publicDropdown;
-    Button saveButton;
-    Button backButton;
+    private Label titleLabel;
+    private TextField displayNameField;
+    private TextField usernameField;
+    private TextField bioField;
+    private TextField userLocationField;
+    private TextField passwordField;
+    private Dropdown publicDropdown;
+    private Button saveButton;
+    private Button backButton;
 
 
     public EditProfilePage(Client client) {
@@ -28,6 +30,14 @@ public class EditProfilePage extends Page {
         displayNameField = new TextField(displayName, GUIConstants.SIZE_400_40);
         usernameField = new TextField(client.getUsername(), GUIConstants.SIZE_400_40);
         passwordField = new TextField(client.getPassword(), GUIConstants.SIZE_400_40);
+        if (client.getBio() == null)
+            bioField = new TextField("Set Bio", GUIConstants.SIZE_400_40);
+        else
+            bioField = new TextField(client.getBio(), GUIConstants.SIZE_400_40);
+        if (client.getUserLocation() == null)
+            userLocationField = new TextField("Set State", GUIConstants.SIZE_400_40);
+        else
+            userLocationField = new TextField(client.getUserLocation(), GUIConstants.SIZE_400_40);
         String[] privacy = client.isPublicProfile() ? new String[]{"Public", "Private"} : new String[]{"Private", "Public"};
         publicDropdown = new Dropdown(privacy, GUIConstants.SIZE_400_40);
         saveButton = new Button("Save", () -> saveAction(), GUIConstants.SIZE_400_40);
@@ -48,6 +58,10 @@ public class EditProfilePage extends Page {
         panel.add(new Spacer(10));
         panel.add(passwordField);
         panel.add(new Spacer(10));
+        panel.add(userLocationField);
+        panel.add(new Spacer(10));
+        panel.add(bioField);
+        panel.add(new Spacer(10));
         panel.add(publicDropdown);
         panel.add(new Spacer(40));
         panel.add(saveButton);
@@ -64,11 +78,15 @@ public class EditProfilePage extends Page {
         username = username.isEmpty() ? client.getUsername() : username;
         String password = passwordField.getText();
         password = password.isEmpty() ? client.getPassword() : password;
+        String bio = bioField.getText();
+        bio = bio.isEmpty() ? client.getBio() : bio;
+        String userLocation = userLocationField.getText();
+        userLocation = userLocation.isEmpty() ? client.getUserLocation() : userLocation;
         String privacy = (String) publicDropdown.getSelectedItem();
 
         client.sendToServer(
                 new NetworkMessage(ServerCommand.SAVE_PROFILE, client.IDENTIFIER,
-                        String.format("%s,%s,%s,%s", displayName, username, password, privacy)));
+                        String.format("%s,%s,%s,%s,%s,%s", displayName, username, password, userLocation, bio, privacy)));
 
         NetworkMessage response = client.listenToServer();
         switch ((ClientCommand) response.getCommand()) {

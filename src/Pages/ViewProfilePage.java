@@ -6,12 +6,14 @@ import Objects.User;
 
 public class ViewProfilePage extends Page {
     // Declare components here
-    Label displayNameLabel;
-    Label usernameLabel;
-    Button friendButton;
-    Button blockButton;
-    Button backButton;
-    User user;
+    private Label displayNameLabel;
+    private Label usernameLabel;
+    private Label userBio;
+    private Label userLocation;
+    private Button friendButton;
+    private Button blockButton;
+    private Button backButton;
+    private User user;
 
     public ViewProfilePage(Client client, User user) {
         super(client);
@@ -27,6 +29,8 @@ public class ViewProfilePage extends Page {
             displayNameLabel = new Label("Private Profile", 42);
         }
         usernameLabel = new Label("@" + user.getUsername(), 24);
+        userBio = new Label(user.getBio(), 25);
+        userLocation = new Label(user.getUserLocation(), 18);
         friendButton = new Button("Add Friend", () -> friendAction(), GUIConstants.SIZE_400_40);
         blockButton = new Button("Block User", () -> blockAction(), GUIConstants.SIZE_400_40, true);
         backButton = new Button("Back to Search", () -> window.switchPage(new SearchUsersPage(client)), GUIConstants.SIZE_400_40, true);
@@ -41,7 +45,11 @@ public class ViewProfilePage extends Page {
         panel.add(displayNameLabel);
         panel.add(new Spacer(40));
         panel.add(usernameLabel);
-        panel.add(new Spacer(40));
+        panel.add(new Spacer(35));
+        panel.add(userBio);
+        panel.add(new Spacer(20));
+        panel.add(userLocation);
+        panel.add(new Spacer(10));
         panel.add(friendButton);
         panel.add(new Spacer(10));
         panel.add(blockButton);

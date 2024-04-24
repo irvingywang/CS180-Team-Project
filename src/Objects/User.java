@@ -20,10 +20,20 @@ import java.util.ArrayList;
 public class User implements UserInterface, Serializable {
     private String username;
     private String password;
+    private String bio;
+    private String userLocation;
     private String displayName;
     private Boolean publicProfile;
     private ArrayList<User> friends;
     private ArrayList<User> blocked;
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getBio() {
+        return bio;
+    }
 
     /**
      * Constructs a new User object
@@ -40,6 +50,16 @@ public class User implements UserInterface, Serializable {
         this.publicProfile = publicProfile;
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
+        this.bio = null;
+        this.userLocation = null;
+    }
+
+    public void setUserLocation(String userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public String getUserLocation() {
+        return userLocation;
     }
 
     /**
