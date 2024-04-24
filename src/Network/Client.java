@@ -37,7 +37,8 @@ public class Client implements ClientInterface, Runnable {
     public static Thread clientThread;
 
     public static void start() {
-        Client client = new Client();
+        Client client = null;
+        client = new Client();
         clientThread = new Thread(client);
         clientThread.start();
     }
@@ -53,6 +54,28 @@ public class Client implements ClientInterface, Runnable {
 
     public String getUsername() {
         return user.getUsername();
+    }
+
+    public String getDisplayName() {
+        return user.getDisplayName();
+    }
+
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    public boolean isPublicProfile() {
+        return user.isPublicProfile();
+    }
+
+    public Chat[] getChats() {
+        sendToServer(new NetworkMessage(ServerCommand.GET_CHATS, IDENTIFIER, user));
+        NetworkMessage response = listenToServer();
+        return (Chat[]) response.getObject();
+    }
+
+    public User getUser() {
+        return user;
     }
 
     /**
@@ -170,5 +193,9 @@ public class Client implements ClientInterface, Runnable {
     public synchronized boolean changePW(String newPW) {
         return sendToServer(new NetworkMessage(ServerCommand.CHANGE_PASSWORD, IDENTIFIER, new Object[]{user, newPW}));
     }
+    public synchronized boolean createChat(String chatName, String[] members) {
+        String chat = String.join(",", members);
 
+        return sendToServer(new NetworkMessage(ServerCommand.CREATE_CHAT, IDENTIFIER, chatName + "," + chat));
+    }
 }

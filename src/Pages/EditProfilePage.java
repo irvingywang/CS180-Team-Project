@@ -3,6 +3,19 @@ package Pages;
 import GUI.*;
 import Network.Client;
 
+/**
+ * Project05 -- EditProfile
+ * <p>
+ * Creates page that is shown after Edit Profile button
+ * is clicked on the Main Menu
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class EditProfilePage extends Page {
     // Declare components here
     Label titleLabel;

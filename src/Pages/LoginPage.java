@@ -4,6 +4,19 @@ import GUI.*;
 import Network.*;
 import Objects.User;
 
+/**
+ * Project05 -- LoginPage
+ * <p>
+ * Creates page that is shown Login button is clicked
+ * on the Welcome Page.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class LoginPage extends Page implements PageInterface {
     private Label titleLabel;
     private TextField usernameField;
@@ -55,8 +68,7 @@ public class LoginPage extends Page implements PageInterface {
             return;
         }
 
-        client.sendToServer(
-                new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password)));
+        client.sendToServer(new NetworkMessage(ServerCommand.LOGIN, client.IDENTIFIER, String.format("%s,%s", username, password)));
 
         NetworkMessage message = client.listenToServer();
         switch ((ClientCommand) message.getCommand()) {

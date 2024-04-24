@@ -2,6 +2,7 @@ package Network;
 
 import Database.Database;
 import Objects.Chat;
+import Objects.InvalidChatException;
 import Objects.Message;
 import Objects.User;
 import Database.LogType;
@@ -9,6 +10,8 @@ import Database.LogType;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -137,6 +140,15 @@ public class Server implements ServerInterface, Runnable {
                                         IDENTIFIER, null));
                             }
                         }
+                        case CREATE_CHAT -> {
+                            String[] parts = ((String) message.getObject()).split(",");
+                            String chatName = parts[0];
+                            String[] members = Arrays.copyOfRange(parts, 1, parts.length);
+
+                            createChat(chatName, members);
+
+                            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_SUCCESS, Server.IDENTIFIER, chatName));
+                        }
                         default -> {
                             Database.writeLog(LogType.ERROR, IDENTIFIER,
                                     "Invalid command received.");
@@ -146,7 +158,7 @@ public class Server implements ServerInterface, Runnable {
                     break;
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | InvalidChatException e) {
             Database.writeLog(LogType.ERROR, IDENTIFIER,
                     "Error handling client: " + e.getMessage());
         } finally {
@@ -428,5 +440,21 @@ public class Server implements ServerInterface, Runnable {
             return false;
         }
     }
+
+    private void createChat(String chatName, String[] members) throws InvalidChatException {
+        ArrayList<User> memberList = new ArrayList<>();
+        for (String username : members) {
+            User user = database.getUser(username);
+            if (user != null) {
+                memberList.add(user);
+            } else {
+                return;
+            }
+        }
+        Chat group = new Chat(chatName, memberList);
+        database.addChat(group);
+    }
+
+
 }
 
