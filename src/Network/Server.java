@@ -10,7 +10,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,7 +38,6 @@ public class Server implements ServerInterface, Runnable {
     /**
      * The entry point of the server application.
      * It creates a server instance and starts a new thread to run it.
-     *
      */
     public static void start() {
         Server server = new Server();
@@ -47,10 +45,18 @@ public class Server implements ServerInterface, Runnable {
         serverThread.start();
     }
 
+    /**
+     * Returns the server thread.
+     *
+     * @return The server thread.
+     */
     public static Thread getThread() {
         return serverThread;
     }
 
+    /**
+     * Starts the server and handles client connections.
+     */
     @Override
     public void run() {
         try {
@@ -142,7 +148,13 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
-    private synchronized void searchUser(NetworkMessage message) {
+
+    /**
+     * Searches for users based on a query.
+     *
+     * @param message Contains the search query.
+     */
+    public synchronized void searchUser(NetworkMessage message) {
         String query = (String) message.getObject();
         ArrayList<User> matchedUsers = new ArrayList<>();
         query = query.toLowerCase();
@@ -183,7 +195,12 @@ public class Server implements ServerInterface, Runnable {
     }
 
 
-    private synchronized void saveProfile(NetworkMessage message) {
+    /**
+     * Updates a user's profile.
+     *
+     * @param message Contains the new profile information.
+     */
+    public synchronized void saveProfile(NetworkMessage message) {
         String[] profileInfo = ((String) message.getObject()).split(",");
         User user = database.getUser(profileInfo[1]);
         if (user != null) {
@@ -196,7 +213,7 @@ public class Server implements ServerInterface, Runnable {
             System.out.println("Profile saved on server");
 
             User updatedUser = database.getUser(profileInfo[1]);
-            if(updatedUser != null) {
+            if (updatedUser != null) {
                 sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_SUCCESS,
                         IDENTIFIER, updatedUser));
             } else {
@@ -238,6 +255,11 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    /**
+     * Creates a new chat.
+     *
+     * @param message Contains the chat information.
+     */
     public synchronized void createChat(NetworkMessage message) {
         String[] chatInfo = ((String[]) message.getObject());
         String chatName = chatInfo[0];
@@ -265,6 +287,11 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    /**
+     * Retrieves chats for a user.
+     *
+     * @param message Contains the user information.
+     */
     public void getChats(NetworkMessage message) {
         sendToClient(new NetworkMessage(ClientCommand.GET_CHATS_RESULT, IDENTIFIER,
                 database.getChats((User) message.getObject()).toArray(new Chat[0])));
@@ -276,7 +303,6 @@ public class Server implements ServerInterface, Runnable {
      * @param username - the username of the user to be removed
      * @return true if the user is successfully removed, false if the user is not found
      */
-
     public synchronized boolean removeUser(String username) {
         User removed = database.getUser(username);
         if (removed != null) {

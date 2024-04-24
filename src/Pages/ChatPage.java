@@ -6,12 +6,12 @@ import Objects.Chat;
 
 public class ChatPage extends Page {
     // Declare components here
-    Label titleLabel;
+    private Label titleLabel;
     //TODO chat message panel
-    TextField chatField;
-    Button sendButton;
-    Button backButton;
-    Chat chat;
+    private TextField chatField;
+    private Button sendButton;
+    private Button backButton;
+    private Chat chat;
 
     public ChatPage(Client client, Chat chat) {
         super(client);

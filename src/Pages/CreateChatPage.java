@@ -7,11 +7,11 @@ import Objects.User;
 
 public class CreateChatPage extends Page {
     // Declare components here
-    Label titleLabel;
-    TextField chatNameField;
-    TextField membersField;
-    Button createChatButton;
-    Button backButton;
+    private Label titleLabel;
+    private TextField chatNameField;
+    private TextField membersField;
+    private Button createChatButton;
+    private Button backButton;
 
     public CreateChatPage(Client client) {
         super(client);

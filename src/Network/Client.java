@@ -48,22 +48,49 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    /**
+     * Retrieves the username of the User object associated with this client.
+     *
+     * @return the username of the User object associated with this client
+     */
     public String getUsername() {
         return user.getUsername();
     }
 
+    /**
+     * Retrieves the display name of the User object associated with this client.
+     *
+     * @return the display name of the User object associated with this client
+     */
     public String getDisplayName() {
         return user.getDisplayName();
     }
 
+    /**
+     * Retrieves the password of the User object associated with this client.
+     *
+     * @return the password of the User object associated with this client
+     */
     public String getPassword() {
         return user.getPassword();
     }
 
+    /**
+     * Checks if the User object associated with this client has a public profile.
+     *
+     * @return true if the User object associated with this client has a public profile, false otherwise
+     */
     public boolean isPublicProfile() {
         return user.isPublicProfile();
     }
 
+    /**
+     * Retrieves the chats associated with the User object of this client.
+     * This method sends a GET_CHATS command to the server and waits for a response.
+     * The response is expected to be an array of Chat objects.
+     *
+     * @return an array of Chat objects associated with the User object of this client
+     */
     public Chat[] getChats() {
         sendToServer(new NetworkMessage(ServerCommand.GET_CHATS, IDENTIFIER, user));
         NetworkMessage response = listenToServer();
@@ -74,6 +101,12 @@ public class Client implements ClientInterface, Runnable {
 //    public String getBio() {
 //        return user.getBio();
 //    }
+
+    /**
+     * Retrieves the User object associated with this client.
+     *
+     * @return the User object associated with this client
+     */
     public User getUser() {
         return user;
     }
@@ -167,38 +200,6 @@ public class Client implements ClientInterface, Runnable {
             }
             return null;
         }
-    }
-
-    public synchronized boolean removeUser(String username) {
-        return sendToServer(new NetworkMessage(ServerCommand.REMOVE_USER, IDENTIFIER, username));
-    }
-
-    public synchronized boolean addUser(User user) {
-        return sendToServer(new NetworkMessage(ServerCommand.ADD_USER, IDENTIFIER, user));
-    }
-
-    public synchronized boolean sendMessage(String message, String username) {
-        return sendToServer(new NetworkMessage(ClientCommand.SEND_MESSAGE, IDENTIFIER, message));
-    }
-
-    public synchronized boolean deleteMessage(Chat chat, String messageText) {
-        return sendToServer(new NetworkMessage(ServerCommand.DELETE_MESSAGE, IDENTIFIER, new Object[]{user, chat, messageText}));
-    }
-
-    public synchronized boolean blockUser(User blockedUser) {
-        return sendToServer(new NetworkMessage(ServerCommand.BLOCK_USER, IDENTIFIER, blockedUser));
-    }
-
-    public synchronized boolean deleteAccount() {
-        return sendToServer(new NetworkMessage(ServerCommand.DELETE_ACCOUNT, IDENTIFIER, user));
-    }
-
-    public synchronized boolean changeName(String newName) {
-        return sendToServer(new NetworkMessage(ServerCommand.CHANGE_NAME, IDENTIFIER, new Object[]{user, newName}));
-    }
-
-    public synchronized boolean changePW(String newPW) {
-        return sendToServer(new NetworkMessage(ServerCommand.CHANGE_PASSWORD, IDENTIFIER, new Object[]{user, newPW}));
     }
 
 }

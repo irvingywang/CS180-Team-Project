@@ -4,10 +4,10 @@ import GUI.*;
 import Network.Client;
 
 public class WelcomePage extends Page {
-    Label label;
-    Label label2;
-    Button createAccountButton;
-    Button loginButton;
+    private Label label;
+    private Label label2;
+    private Button createAccountButton;
+    private Button loginButton;
 
     public WelcomePage(Client client) {
         super(client);

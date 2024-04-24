@@ -6,13 +6,13 @@ import Objects.User;
 
 public class EditProfilePage extends Page {
     // Declare components here
-    Label titleLabel;
-    TextField displayNameField;
-    TextField usernameField;
-    TextField passwordField;
-    Dropdown publicDropdown;
-    Button saveButton;
-    Button backButton;
+    private Label titleLabel;
+    private TextField displayNameField;
+    private TextField usernameField;
+    private TextField passwordField;
+    private Dropdown publicDropdown;
+    private Button saveButton;
+    private Button backButton;
 
 
     public EditProfilePage(Client client) {

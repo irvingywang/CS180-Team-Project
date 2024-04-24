@@ -1,6 +1,7 @@
 package GUI;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import java.awt.LayoutManager;
 
 public class Panel extends JPanel {

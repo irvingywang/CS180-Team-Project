@@ -6,10 +6,10 @@ import Objects.User;
 
 public class SearchUsersPage extends Page {
     // Declare components here
-    Label titleLabel;
-    TextField searchField;
-    Button searchButton;
-    Button backButton;
+    private Label titleLabel;
+    private TextField searchField;
+    private Button searchButton;
+    private Button backButton;
 
     public SearchUsersPage(Client client) {
         super(client);

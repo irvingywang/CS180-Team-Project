@@ -6,12 +6,12 @@ import Objects.User;
 
 public class ViewProfilePage extends Page {
     // Declare components here
-    Label displayNameLabel;
-    Label usernameLabel;
-    Button friendButton;
-    Button blockButton;
-    Button backButton;
-    User user;
+    private Label displayNameLabel;
+    private Label usernameLabel;
+    private Button friendButton;
+    private Button blockButton;
+    private Button backButton;
+    private User user;
 
     public ViewProfilePage(Client client, User user) {
         super(client);
