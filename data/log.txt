@@ -1,8 +1,8 @@
-[INFO] DATABASE 04-21-2024 16:48:21 Log file cleared.
-[INFO] DATABASE 04-21-2024 16:48:21 Initializing 
-[INFO] DATABASE 04-21-2024 16:48:21 Loading database from file.
-[ERROR] DATABASE 04-21-2024 16:48:21 No chats found in database file.
-[INFO] DATABASE 04-21-2024 16:48:21 Database loaded from file.
-[INFO] DATABASE 04-21-2024 16:48:21 Database initialized.
-[INFO] SERVER 04-21-2024 16:48:26 User purduepete logged in.
-[INFO] SERVER 04-21-2024 16:48:26 Login successful
+[INFO] DATABASE 04-24-2024 19:41:01 Log file cleared.
+[INFO] DATABASE 04-24-2024 19:41:01 Initializing 
+[INFO] DATABASE 04-24-2024 19:41:01 Loading database from file.
+[ERROR] DATABASE 04-24-2024 19:41:01 No chats found in database file.
+[INFO] DATABASE 04-24-2024 19:41:01 Database loaded from file.
+[INFO] DATABASE 04-24-2024 19:41:01 Database initialized.
+[INFO] SERVER 04-24-2024 19:41:07 User Jack logged in.
+[INFO] SERVER 04-24-2024 19:41:07 Login successful

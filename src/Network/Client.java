@@ -198,4 +198,7 @@ public class Client implements ClientInterface, Runnable {
 
         return sendToServer(new NetworkMessage(ServerCommand.CREATE_CHAT, IDENTIFIER, chatName + "," + chat));
     }
+    public synchronized boolean searchUsers(String searchQuery) {
+        return sendToServer(new NetworkMessage(ServerCommand.SEARCH_USER, IDENTIFIER, searchQuery));
+    }
 }

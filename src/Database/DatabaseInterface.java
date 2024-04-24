@@ -24,8 +24,8 @@ public interface DatabaseInterface {
     void reset();
     User getUser(String username);
     ArrayList<User> getUsers();
-    void addUser(User user);
-    void removeUser(String username);
+    boolean addUser(User user);
+    boolean removeUser(String username);
     void loadDatabase();
     void serializeDatabase();
 }

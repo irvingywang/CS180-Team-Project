@@ -33,4 +33,5 @@ public class GUIConstants {
 
     // Sizing
     public static final Dimension SIZE_400_40 = new Dimension(400, 40);
+    public static Dimension SIZE_200_40;
 }

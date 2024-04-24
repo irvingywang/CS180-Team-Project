@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Project05 - Server
@@ -149,6 +150,33 @@ public class Server implements ServerInterface, Runnable {
 
                             sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_SUCCESS, Server.IDENTIFIER, chatName));
                         }
+                        case SEARCH_USER -> {
+                            String searchQuery = (String) message.getObject();
+                            List<User> foundUsers = searchUsers(searchQuery);
+                            if (!foundUsers.isEmpty()) {
+                                String[] usernames = foundUsers.stream().map(User::getUsername).toArray(String[]::new);
+                                sendToClient(new NetworkMessage(ClientCommand.SEARCH_SUCCESS, IDENTIFIER, usernames));
+                            } else {
+                                sendToClient(new NetworkMessage(ClientCommand.SEARCH_FAILURE, IDENTIFIER, "No users found"));
+                            }
+                        }
+                        case ADD_USER -> {
+                            User user = (User) message.getObject();
+                            if (database.addUser(user)) {
+                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS, IDENTIFIER, "User added successfully"));
+                            } else {
+                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE, IDENTIFIER, "Failed to add user"));
+                            }
+                        }
+                        case REMOVE_USER -> {
+                            String username = (String) message.getObject();
+                            if (database.removeUser(username)) {
+                                sendToClient(new NetworkMessage(ClientCommand.DELETE_USER_SUCCESS, IDENTIFIER, "User deleted successfully"));
+                            } else {
+                                sendToClient(new NetworkMessage(ClientCommand.DELETE_USER_FAILURE, IDENTIFIER, "Failed to delete user"));
+                            }
+                        }
+
                         default -> {
                             Database.writeLog(LogType.ERROR, IDENTIFIER,
                                     "Invalid command received.");
@@ -455,6 +483,11 @@ public class Server implements ServerInterface, Runnable {
         database.addChat(group);
     }
 
+    private List<User> searchUsers(String query) {
+        return database.getUsers().stream()
+                .filter(user -> user.getUsername().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 
 }
 

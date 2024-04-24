@@ -146,10 +146,12 @@ public class Database implements DatabaseInterface {
      * Adds a User object to the users map.
      *
      * @param user - the User object to be added
+     * @return
      */
     @Override
-    public synchronized void addUser(User user) {
+    public synchronized boolean addUser(User user) {
         users.put(user.getUsername(), user);
+        return false;
     }
 
     /**
@@ -157,14 +159,16 @@ public class Database implements DatabaseInterface {
      * If the user does not exist, logs the event.
      *
      * @param username - the username of the user to be removed
+     * @return
      */
     @Override
-    public synchronized void removeUser(String username) {
+    public synchronized boolean removeUser(String username) {
         if (users.remove(username) != null) {
             writeLog(LogType.INFO, IDENTIFIER, String.format("User %s removed.", username));
         } else {
             writeLog(LogType.INFO, IDENTIFIER, String.format("User %s not found.", username));
         }
+        return true;
     }
 
     public Chat getChat(String name) {
