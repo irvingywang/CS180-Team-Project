@@ -84,7 +84,7 @@ Try the login demo with username: `purduepete` and password: `123`.
   - Overall, this class is useful for augmenting the simplicity of our code.
 
 ## Testing
-- `LocalTest`: Tests all the methods created.
+- `DatabaseTest`: Tests all the methods created.
   - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
   the functionality of the entire social media platform.
 ## Networking

@@ -51,4 +51,4 @@ jobs:
 
       - name: Run JUnit tests
         run: |
-          java -cp ./src:lib/* org.junit.runner.JUnitCore LocalTest
+          java -cp ./src:lib/* org.junit.runner.JUnitCore DatabaseTest NetworkTest
