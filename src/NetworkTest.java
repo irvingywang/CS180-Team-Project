@@ -91,4 +91,27 @@ public class NetworkTest {
         NetworkMessage response = client.listenToServer();
         assertEquals(ClientCommand.SAVE_PROFILE_FAILURE, response.getCommand());
     }
+
+    @Test(timeout = 1000)
+    public void testAddFriend() {
+        client.sendToServer(new NetworkMessage(ServerCommand.ADD_FRIEND, Identifier.CLIENT, "newuser"));
+        NetworkMessage response = client.listenToServer();
+        assertEquals(ClientCommand.ADD_FRIEND_SUCCESS, response.getCommand());
+
+        client.sendToServer(new NetworkMessage(ServerCommand.ADD_FRIEND, Identifier.CLIENT, "invaliduser"));
+        response = client.listenToServer();
+        assertEquals(ClientCommand.ADD_FRIEND_FAILURE, response.getCommand());
+    }
+
+    @Test(timeout = 1000)
+    public void testBlockUser() {
+        client.sendToServer(new NetworkMessage(ServerCommand.BLOCK_USER, Identifier.CLIENT, "newuser"));
+        NetworkMessage response = client.listenToServer();
+        assertEquals(ClientCommand.BLOCK_USER_SUCCESS, response.getCommand());
+
+        client.sendToServer(new NetworkMessage(ServerCommand.BLOCK_USER, Identifier.CLIENT, "invaliduser"));
+        response = client.listenToServer();
+        assertEquals(ClientCommand.BLOCK_USER_FAILURE, response.getCommand());
+    }
+
 }

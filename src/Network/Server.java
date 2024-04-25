@@ -34,6 +34,7 @@ public class Server implements ServerInterface, Runnable {
     ObjectOutputStream out;
     private static final Identifier IDENTIFIER = Identifier.SERVER;
     static Thread serverThread;
+    private User mainUser;
 
     /**
      * The entry point of the server application.
@@ -129,6 +130,8 @@ public class Server implements ServerInterface, Runnable {
                         case SAVE_PROFILE -> saveProfile(message);
                         case CREATE_CHAT -> createChat(message);
                         case GET_CHATS -> getChats(message);
+                        case BLOCK_USER -> blockUser((User) message.getObject(), mainUser);
+                        case ADD_FRIEND -> addFriend((User) message.getObject());
                         default -> Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid command received.");
                     }
                 } else {
@@ -413,6 +416,18 @@ public class Server implements ServerInterface, Runnable {
             Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot" +
                     " block user %s.", blockedUser.getUsername()));
             return false;
+        }
+    }
+
+    public synchronized void addFriend(User friend) {
+        if (mainUser.addFriend(friend)) {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s added user %s as friend.",
+                    mainUser.getUsername(), friend.getUsername()));
+            sendToClient(new NetworkMessage(ClientCommand.ADD_FRIEND_SUCCESS, IDENTIFIER, friend));
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot " +
+                    "add user %s as friend.", friend.getUsername()));
+            sendToClient(new NetworkMessage(ClientCommand.ADD_FRIEND_FAILURE, IDENTIFIER, friend));
         }
     }
 
