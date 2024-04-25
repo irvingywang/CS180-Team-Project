@@ -53,11 +53,11 @@ public class ViewProfilePage extends Page {
 
     private void friendAction() {
         client.getUser().addFriend(user);
-        //TODO
+        showError("Friend added.");
     }
 
     private void blockAction() {
         client.getUser().blockUser(user);
-        //TODO
+        showError("User blocked.");
     }
 }
