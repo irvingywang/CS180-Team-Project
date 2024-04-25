@@ -1,8 +1,10 @@
-[INFO] DATABASE 04-24-2024 20:20:22 Log file cleared.
-[INFO] DATABASE 04-24-2024 20:20:22 Initializing 
-[INFO] DATABASE 04-24-2024 20:20:22 Loading database from file.
-[ERROR] DATABASE 04-24-2024 20:20:22 No chats found in database file.
-[INFO] DATABASE 04-24-2024 20:20:22 Database loaded from file.
-[INFO] DATABASE 04-24-2024 20:20:22 Database initialized.
-[INFO] SERVER 04-24-2024 20:20:27 User Jack logged in.
-[INFO] SERVER 04-24-2024 20:20:27 Login successful
+[INFO] DATABASE 04-24-2024 22:24:17 Log file cleared.
+[INFO] DATABASE 04-24-2024 22:24:17 Initializing 
+[INFO] DATABASE 04-24-2024 22:24:17 Loading database from file.
+[ERROR] DATABASE 04-24-2024 22:24:17 No chats found in database file.
+[INFO] DATABASE 04-24-2024 22:24:17 Database loaded from file.
+[INFO] DATABASE 04-24-2024 22:24:17 Database initialized.
+[INFO] SERVER 04-24-2024 22:24:22 User Jack logged in.
+[INFO] SERVER 04-24-2024 22:24:22 Login successful
+[INFO] DATABASE 04-24-2024 22:24:28 User John not found.
+[ERROR] SERVER 04-24-2024 22:24:34 Invalid command received.

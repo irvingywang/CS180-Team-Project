@@ -2,9 +2,6 @@ package Pages;
 
 import GUI.*;
 import Network.Client;
-import Network.ClientCommand;
-import Network.NetworkMessage;
-import Network.ServerCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,19 +57,25 @@ public class SearchUsersPage extends Page {
     }
 
     private void searchAction() {
+        //TODO search users
         String search = searchField.getText();
-        client.sendToServer(new NetworkMessage(ServerCommand.SEARCH_USER, Client.IDENTIFIER, search));
-        NetworkMessage response = client.listenToServer();
-        if (response.getCommand() == ClientCommand.SEARCH_SUCCESS) {
-            String[] searchResults = (String[]) response.getObject();
-            if (searchResults.length > 0) {
-                window.switchPage(new SearchResultsPage(client, searchResults));
-            } else {
-                showError("No results found for: " + search);
-            }
-        } else {
-            showError("Search failed.");
-        }
-    }
+        System.out.println("Searching for users: " + search);
 
+//        String[] users = ????
+//        List<String> searchList = new ArrayList<>();
+//
+//        for (String user : users) {
+//            if (user.toLowerCase().contains(search.toLowerCase())) {
+//                searchList.add(user);
+//            }
+//        }
+//
+//        String[] searchResults = searchList.toArray(new String[0]);
+//
+//        if (searchResults.length > 0) {
+//            window.switchPage(new SearchResultsPage(client, searchResults));
+//        } else {
+//            showError("No results found for: " + search);
+//        }
+    }
 }

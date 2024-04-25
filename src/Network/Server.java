@@ -488,6 +488,5 @@ public class Server implements ServerInterface, Runnable {
                 .filter(user -> user.getUsername().toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
     }
-
 }
 
