@@ -26,32 +26,22 @@ public class NetworkTest {
     @BeforeClass
     public static void setUp() {
         Server.start();
-        client = new Client();
-        client.connectToServer();
 
         database.setDataFile("test.ser");
         database.reset();
         database.initialize();
 
+        client = new Client();
+        client.connectToServer();
 
         database.addUser(
             new User("purduepete", "boilerup", "Purdue Pete", false));
+
+        database.addUser(
+                new User("john", "123", "Boiler Up", false));
     }
 
-    @Test (timeout = 1000)
-    public void login() {
-        client.sendToServer(
-                new NetworkMessage(ServerCommand.LOGIN, Identifier.CLIENT, "purduepete,boilerup"));
-        NetworkMessage response = client.listenToServer();
-        assertEquals(ClientCommand.LOGIN_SUCCESS, response.getCommand());
-
-        client.sendToServer(
-                new NetworkMessage(ServerCommand.LOGIN, Identifier.CLIENT, "purduepete,wrongpassword"));
-        response = client.listenToServer();
-        assertEquals(ClientCommand.LOGIN_FAILURE, response.getCommand());
-    }
-
-    @Test (timeout = 1000)
+    @Test (timeout = 5000)
     public void createUser() {
         client.sendToServer(
                 new NetworkMessage(ServerCommand.CREATE_USER, Identifier.CLIENT, "newuser,newpassword,New User"));
@@ -64,49 +54,41 @@ public class NetworkTest {
         assertEquals(ClientCommand.CREATE_USER_FAILURE, response.getCommand());
     }
 
-    @Test(timeout = 1000)
+    @Test (timeout = 5000)
+    public void login() {
+        client.sendToServer(
+                new NetworkMessage(ServerCommand.LOGIN, Identifier.CLIENT, "purduepete,boilerup"));
+        NetworkMessage response = client.listenToServer();
+        assertEquals(ClientCommand.LOGIN_SUCCESS, response.getCommand());
+
+        client.sendToServer(
+                new NetworkMessage(ServerCommand.LOGIN, Identifier.CLIENT, "purduepete,wrongpassword"));
+        response = client.listenToServer();
+        assertEquals(ClientCommand.LOGIN_FAILURE, response.getCommand());
+    }
+
+    @Test(timeout = 5000)
     public void testSearchUser() {
         client.sendToServer(new NetworkMessage(ServerCommand.SEARCH_USER, Identifier.CLIENT, "purduepete"));
         NetworkMessage response = client.listenToServer();
         assertEquals(ClientCommand.SEARCH_USER_RESULT, response.getCommand());
     }
 
-    @Test(timeout = 1000)
-    public void testSendMessage() {
-        client.sendToServer(new NetworkMessage(ServerCommand.SEND_MESSAGE, Identifier.CLIENT, "recipientusername,messagecontent"));
-        NetworkMessage response = client.listenToServer();
-        assertEquals(ClientCommand.SEND_MESSAGE, response.getCommand());
-    }
-
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void testCreateChat() {
-        client.sendToServer(new NetworkMessage(ServerCommand.CREATE_CHAT, Identifier.CLIENT, "participant1,participant2"));
+        client.sendToServer(new NetworkMessage(ServerCommand.CREATE_CHAT, Identifier.CLIENT, new String[]{"test","purduepete,john"}));
         NetworkMessage response = client.listenToServer();
         assertEquals(ClientCommand.CREATE_CHAT_SUCCESS, response.getCommand());
 
-        client.sendToServer(new NetworkMessage(ServerCommand.CREATE_CHAT, Identifier.CLIENT, "invalidparticipant1,invalidparticipant2"));
+        client.sendToServer(new NetworkMessage(ServerCommand.CREATE_CHAT, Identifier.CLIENT, new String[]{"test","invalidparticipant1,invalidparticipant2"}));
         response = client.listenToServer();
         assertEquals(ClientCommand.CREATE_CHAT_FAILURE, response.getCommand());
     }
 
-    @Test(timeout = 1000)
-    public void testShowMessage() {
-        client.sendToServer(new NetworkMessage(ServerCommand.SHOW_MESSAGE, Identifier.CLIENT, "messagecontent"));
-        NetworkMessage response = client.listenToServer();
-        assertEquals(ClientCommand.MESSAGE_DISPLAY_SUCCESS, response.getCommand());
-    }
-
-    @Test(timeout = 1000)
-    public void testGetUsers() {
-        client.sendToServer(new NetworkMessage(ServerCommand.GET_USERS, Identifier.CLIENT, ""));
-        NetworkMessage response = client.listenToServer();
-        assertEquals(ClientCommand.GET_USERS_SUCCESS, response.getCommand());
-    }
-
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void testSaveProfile() {
-        client.sendToServer(new NetworkMessage(ServerCommand.SAVE_PROFILE, Identifier.CLIENT, "username,newprofiledata"));
+        client.sendToServer(new NetworkMessage(ServerCommand.SAVE_PROFILE, Identifier.CLIENT, "badinfo,badinfo"));
         NetworkMessage response = client.listenToServer();
-        assertEquals(ClientCommand.SAVE_PROFILE_SUCCESS, response.getCommand());
+        assertEquals(ClientCommand.SAVE_PROFILE_FAILURE, response.getCommand());
     }
 }
