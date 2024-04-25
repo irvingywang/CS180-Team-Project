@@ -99,7 +99,7 @@ public class Client implements ClientInterface, Runnable {
 
     //TODO bio
     public String getBio() {
-        return user.getBio();
+        return user.getStatus();
     }
 
     /**

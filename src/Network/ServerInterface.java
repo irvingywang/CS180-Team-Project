@@ -20,6 +20,16 @@ public interface ServerInterface {
     boolean sendToClient(NetworkMessage message);
     NetworkMessage readMessage();
     void handleCommands(Socket clientSocket);
+
+    void searchUser(NetworkMessage message);
+
     void login(NetworkMessage message);
+
+    void saveProfile(NetworkMessage message);
+
     void createUser(NetworkMessage message);
+
+    void createChat(NetworkMessage message);
+
+    void getChats(NetworkMessage message);
 }

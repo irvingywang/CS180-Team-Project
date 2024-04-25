@@ -1,6 +1,12 @@
-[INFO] DATABASE 04-23-2024 17:20:15 Log file cleared.
-[INFO] DATABASE 04-23-2024 17:20:15 Initializing 
-[INFO] DATABASE 04-23-2024 17:20:15 Loading database from file.
-[INFO] DATABASE 04-23-2024 17:20:16 Database loaded from file.
-[INFO] DATABASE 04-23-2024 17:20:16 Database initialized.
-[INFO] SERVER 04-23-2024 17:20:20 User purduepete logged in.
+[INFO] DATABASE 04-25-2024 17:07:06 Log file cleared.
+[INFO] DATABASE 04-25-2024 17:07:06 Initializing 
+[INFO] DATABASE 04-25-2024 17:07:06 Loading database from file.
+[ERROR] DATABASE 04-25-2024 17:07:06 No chats found in database file.
+[INFO] DATABASE 04-25-2024 17:07:06 Database loaded from file.
+[INFO] DATABASE 04-25-2024 17:07:06 Database initialized.
+[ERROR] CLIENT 04-25-2024 17:07:17 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
+[ERROR] CLIENT 04-25-2024 17:07:17 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
+[ERROR] CLIENT 04-25-2024 17:07:25 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
+[ERROR] CLIENT 04-25-2024 17:07:25 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
+[ERROR] CLIENT 04-25-2024 17:07:28 Cannot invoke "java.io.ObjectOutputStream.writeObject(Object)" because "this.out" is null
+[ERROR] CLIENT 04-25-2024 17:07:28 Cannot invoke "java.io.ObjectInputStream.readObject()" because "this.in" is null
