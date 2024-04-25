@@ -9,7 +9,7 @@ public class EditProfilePage extends Page {
     private Label titleLabel;
     private TextField displayNameField;
     private TextField usernameField;
-    private TextField bioField;
+    private TextField statusField;
     private TextField passwordField;
     private Dropdown publicDropdown;
     private Button saveButton;
@@ -30,9 +30,9 @@ public class EditProfilePage extends Page {
         usernameField = new TextField(client.getUsername(), GUIConstants.SIZE_400_40);
         passwordField = new TextField(client.getPassword(), GUIConstants.SIZE_400_40);
         if (client.getBio() == null)
-            bioField = new TextField(" What's on your mind? ", GUIConstants.SIZE_400_40);
+            statusField = new TextField(" What's on your mind? ", GUIConstants.SIZE_400_40);
         else
-            bioField = new TextField(client.getBio(), GUIConstants.SIZE_400_40);
+            statusField = new TextField(client.getBio(), GUIConstants.SIZE_400_40);
         String[] privacy = client.isPublicProfile() ? new String[]{"Public", "Private"} : new String[]{"Private", "Public"};
         publicDropdown = new Dropdown(privacy, GUIConstants.SIZE_400_40);
         saveButton = new Button("Save", () -> saveAction(), GUIConstants.SIZE_400_40);
@@ -53,7 +53,7 @@ public class EditProfilePage extends Page {
         panel.add(new Spacer(10));
         panel.add(passwordField);
         panel.add(new Spacer(10));
-        panel.add(bioField);
+        panel.add(statusField);
         panel.add(new Spacer(10));
         panel.add(publicDropdown);
         panel.add(new Spacer(40));
@@ -71,14 +71,14 @@ public class EditProfilePage extends Page {
         username = username.isEmpty() ? client.getUsername() : username;
         String password = passwordField.getText();
         password = password.isEmpty() ? client.getPassword() : password;
-        String bio = bioField.getText();
-        bio = bio.isEmpty() ? client.getBio() : bio;
+        String status = statusField.getText();
+        status = status.isEmpty() ? client.getBio() : status;
 
         String privacy = (String) publicDropdown.getSelectedItem();
 
         client.sendToServer(
                 new NetworkMessage(ServerCommand.SAVE_PROFILE, client.IDENTIFIER,
-                        String.format("%s:%s:%s:%s:%s", displayName, username, password, bio, privacy)));
+                        String.format("%s:%s:%s:%s:%s", displayName, username, password, status, privacy)));
 
         NetworkMessage response = client.listenToServer();
         switch ((ClientCommand) response.getCommand()) {

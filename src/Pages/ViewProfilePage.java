@@ -8,7 +8,7 @@ public class ViewProfilePage extends Page {
     // Declare components here
     private Label displayNameLabel;
     private Label usernameLabel;
-    private Label status;
+    private Label statusLabel;
     private Button friendButton;
     private Button blockButton;
     private Button backButton;
@@ -25,9 +25,9 @@ public class ViewProfilePage extends Page {
         displayNameLabel = new Label(user.getDisplayName(), 42);
         usernameLabel = new Label("@" + user.getUsername(), 24);
         if (user.isPublicProfile()) {
-            status = new Label(user.getStatus(), 20);
+            statusLabel = new Label(user.getStatus(), 20);
         } else {
-            status = new Label("Add them as a friend to see their status!", 20);
+            statusLabel = new Label("Add them as a friend to see their status!", 20);
         }
         friendButton = new Button("Add Friend", () -> friendAction(), GUIConstants.SIZE_400_40);
         blockButton = new Button("Block User", () -> blockAction(), GUIConstants.SIZE_400_40, true);
@@ -44,7 +44,7 @@ public class ViewProfilePage extends Page {
         panel.add(new Spacer(20));
         panel.add(usernameLabel);
         panel.add(new Spacer(40));
-        panel.add(status);
+        panel.add(statusLabel);
         panel.add(new Spacer(60));
         panel.add(friendButton);
         panel.add(new Spacer(10));
