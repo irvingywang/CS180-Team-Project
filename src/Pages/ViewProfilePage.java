@@ -30,7 +30,6 @@ public class ViewProfilePage extends Page {
         }
         usernameLabel = new Label("@" + user.getUsername(), 24);
         userBio = new Label(user.getBio(), 25);
-        userLocation = new Label(user.getUserLocation(), 18);
         friendButton = new Button("Add Friend", () -> friendAction(), GUIConstants.SIZE_400_40);
         blockButton = new Button("Block User", () -> blockAction(), GUIConstants.SIZE_400_40, true);
         backButton = new Button("Back to Search", () -> window.switchPage(new SearchUsersPage(client)), GUIConstants.SIZE_400_40, true);
@@ -47,8 +46,6 @@ public class ViewProfilePage extends Page {
         panel.add(usernameLabel);
         panel.add(new Spacer(35));
         panel.add(userBio);
-        panel.add(new Spacer(20));
-        panel.add(userLocation);
         panel.add(new Spacer(10));
         panel.add(friendButton);
         panel.add(new Spacer(10));

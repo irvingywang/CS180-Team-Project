@@ -102,10 +102,6 @@ public class Client implements ClientInterface, Runnable {
         return user.getBio();
     }
 
-    public String getUserLocation() {
-        return user.getUserLocation();
-    }
-
     /**
      * Retrieves the User object associated with this client.
      *

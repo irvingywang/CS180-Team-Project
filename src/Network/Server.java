@@ -201,15 +201,14 @@ public class Server implements ServerInterface, Runnable {
      * @param message Contains the new profile information.
      */
     public synchronized void saveProfile(NetworkMessage message) {
-        String[] profileInfo = ((String) message.getObject()).split(",");
+        String[] profileInfo = ((String) message.getObject()).split(":");
         User user = database.getUser(profileInfo[1]);
         if (user != null) {
             user.setDisplayName(profileInfo[0]);
             user.setUsername(profileInfo[1]);
             user.setPassword(profileInfo[2]);
-            user.setUserLocation(profileInfo[3]);
-            user.setBio(profileInfo[4]);
-            user.setPublicProfile(profileInfo[5].equals("Public"));
+            user.setBio(profileInfo[3]);
+            user.setPublicProfile(profileInfo[4].equals("Public"));
             database.serializeDatabase();
             database.loadDatabase();
             System.out.println("Profile saved on server");

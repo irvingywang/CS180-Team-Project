@@ -21,7 +21,6 @@ public class User implements UserInterface, Serializable {
     private String username;
     private String password;
     private String bio;
-    private String userLocation;
     private String displayName;
     private Boolean publicProfile;
     private ArrayList<User> friends;
@@ -51,16 +50,9 @@ public class User implements UserInterface, Serializable {
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
         this.bio = null;
-        this.userLocation = null;
+
     }
 
-    public void setUserLocation(String userLocation) {
-        this.userLocation = userLocation;
-    }
-
-    public String getUserLocation() {
-        return userLocation;
-    }
 
     /**
      * @return the username of the user
