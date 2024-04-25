@@ -1,4 +1,6 @@
-![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
+![build](https://github.com/irvingywang/CS180-Yap/actions/workflows/action.yml/badge.svg?branch=main&event=push&job=build)
+![DatabaseTest](https://github.com/irvingywang/CS180-Yap/actions/workflows/action.yml/badge.svg?branch=main&event=push&job=DatabaseTest)
+![NetworkTest](https://github.com/irvingywang/CS180-Yap/actions/workflows/action.yml/badge.svg?branch=main&event=push&job=NetworkTest)
 
 # Yap: Chat with your friends. Instantly.
 ![Logo](design/Welcome.png)
@@ -55,6 +57,8 @@ Try the login demo with username: `purduepete` and password: `123`.
   that this class is functional.
   - Overall, this class can be combined with the others to allow messages to be received and sent
   simultaneously.
+- `InvalidChatException`: 
+  - 
 
 ## Database
 - `DatabaseInterface`: Interface for the Database class.
@@ -84,9 +88,10 @@ Try the login demo with username: `purduepete` and password: `123`.
   - Overall, this class is useful for augmenting the simplicity of our code.
 
 ## Testing
-- `LocalTest`: Tests all the methods created.
+- `DatabaseTest`: Tests all the methods created.
   - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
   the functionality of the entire social media platform.
+
 ## Networking
 - `ClientInterface`: Interface for the client. 
   - This interface provides a framework for the client.
@@ -94,9 +99,6 @@ Try the login demo with username: `purduepete` and password: `123`.
 - `ServerInterface`: Interface for the server.
   - This interface provides a framework for the server.
   - This interface is crucial for ensuring the proper functionality and implementation of the server.
-- `ClientInterface`: Interface for the Network class.
-  - This interface provides a framework for the Network class.
-  - This interface is crucial for ensuring the proper functionality and implementation of 
 - `Network`: Represents a client program.
   - This class provides functionalities related to sending and receiving data to and from the server.
   - Its functionality can be tested by running the server and the client and seeing that a connection
@@ -123,30 +125,47 @@ Try the login demo with username: `purduepete` and password: `123`.
   - This creates a new data type that stores the name of commands users may want to do.
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
-- `ServerInterface`: Interface for the Server class.
-  - This interface provides a framework for the Server class.
-  - This interface is crucial for ensuring the proper functionality and implementation of Server.
-
-## GUI
-- `ClientGUI`: GUI for the Network class
-  - This class creates a simple GUI to test the functionality of the client.
-  - I do not think the GUI itself can be tested with junit. However, if the client functions properly,
-    that means the GUI can be tested by simply running the class.
-  - Overall, this class is crucial for allowing users to interact with our messaging program.
-- `GUIInterface`: Interface for the GUI.
-  - This interface provides a framework for the GUI.
-  - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
 - `Identifier`: Enum to store parts of the program.
   - This creates a new data type that stores the name of different parts of the program, such as
     client, server, database, and user.
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
+
+## GUI
+- `GUIConstants`:
+  -
+- `Window`:
+  - 
 - `Frame`:
-  - Creates a frame functionality that displays "Login"
+  - 
 - `Panel`:
-  - Creates a panel functionality that displays "Username" and "Password"
+  -
 - `Button`:
-  - Creates a panel functionality that inputs and stores "Username" and "Password"
+  - 
+- `TextField`:
+  - 
+- `Dropdown`:
+  - 
+- `Label`:
+  - 
+- `Spacer`:
+  - 
+- `RoundedBorder`:
+  - 
+- `Page`:
+  -
+- `PageInterface`:
+  -
+
+## Pages
+- `Page`:
+  -
+
+## Testing
+- `NetworkTest`: Tests methods related to the network.
+  - 
+- `DatabaseTest`: Tests methods related to the database.
+  - 
 
 # Design Specifications
 Color Scheme:

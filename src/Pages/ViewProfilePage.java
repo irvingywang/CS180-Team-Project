@@ -9,7 +9,6 @@ public class ViewProfilePage extends Page {
     private Label displayNameLabel;
     private Label usernameLabel;
     private Label status;
-    private Label userLocation;
     private Button friendButton;
     private Button blockButton;
     private Button backButton;

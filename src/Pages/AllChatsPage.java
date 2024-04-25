@@ -6,11 +6,11 @@ import Objects.Chat;
 
 public class AllChatsPage extends Page {
     // Declare components here
-    Label titleLabel;
-    Dropdown chatDropdown;
-    Button viewChatButton;
-    Button backButton;
-    Chat[] chats;
+    private Label titleLabel;
+    private Dropdown chatDropdown;
+    private Button viewChatButton;
+    private Button backButton;
+    private  Chat[] chats;
 
     public AllChatsPage(Client client) {
         super(client);

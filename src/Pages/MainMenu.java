@@ -4,12 +4,12 @@ import Network.Client;
 
 public class MainMenu extends Page {
     // Declare components here
-    Label titleLabel;
-    Button viewChatsButton;
-    Button createChatButton;
-    Button searchUsersButton;
-    Button editProfileButton;
-    Button logoutButton;
+    private Label titleLabel;
+    private Button viewChatsButton;
+    private Button createChatButton;
+    private Button searchUsersButton;
+    private Button editProfileButton;
+    private Button logoutButton;
 
     public MainMenu(Client client) {
         super(client);

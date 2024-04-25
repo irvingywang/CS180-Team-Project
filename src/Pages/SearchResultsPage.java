@@ -6,11 +6,11 @@ import Objects.User;
 
 public class SearchResultsPage extends Page {
     // Declare components here
-    Label titleLabel;
-    Dropdown searchResultsDropdown;
-    Button viewProfileButton;
-    Button backButton;
-    User[] results;
+    private Label titleLabel;
+    private Dropdown searchResultsDropdown;
+    private Button viewProfileButton;
+    private Button backButton;
+    private User[] results;
 
     public SearchResultsPage(Client client, User[] results) {
         super(client);
