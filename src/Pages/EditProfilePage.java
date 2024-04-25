@@ -29,10 +29,10 @@ public class EditProfilePage extends Page {
         displayNameField = new TextField(displayName, GUIConstants.SIZE_400_40);
         usernameField = new TextField(client.getUsername(), GUIConstants.SIZE_400_40);
         passwordField = new TextField(client.getPassword(), GUIConstants.SIZE_400_40);
-        if (client.getBio() == null)
+        if (client.getStatus() == null)
             statusField = new TextField(" What's on your mind? ", GUIConstants.SIZE_400_40);
         else
-            statusField = new TextField(client.getBio(), GUIConstants.SIZE_400_40);
+            statusField = new TextField(client.getStatus(), GUIConstants.SIZE_400_40);
         String[] privacy = client.isPublicProfile() ? new String[]{"Public", "Private"} : new String[]{"Private", "Public"};
         publicDropdown = new Dropdown(privacy, GUIConstants.SIZE_400_40);
         saveButton = new Button("Save", () -> saveAction(), GUIConstants.SIZE_400_40);
@@ -72,7 +72,7 @@ public class EditProfilePage extends Page {
         String password = passwordField.getText();
         password = password.isEmpty() ? client.getPassword() : password;
         String status = statusField.getText();
-        status = status.isEmpty() ? client.getBio() : status;
+        status = status.isEmpty() ? client.getStatus() : status;
 
         String privacy = (String) publicDropdown.getSelectedItem();
 
