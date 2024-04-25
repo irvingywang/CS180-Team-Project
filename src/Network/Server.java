@@ -154,6 +154,7 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param message Contains the search query.
      */
+    @Override
     public synchronized void searchUser(NetworkMessage message) {
         String query = (String) message.getObject();
         ArrayList<User> matchedUsers = new ArrayList<>();
@@ -175,6 +176,7 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param message The network message containing login credentials.
      */
+    @Override
     public synchronized void login(NetworkMessage message) {
         String[] loginInfo = ((String) message.getObject()).split(",");
         String username = loginInfo[0];
@@ -200,14 +202,16 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param message Contains the new profile information.
      */
+    @Override
     public synchronized void saveProfile(NetworkMessage message) {
-        String[] profileInfo = ((String) message.getObject()).split(",");
+        String[] profileInfo = ((String) message.getObject()).split(":");
         User user = database.getUser(profileInfo[1]);
         if (user != null) {
             user.setDisplayName(profileInfo[0]);
             user.setUsername(profileInfo[1]);
             user.setPassword(profileInfo[2]);
-            user.setPublicProfile(profileInfo[3].equals("Public"));
+            user.setStatus(profileInfo[3]);
+            user.setPublicProfile(profileInfo[4].equals("Public"));
             database.serializeDatabase();
             database.loadDatabase();
             System.out.println("Profile saved on server");
@@ -231,6 +235,7 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param message The network message containing user creation data.
      */
+    @Override
     public synchronized void createUser(NetworkMessage message) {
         String[] userInfo = ((String) message.getObject()).split(",");
         String username = userInfo[0];
@@ -260,6 +265,7 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param message Contains the chat information.
      */
+    @Override
     public synchronized void createChat(NetworkMessage message) {
         String[] chatInfo = ((String[]) message.getObject());
         String chatName = chatInfo[0];
@@ -292,7 +298,8 @@ public class Server implements ServerInterface, Runnable {
      *
      * @param message Contains the user information.
      */
-    public void getChats(NetworkMessage message) {
+    @Override
+    public synchronized void getChats(NetworkMessage message) {
         sendToClient(new NetworkMessage(ClientCommand.GET_CHATS_RESULT, IDENTIFIER,
                 database.getChats((User) message.getObject()).toArray(new Chat[0])));
     }
@@ -469,4 +476,3 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 }
-

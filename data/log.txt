@@ -1,17 +1,30 @@
-[INFO] DATABASE 04-25-2024 11:34:51 Log file cleared.
-[INFO] DATABASE 04-25-2024 11:34:51 Initializing 
-[INFO] DATABASE 04-25-2024 11:34:51 Loading database from file.
-[ERROR] DATABASE 04-25-2024 11:34:51 No users found in database file.
-[ERROR] DATABASE 04-25-2024 11:34:51 No chats found in database file.
-[INFO] DATABASE 04-25-2024 11:34:51 Database loaded from file.
-[INFO] DATABASE 04-25-2024 11:34:51 Database initialized.
-[INFO] SERVER 04-25-2024 11:34:51 User purduepete logged in.
-[INFO] SERVER 04-25-2024 11:34:51 Login attempt failed for user purduepete.
-[INFO] DATABASE 04-25-2024 11:34:51 User newuser not found.
-[INFO] SERVER 04-25-2024 11:34:51 Created user newuser.
-[INFO] DATABASE 04-25-2024 11:34:51 Saving database to file.
-[INFO] DATABASE 04-25-2024 11:34:51 Database saved to file.
-[INFO] DATABASE 04-25-2024 11:34:51 Loading database from file.
-[ERROR] DATABASE 04-25-2024 11:34:51 No chats found in database file.
-[INFO] DATABASE 04-25-2024 11:34:51 Database loaded from file.
-[INFO] SERVER 04-25-2024 11:34:51 Attempt to create user purduepete failed: user already exists.
+[INFO] DATABASE 04-25-2024 17:19:24 Log file cleared.
+[INFO] DATABASE 04-25-2024 17:19:24 Initializing 
+[INFO] DATABASE 04-25-2024 17:19:24 Loading database from file.
+[ERROR] DATABASE 04-25-2024 17:19:24 Error loading database from file: data/data.ser (No such file or directory)
+[INFO] DATABASE 04-25-2024 17:19:24 Database initialized.
+[INFO] DATABASE 04-25-2024 17:19:34 User purduepete not found.
+[INFO] SERVER 04-25-2024 17:19:34 Created user purduepete.
+[INFO] DATABASE 04-25-2024 17:19:34 Saving database to file.
+[INFO] DATABASE 04-25-2024 17:19:34 Database saved to file.
+[INFO] DATABASE 04-25-2024 17:19:34 Loading database from file.
+[ERROR] DATABASE 04-25-2024 17:19:34 No chats found in database file.
+[INFO] DATABASE 04-25-2024 17:19:34 Database loaded from file.
+[INFO] DATABASE 04-25-2024 17:19:46 User john not found.
+[INFO] SERVER 04-25-2024 17:19:46 Created user john.
+[INFO] DATABASE 04-25-2024 17:19:46 Saving database to file.
+[INFO] DATABASE 04-25-2024 17:19:46 Database saved to file.
+[INFO] DATABASE 04-25-2024 17:19:46 Loading database from file.
+[ERROR] DATABASE 04-25-2024 17:19:46 No chats found in database file.
+[INFO] DATABASE 04-25-2024 17:19:46 Database loaded from file.
+[INFO] SERVER 04-25-2024 17:19:58 User purduepete logged in.
+[INFO] DATABASE 04-25-2024 17:20:05 Saving database to file.
+[INFO] DATABASE 04-25-2024 17:20:05 Database saved to file.
+[INFO] DATABASE 04-25-2024 17:20:05 Loading database from file.
+[ERROR] DATABASE 04-25-2024 17:20:05 No chats found in database file.
+[INFO] DATABASE 04-25-2024 17:20:05 Database loaded from file.
+[INFO] DATABASE 04-25-2024 17:20:24 Saving database to file.
+[INFO] DATABASE 04-25-2024 17:20:24 Database saved to file.
+[INFO] DATABASE 04-25-2024 17:20:24 Loading database from file.
+[INFO] DATABASE 04-25-2024 17:20:24 Database loaded from file.
+[INFO] SERVER 04-25-2024 17:20:24 Chat created successfully.

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class User implements UserInterface, Serializable {
     private String username;
     private String password;
+    private String status;
     private String displayName;
     private Boolean publicProfile;
     private ArrayList<User> friends;
@@ -40,6 +41,8 @@ public class User implements UserInterface, Serializable {
         this.publicProfile = publicProfile;
         this.friends = new ArrayList<User>();
         this.blocked = new ArrayList<User>();
+        this.status = null;
+
     }
 
     /**
@@ -64,6 +67,16 @@ public class User implements UserInterface, Serializable {
     @Override
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * Retrieves the status of the user.
+     *
+     * @return The current status of the user.
+     */
+    @Override
+    public String getStatus() {
+        return status;
     }
 
     /**
@@ -190,6 +203,17 @@ public class User implements UserInterface, Serializable {
     @Override
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+
+    /**
+     * Sets the status of the user.
+     *
+     * @param status The status to be set.
+     */
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
