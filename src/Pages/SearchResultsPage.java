@@ -1,8 +1,12 @@
 package Pages;
 
 import GUI.*;
+import GUI.Button;
+import GUI.Label;
+import GUI.Panel;
 import Network.Client;
-import java.awt.FlowLayout;
+
+import java.awt.*;
 
 /**
  * A page to display search results to the user and allow user management actions.
@@ -16,6 +20,7 @@ import java.awt.FlowLayout;
  */
 public class SearchResultsPage extends Page {
     private String[] results;
+    private Label feedbackLabel;
 
     public SearchResultsPage(Client client, String[] results) {
         super(client);
@@ -24,10 +29,13 @@ public class SearchResultsPage extends Page {
 
     @Override
     public void initContent() {
-        // Initialize components here
         Label titleLabel = new Label("User Search Results", 42);
         panel.add(new Spacer(20));
         panel.add(titleLabel);
+        panel.add(new Spacer(20));
+
+        feedbackLabel = new Label("", 24);
+        panel.add(feedbackLabel);
         panel.add(new Spacer(20));
 
         if (results != null && results.length > 0) {
@@ -38,8 +46,8 @@ public class SearchResultsPage extends Page {
             panel.add(new Label("No results found.", 24));
         }
 
-        Button backButton = new Button("Back", () -> window.switchPage(new SearchUsersPage(client)), GUIConstants.SIZE_400_40, true);
-        panel.add(new Spacer(20));
+        Button backButton = new Button("Back", () -> window.switchPage(new SearchUsersPage(client)), new Dimension(400,40), true);
+        panel.add(new Spacer(40));
         panel.add(backButton);
 
         panel.revalidate();
@@ -50,8 +58,8 @@ public class SearchResultsPage extends Page {
         Label userLabel = new Label(username, 24);
         userPanel.add(userLabel);
 
-        Button addButton = new Button("Add", () -> addUser(username), GUIConstants.SIZE_200_40);
-        Button deleteButton = new Button("Delete", () -> deleteUser(username), GUIConstants.SIZE_200_40);
+        Button addButton = new Button("Add", () -> addUser(username), GUIConstants.SIZE_300_40);
+        Button deleteButton = new Button("Delete", () -> deleteUser(username), GUIConstants.SIZE_300_40);
 
         userPanel.add(addButton);
         userPanel.add(deleteButton);
@@ -62,9 +70,17 @@ public class SearchResultsPage extends Page {
 
     private void addUser(String username) {
         System.out.println("Adding user: " + username);
+        displayFeedback("User " + username + " has been added.");
     }
 
     private void deleteUser(String username) {
         System.out.println("Deleting user: " + username);
+        displayFeedback("User " + username + " has been deleted.");
+    }
+
+    private void displayFeedback(String message) {
+        feedbackLabel.setText(message);
+        panel.revalidate();
+        panel.repaint();
     }
 }
