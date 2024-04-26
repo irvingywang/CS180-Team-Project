@@ -146,6 +146,20 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
+     * Disconnects the client from the server.
+     * Logs any errors that occur during disconnection.
+     */
+    public void disconnectFromServer() {
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, e.getMessage());
+        }
+    }
+
+    /**
      * Sends a NetworkMessage to the server.
      * <p>
      * This method attempts to write the NetworkMessage object to the ObjectOutputStream and flushes the stream.

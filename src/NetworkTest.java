@@ -1,7 +1,8 @@
 import Database.Database;
 import Network.*;
 import Objects.User;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,8 +24,8 @@ public class NetworkTest {
     private static Client client;
     private static Database database = Database.getInstance();
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
         Server.start();
 
         database.setDataFile("test.ser");
@@ -39,6 +40,11 @@ public class NetworkTest {
 
         database.addUser(
                 new User("john", "123", "Boiler Up", false));
+    }
+
+    @After
+    public void tearDown() {
+        client.disconnectFromServer();
     }
 
     @Test (timeout = 5000)
@@ -87,7 +93,7 @@ public class NetworkTest {
 
     @Test(timeout = 5000)
     public synchronized void testSaveProfile() {
-        client.sendToServer(new NetworkMessage(ServerCommand.SAVE_PROFILE, Identifier.CLIENT, "badinfo,badinfo"));
+        client.sendToServer(new NetworkMessage(ServerCommand.SAVE_PROFILE, Identifier.CLIENT, "badinfo:badinfo"));
         NetworkMessage response = client.listenToServer();
         assertEquals(ClientCommand.SAVE_PROFILE_FAILURE, response.getCommand());
     }

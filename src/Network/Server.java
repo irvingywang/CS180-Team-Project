@@ -259,7 +259,7 @@ public class Server implements ServerInterface, Runnable {
             database.loadDatabase();
 
             sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
-                    IDENTIFIER, newUser));
+                    IDENTIFIER, database.getUser(username)));
         }
     }
 
