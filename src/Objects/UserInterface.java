@@ -15,6 +15,10 @@ package Objects;
  *
  */
 public interface UserInterface {
+    void setStatus(String status);
+
+    String getStatus();
+
     String getUsername();
     String getPassword();
     String getDisplayName();

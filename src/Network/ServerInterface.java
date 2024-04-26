@@ -22,6 +22,7 @@ public interface ServerInterface {
     void handleCommands(Socket clientSocket);
     void login(NetworkMessage message);
     void createUser(NetworkMessage message);
+    void getChats(NetworkMessage message);
     void searchUser(NetworkMessage message);
     void createChat(NetworkMessage message);
     void saveProfile(NetworkMessage message);

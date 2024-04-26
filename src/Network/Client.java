@@ -97,10 +97,14 @@ public class Client implements ClientInterface, Runnable {
         return (Chat[]) response.getObject();
     }
 
-    //TODO bio
-//    public String getBio() {
-//        return user.getBio();
-//    }
+    /**
+     * Retrieves the status of the User object associated with this client.
+     *
+     * @return the status of the User object associated with this client
+     */
+    public String getStatus() {
+        return user.getStatus();
+    }
 
     /**
      * Retrieves the User object associated with this client.
@@ -201,5 +205,6 @@ public class Client implements ClientInterface, Runnable {
             return null;
         }
     }
+
 
 }

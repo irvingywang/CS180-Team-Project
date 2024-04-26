@@ -14,9 +14,9 @@ public class Test {
         Client client = new Client();
         User user = database.getUser("purduepete");
         user.setDisplayName("Purdue Pete");
-        user.setPublicProfile(true);
+        user.setPublicProfile(false);
         client.setUser(user);
         Window window = Window.getInstance();
-        window.switchPage(new MainMenu(client));
+        window.switchPage(new ViewProfilePage(client, user));
     }
 }
