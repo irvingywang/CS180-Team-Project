@@ -127,52 +127,37 @@ public class Server implements ServerInterface, Runnable {
                 if (message != null) {
                     System.out.println(message);
                     switch ((ServerCommand) message.getCommand()) {
-                        case LOGIN -> {
-                            String[] loginInfo = ((String) message.getObject()).split(",");
-                            if (login(loginInfo[0], loginInfo[1])) {
-                                Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
-                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS,
-                                        IDENTIFIER, database.getUser(loginInfo[0])));
-                            } else {
-                                System.out.println("Login failed");
-                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
-                                        IDENTIFIER, null));
-                            }
-                        }
-                        case CREATE_USER -> {
-                            String[] userInfo = ((String) message.getObject()).split(",");
-                            if (createUser(userInfo[0], userInfo[1], userInfo[2])) {
-                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
-                                        IDENTIFIER, database.getUser(userInfo[0])));
-                            } else {
-                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
-                                        IDENTIFIER, null));
-                            }
-                        }
-                        case CREATE_CHAT -> {
-                            String[] parts = ((String) message.getObject()).split(",");
-                            String chatName = parts[0];
-                            String[] members = Arrays.copyOfRange(parts, 1, parts.length);
-
-                            createChat(chatName, members);
-
-                            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_SUCCESS, Server.IDENTIFIER, chatName));
-                        }
-                        case SEARCH_USER -> {
-                            String searchQuery = (String) message.getObject();
-                            List<User> foundUsers = searchUsers(searchQuery);
-                            if (!foundUsers.isEmpty()) {
-                                String[] usernames = foundUsers.stream().map(User::getUsername).toArray(String[]::new);
-                                sendToClient(new NetworkMessage(ClientCommand.SEARCH_SUCCESS, IDENTIFIER, usernames));
-                            } else {
-                                sendToClient(new NetworkMessage(ClientCommand.SEARCH_FAILURE, IDENTIFIER, "No users found"));
-                            }
-                        }
-
-                        default -> {
-                            Database.writeLog(LogType.ERROR, IDENTIFIER,
-                                    "Invalid command received.");
-                        }
+//                        case LOGIN -> {
+//                            String[] loginInfo = ((String) message.getObject()).split(",");
+//                            if (login(loginInfo[0], loginInfo[1])) {
+//                                Database.writeLog(LogType.INFO, IDENTIFIER, "Login successful");
+//                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS,
+//                                        IDENTIFIER, database.getUser(loginInfo[0])));
+//                            } else {
+//                                System.out.println("Login failed");
+//                                sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
+//                                        IDENTIFIER, null));
+//                            }
+//                        }
+//                        case CREATE_USER -> {
+//                            String[] userInfo = ((String) message.getObject()).split(",");
+//                            if (createUser(userInfo[0], userInfo[1], userInfo[2])) {
+//                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
+//                                        IDENTIFIER, database.getUser(userInfo[0])));
+//                            } else {
+//                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
+//                                        IDENTIFIER, null));
+//                            }
+//                        }
+//                        case CREATE_CHAT -> {
+//                            String[] parts = ((String) message.getObject()).split(",");
+//                            String chatName = parts[0];
+//                            String[] members = Arrays.copyOfRange(parts, 1, parts.length);
+//
+//                            createChat(chatName, members);
+//
+//                            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_SUCCESS, Server.IDENTIFIER, chatName));
+//                        }
                         case LOGIN -> login(message);
                         case CREATE_USER -> createUser(message);
                         case SEARCH_USER -> searchUser(message);
@@ -187,7 +172,7 @@ public class Server implements ServerInterface, Runnable {
                     break;
                 }
             }
-        } catch (IOException | InvalidChatException e) {
+        } catch (IOException e) {
             Database.writeLog(LogType.ERROR, IDENTIFIER,
                     "Error handling client: " + e.getMessage());
         } finally {

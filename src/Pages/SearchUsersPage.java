@@ -65,6 +65,6 @@ public class SearchUsersPage extends Page {
 
         NetworkMessage message = client.listenToServer();
         User[] results = (User[]) message.getObject();
-        window.switchPage(new ViewProfilePage(client, results));
+        window.switchPage(new SearchResultsPage(client, results));
     }
 }

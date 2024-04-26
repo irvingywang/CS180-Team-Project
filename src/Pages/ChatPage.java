@@ -7,6 +7,7 @@ import GUI.Button;
 import Network.Client;
 import Network.NetworkMessage;
 import Network.ServerCommand;
+import Objects.Chat;
 import Objects.Message;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class ChatPage extends Page {
     private Button backButton;
     private JScrollPane scrollPane;
 
-    public ChatPage(Client client, String chatName) {
+    public ChatPage(Client client, Chat chatName) {
         super(client);
     }
 
