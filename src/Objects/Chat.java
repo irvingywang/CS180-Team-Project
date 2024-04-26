@@ -1,5 +1,6 @@
 package Objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,8 +15,7 @@ import java.util.ArrayList;
  * @author Karan Vankwani, L08
  * @version April 1, 2024
  */
-public class Chat implements ChatInterface {
-    private String id; //For now the name is the id
+public class Chat implements ChatInterface, Serializable {
     private String name;
     private ArrayList<User> members; //username, user
     private ArrayList<Message> messages; //message

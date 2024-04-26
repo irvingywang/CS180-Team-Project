@@ -1,7 +1,5 @@
-import Network.Client;
 import Database.Database;
 import Objects.Chat;
-import Network.Server;
 import Objects.InvalidChatException;
 import Objects.User;
 import org.junit.Before;
@@ -12,9 +10,9 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Project05 - LocalTest
+ * Project05 - DatabaseTest
  *
- * Tests all the methods created.
+ * Tests all the database methods created.
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08
@@ -24,7 +22,7 @@ import static org.junit.Assert.*;
  * @version April 1, 2024
  *
  */
-public class LocalTest {
+public class DatabaseTest {
     private Database database;
     private User user1;
     private User user2;
@@ -172,38 +170,5 @@ public class LocalTest {
         } catch (InvalidChatException e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    public void testLogin() {
-        Server server = new Server();
-        assertTrue(server.login("purduepete", "boilerup"));
-        assertFalse(server.login("john123", "wrongpassword"));
-    }
-
-    @Test
-    public void testDeleteMessage() {
-        try {
-            Server server = new Server();
-            Chat chat = new Chat("Chat", new ArrayList<>());
-            User sender = new User("john123",
-                    "pw123", "Sender", true);
-            server.addUser(sender);
-            server.sendMessage("Hello World", "purduepete");
-            assertTrue(server.deleteMessage(sender, chat, "Hello World"));
-        } catch (InvalidChatException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testReadNetworkMessage() {
-        Client client = new Client();
-        assertNull(client.readNetworkMessage());
-    }
-    @Test
-    public void testListenToServer() {
-        Client client = new Client();
-        assertNull(client.listenToServer());
     }
 }

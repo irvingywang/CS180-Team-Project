@@ -2,9 +2,8 @@ package Pages;
 import GUI.*;
 import Network.Client;
 
-
 /**
- * Project05 -- ChatPage
+ * Project05 -- MainMenu
  * <p>
  * Creates page that is shown after user logs in or creates
  * a new account.
@@ -18,12 +17,12 @@ import Network.Client;
  */
 public class MainMenu extends Page {
     // Declare components here
-    Label titleLabel;
-    Button viewChatsButton;
-    Button createChatButton;
-    Button searchUsersButton;
-    Button editProfileButton;
-    Button logoutButton;
+    private Label titleLabel;
+    private Button viewChatsButton;
+    private Button createChatButton;
+    private Button searchUsersButton;
+    private Button editProfileButton;
+    private Button logoutButton;
 
     public MainMenu(Client client) {
         super(client);
@@ -32,7 +31,8 @@ public class MainMenu extends Page {
     @Override
     public void initContent() {
         // Initialize components here
-        titleLabel = new Label("Welcome " + client.getUsername(), 42);
+        String title = client.getDisplayName().isEmpty() ? client.getUsername() : client.getDisplayName();
+        titleLabel = new Label("Welcome " + title, 42);
 
         viewChatsButton = new Button("View Chats", () -> window.switchPage(new AllChatsPage(client)), GUIConstants.SIZE_400_40, true);
         createChatButton = new Button("Create Chat", () -> window.switchPage(new CreateChatPage(client)), GUIConstants.SIZE_400_40, true);

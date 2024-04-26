@@ -3,7 +3,7 @@ package Objects;
 /**
  * Project05 - InvalidChatException
  *
- *Custom Java exception for handling invalid chat conditions
+ * Custom Java exception for handling invalid chat conditions
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08

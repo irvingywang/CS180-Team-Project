@@ -14,7 +14,7 @@ import java.net.Socket;
 
 /**
  * Project05 - Client
- *
+ * <p>
  * This is the client for our messaging program. It allows users to
  * make any requests from the program.
  *
@@ -23,15 +23,12 @@ import java.net.Socket;
  * @author Jack Kim, L08
  * @author John Guan, L08
  * @author Karan Vankwani, L08
- *
  * @version April 14, 2024
- *
  */
 public class Client implements ClientInterface, Runnable {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private final ClientGUI clientGUI = new ClientGUI(this);
     private User user;
     public static final Identifier IDENTIFIER = Identifier.CLIENT;
     public static Thread clientThread;
@@ -48,32 +45,73 @@ public class Client implements ClientInterface, Runnable {
         if (connectToServer()) {
             Window.getInstance().switchPage(new WelcomePage(this));
         } else {
-            clientGUI.showError("Connection to server failed.");
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to connect to server");
         }
     }
 
+    /**
+     * Retrieves the username of the User object associated with this client.
+     *
+     * @return the username of the User object associated with this client
+     */
     public String getUsername() {
         return user.getUsername();
     }
 
+    /**
+     * Retrieves the display name of the User object associated with this client.
+     *
+     * @return the display name of the User object associated with this client
+     */
     public String getDisplayName() {
         return user.getDisplayName();
     }
 
+    /**
+     * Retrieves the password of the User object associated with this client.
+     *
+     * @return the password of the User object associated with this client
+     */
     public String getPassword() {
         return user.getPassword();
     }
 
+    /**
+     * Checks if the User object associated with this client has a public profile.
+     *
+     * @return true if the User object associated with this client has a public profile, false otherwise
+     */
     public boolean isPublicProfile() {
         return user.isPublicProfile();
     }
 
+    /**
+     * Retrieves the chats associated with the User object of this client.
+     * This method sends a GET_CHATS command to the server and waits for a response.
+     * The response is expected to be an array of Chat objects.
+     *
+     * @return an array of Chat objects associated with the User object of this client
+     */
     public Chat[] getChats() {
         sendToServer(new NetworkMessage(ServerCommand.GET_CHATS, IDENTIFIER, user));
         NetworkMessage response = listenToServer();
         return (Chat[]) response.getObject();
     }
 
+    /**
+     * Retrieves the status of the User object associated with this client.
+     *
+     * @return the status of the User object associated with this client
+     */
+    public String getStatus() {
+        return user.getStatus();
+    }
+
+    /**
+     * Retrieves the User object associated with this client.
+     *
+     * @return the User object associated with this client
+     */
     public User getUser() {
         return user;
     }
@@ -90,7 +128,7 @@ public class Client implements ClientInterface, Runnable {
 
     /**
      * Connects the client to the server.
-     *
+     * <p>
      * It also initializes the ObjectOutputStream and ObjectInputStream for server communication.
      *
      * @return true if the connection is successful, false if an exception is thrown
@@ -109,8 +147,22 @@ public class Client implements ClientInterface, Runnable {
     }
 
     /**
+     * Disconnects the client from the server.
+     * Logs any errors that occur during disconnection.
+     */
+    public void disconnectFromServer() {
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, e.getMessage());
+        }
+    }
+
+    /**
      * Sends a NetworkMessage to the server.
-     *
+     * <p>
      * This method attempts to write the NetworkMessage object to the ObjectOutputStream and flushes the stream.
      * Logs an error if an exception is thrown.
      *
@@ -146,7 +198,7 @@ public class Client implements ClientInterface, Runnable {
 
     /**
      * Listens for a single message from the server.
-     *
+     * <p>
      * This method reads a NetworkMessage from the server and immediately returns it.
      * It does not close the socket after reading the message to allow continuous communication.
      *
@@ -157,14 +209,13 @@ public class Client implements ClientInterface, Runnable {
         try {
             return readNetworkMessage();  // Directly return the message read from the server
         } catch (Exception e) {
-            clientGUI.showError("Error listening to server: " + e.getMessage());
             Database.writeLog(LogType.ERROR, IDENTIFIER, e.getMessage());
             try {
                 if (socket != null) {
                     socket.close();
                 }
-            } catch (IOException ioException) {
-                clientGUI.showError("Error closing socket: " + ioException.getMessage());
+            } catch (IOException e2) {
+                Database.writeLog(LogType.ERROR, IDENTIFIER, e2.getMessage());
             }
             return null;
         }

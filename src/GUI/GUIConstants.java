@@ -2,6 +2,18 @@ package GUI;
 
 import java.awt.*;
 
+/**
+ * Project05 -- GUIConstants
+ * <p>
+ * Creates a framework for colors and styling for the whole GUI.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class GUIConstants {
     // Colors
     public static final Color PRIMARY_BLUE = Color.decode("#386AC7");

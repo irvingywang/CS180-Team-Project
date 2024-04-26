@@ -49,9 +49,9 @@ public class CreateUserPage extends Page {
         panel.add(new Spacer(200));
         panel.add(titleLabel);
         panel.add(new Spacer(40));
-        panel.add(usernameField);
-        panel.add(new Spacer(10));
         panel.add(displayNameField);
+        panel.add(new Spacer(10));
+        panel.add(usernameField);
         panel.add(new Spacer(10));
         panel.add(passwordField);
         panel.add(new Spacer(40));

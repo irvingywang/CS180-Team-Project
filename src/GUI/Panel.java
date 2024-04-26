@@ -1,8 +1,21 @@
 package GUI;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import java.awt.LayoutManager;
 
+/**
+ * Project05 -- Panel
+ * <p>
+ * Creates a framework for a GUI panel.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class Panel extends JPanel {
 
     public Panel() {
