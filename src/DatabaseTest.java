@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Project05 - LocalTest
+ * Project05 - DatabaseTest
  *
- * Tests all the methods created.
+ * Tests all the database methods created.
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08

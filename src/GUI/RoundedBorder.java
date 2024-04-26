@@ -3,6 +3,18 @@ package GUI;
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
 
+/**
+ * Project05 -- RoundedBorder
+ * <p>
+ * Creates a framework for a GUI rounded border.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class RoundedBorder extends AbstractBorder {
     private final int radius = GUIConstants.EDGE_RADIUS;
     private final int thickness = GUIConstants.STROKE_THICKNESS;
