@@ -1,7 +1,8 @@
 package Pages;
 
 import GUI.*;
-import Network.Client;
+import Network.*;
+import Objects.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,10 @@ import java.util.List;
  */
 public class SearchUsersPage extends Page {
     // Declare components here
-    Label titleLabel;
-    TextField searchField;
-    Button searchButton;
-    Button backButton;
+    private Label titleLabel;
+    private TextField searchField;
+    private Button searchButton;
+    private Button backButton;
 
     public SearchUsersPage(Client client) {
         super(client);
@@ -58,24 +59,12 @@ public class SearchUsersPage extends Page {
 
     private void searchAction() {
         //TODO search users
-        String search = searchField.getText();
-        System.out.println("Searching for users: " + search);
+        String query = searchField.getText();
+        System.out.println("Searching for users: " + query);
+        client.sendToServer(new NetworkMessage(ServerCommand.SEARCH_USER, client.IDENTIFIER, query));
 
-//        String[] users = ????
-//        List<String> searchList = new ArrayList<>();
-//
-//        for (String user : users) {
-//            if (user.toLowerCase().contains(search.toLowerCase())) {
-//                searchList.add(user);
-//            }
-//        }
-//
-//        String[] searchResults = searchList.toArray(new String[0]);
-//
-//        if (searchResults.length > 0) {
-//            window.switchPage(new SearchResultsPage(client, searchResults));
-//        } else {
-//            showError("No results found for: " + search);
-//        }
+        NetworkMessage message = client.listenToServer();
+        User[] results = (User[]) message.getObject();
+        window.switchPage(new ViewProfilePage(client, results));
     }
 }

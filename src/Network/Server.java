@@ -37,11 +37,11 @@ public class Server implements ServerInterface, Runnable {
     ObjectOutputStream out;
     private static final Identifier IDENTIFIER = Identifier.SERVER;
     static Thread serverThread;
+    private User mainUser;
 
     /**
      * The entry point of the server application.
      * It creates a server instance and starts a new thread to run it.
-     *
      */
     public static void start() {
         Server server = new Server();
@@ -49,10 +49,18 @@ public class Server implements ServerInterface, Runnable {
         serverThread.start();
     }
 
+    /**
+     * Returns the server thread.
+     *
+     * @return The server thread.
+     */
     public static Thread getThread() {
         return serverThread;
     }
 
+    /**
+     * Starts the server and handles client connections.
+     */
     @Override
     public void run() {
         try {
@@ -160,27 +168,20 @@ public class Server implements ServerInterface, Runnable {
                                 sendToClient(new NetworkMessage(ClientCommand.SEARCH_FAILURE, IDENTIFIER, "No users found"));
                             }
                         }
-                        case ADD_USER -> {
-                            User user = (User) message.getObject();
-                            if (database.addUser(user)) {
-                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS, IDENTIFIER, "User added successfully"));
-                            } else {
-                                sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE, IDENTIFIER, "Failed to add user"));
-                            }
-                        }
-                        case REMOVE_USER -> {
-                            String username = (String) message.getObject();
-                            if (database.removeUser(username)) {
-                                sendToClient(new NetworkMessage(ClientCommand.DELETE_USER_SUCCESS, IDENTIFIER, "User deleted successfully"));
-                            } else {
-                                sendToClient(new NetworkMessage(ClientCommand.DELETE_USER_FAILURE, IDENTIFIER, "Failed to delete user"));
-                            }
-                        }
 
                         default -> {
                             Database.writeLog(LogType.ERROR, IDENTIFIER,
                                     "Invalid command received.");
                         }
+                        case LOGIN -> login(message);
+                        case CREATE_USER -> createUser(message);
+                        case SEARCH_USER -> searchUser(message);
+                        case SAVE_PROFILE -> saveProfile(message);
+                        case CREATE_CHAT -> createChat(message);
+                        case GET_CHATS -> getChats(message);
+                        case BLOCK_USER -> blockUser((User) message.getObject(), mainUser);
+                        case ADD_FRIEND -> addFriend((User) message.getObject());
+                        default -> Database.writeLog(LogType.ERROR, IDENTIFIER, "Invalid command received.");
                     }
                 } else {
                     break;
@@ -199,52 +200,160 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
-    /**
-     * Authenticates a user login.
-     *
-     * @param username The username of the user.
-     * @param password The password of the user.
-     * @return True if the login is successful, false otherwise.
-     */
 
+    /**
+     * Searches for users based on a query.
+     *
+     * @param message Contains the search query.
+     */
     @Override
-    public boolean login(String username, String password) {
+    public synchronized void searchUser(NetworkMessage message) {
+        String query = (String) message.getObject();
+        ArrayList<User> matchedUsers = new ArrayList<>();
+        query = query.toLowerCase();
+        for (User user : database.getUsers()) {
+            if (user.getUsername().toLowerCase().contains(query) ||
+                    user.getDisplayName().toLowerCase().contains(query)) {
+                matchedUsers.add(user);
+            }
+        }
+        User[] results = matchedUsers.toArray(new User[0]);
+
+        sendToClient(new NetworkMessage(ClientCommand.SEARCH_USER_RESULT,
+                IDENTIFIER, results));
+    }
+
+    /**
+     * Processes a login request from a client.
+     *
+     * @param message The network message containing login credentials.
+     */
+    @Override
+    public synchronized void login(NetworkMessage message) {
+        String[] loginInfo = ((String) message.getObject()).split(",");
+        String username = loginInfo[0];
+        String password = loginInfo[1];
+
         User user = database.getUser(username);
         if (user != null && user.getPassword().equals(password)) {
             Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s logged in.", username));
-            return true;
+            sendToClient(new NetworkMessage(ClientCommand.LOGIN_SUCCESS,
+                    IDENTIFIER, user));
         } else {
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s failed to log in.", username));
-            return false;
+                    String.format("Login attempt failed for user %s.", username));
+            System.out.println("Login failed for user: " + username);
+            sendToClient(new NetworkMessage(ClientCommand.LOGIN_FAILURE,
+                    IDENTIFIER, null));
+        }
+    }
+
+
+    /**
+     * Updates a user's profile.
+     *
+     * @param message Contains the new profile information.
+     */
+    @Override
+    public synchronized void saveProfile(NetworkMessage message) {
+        String[] profileInfo = ((String) message.getObject()).split(":");
+        User user = database.getUser(profileInfo[1]);
+        if (user != null) {
+            user.setDisplayName(profileInfo[0]);
+            user.setUsername(profileInfo[1]);
+            user.setPassword(profileInfo[2]);
+            user.setStatus(profileInfo[3]);
+            user.setPublicProfile(profileInfo[4].equals("Public"));
+            database.serializeDatabase();
+            database.loadDatabase();
+            System.out.println("Profile saved on server");
+
+            User updatedUser = database.getUser(profileInfo[1]);
+            if (updatedUser != null) {
+                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_SUCCESS,
+                        IDENTIFIER, updatedUser));
+            } else {
+                sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_FAILURE,
+                        IDENTIFIER, null));
+            }
+        } else {
+            sendToClient(new NetworkMessage(ClientCommand.SAVE_PROFILE_FAILURE,
+                    IDENTIFIER, null));
         }
     }
 
     /**
-     * Creates a new user and adds it to the database.
-     * If the user already exists, the method will return false.
+     * Handles the creation of a new user based on the information provided in the message.
      *
-     * @param username      - the username of the new user
-     * @param password      - the password of the new user
-     * @param displayName   - the display name of the new user
-     * //FIXME the public profile is set public by default
+     * @param message The network message containing user creation data.
      */
     @Override
-    public synchronized boolean createUser(String username,
-                                           String password, String displayName) {
+    public synchronized void createUser(NetworkMessage message) {
+        String[] userInfo = ((String) message.getObject()).split(",");
+        String username = userInfo[0];
+        String password = userInfo[1];
+        String displayName = userInfo[2];
+
         if (database.getUser(username) != null) {
-            // FIXME show this in the GUI
             Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s already exists.", username));
-            return false;
+                    String.format("Attempt to create user %s failed: user already exists.", username));
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_FAILURE,
+                    IDENTIFIER, "User already exists."));
         } else {
             User newUser = new User(username, password, displayName, true);
             database.addUser(newUser);
             Database.writeLog(LogType.INFO, IDENTIFIER,
                     String.format("Created user %s.", username));
             database.serializeDatabase();
-            return true;
+            database.loadDatabase();
+
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_USER_SUCCESS,
+                    IDENTIFIER, database.getUser(username)));
         }
+    }
+
+    /**
+     * Creates a new chat.
+     *
+     * @param message Contains the chat information.
+     */
+    @Override
+    public synchronized void createChat(NetworkMessage message) {
+        String[] chatInfo = ((String[]) message.getObject());
+        String chatName = chatInfo[0];
+        String[] memberUsernames = chatInfo[1].split(",");
+        ArrayList<User> chatMembers = new ArrayList<>();
+        for (String member : memberUsernames) {
+            User user = database.getUser(member);
+            if (user != null) {
+                chatMembers.add(user);
+            } else {
+                Database.writeLog(LogType.ERROR, IDENTIFIER, "User not found: " + member);
+                sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_FAILURE, IDENTIFIER, "Member not found."));
+            }
+        }
+        try {
+            Chat chat = new Chat(chatName, chatMembers);
+            database.addChat(chat);
+            database.serializeDatabase();
+            database.loadDatabase();
+            Database.writeLog(LogType.INFO, IDENTIFIER, "Chat created successfully.");
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_SUCCESS, IDENTIFIER, database.getChat(chatName)));
+        } catch (Exception e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Failed to create chat: " + e.getMessage());
+            sendToClient(new NetworkMessage(ClientCommand.CREATE_CHAT_FAILURE, IDENTIFIER, "Failed to create chat."));
+        }
+    }
+
+    /**
+     * Retrieves chats for a user.
+     *
+     * @param message Contains the user information.
+     */
+    @Override
+    public synchronized void getChats(NetworkMessage message) {
+        sendToClient(new NetworkMessage(ClientCommand.GET_CHATS_RESULT, IDENTIFIER,
+                database.getChats((User) message.getObject()).toArray(new Chat[0])));
     }
 
     /**
@@ -253,7 +362,6 @@ public class Server implements ServerInterface, Runnable {
      * @param username - the username of the user to be removed
      * @return true if the user is successfully removed, false if the user is not found
      */
-
     public synchronized boolean removeUser(String username) {
         User removed = database.getUser(username);
         if (removed != null) {
@@ -279,26 +387,6 @@ public class Server implements ServerInterface, Runnable {
         return database.getUser(username);
     }
 
-
-    /**
-     * Adds a user to the database.
-     *
-     * @param user - the User object to add
-     * @return true if the user is added successfully, false if the user already exists
-     */
-    public synchronized boolean addUser(User user) {
-        if (database.getUser(user.getUsername()) == null) {
-            database.addUser(user);
-            Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("Added user %s.", user.getUsername()));
-            database.serializeDatabase();
-            return true;
-        } else {
-            Database.writeLog(LogType.INFO, IDENTIFIER,
-                    String.format("User %s previously added.", user.getUsername()));
-            return false;
-        }
-    }
 
     /**
      * Sends a message to a user or displays it in the server.
@@ -384,6 +472,18 @@ public class Server implements ServerInterface, Runnable {
             Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot" +
                     " block user %s.", blockedUser.getUsername()));
             return false;
+        }
+    }
+
+    public synchronized void addFriend(User friend) {
+        if (mainUser.addFriend(friend)) {
+            Database.writeLog(LogType.INFO, IDENTIFIER, String.format("User %s added user %s as friend.",
+                    mainUser.getUsername(), friend.getUsername()));
+            sendToClient(new NetworkMessage(ClientCommand.ADD_FRIEND_SUCCESS, IDENTIFIER, friend));
+        } else {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, String.format("Cannot " +
+                    "add user %s as friend.", friend.getUsername()));
+            sendToClient(new NetworkMessage(ClientCommand.ADD_FRIEND_FAILURE, IDENTIFIER, friend));
         }
     }
 
@@ -489,4 +589,3 @@ public class Server implements ServerInterface, Runnable {
                 .collect(Collectors.toList());
     }
 }
-

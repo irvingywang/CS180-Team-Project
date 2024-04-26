@@ -2,8 +2,9 @@ package Pages;
 import GUI.*;
 import Network.Client;
 
+
 /**
- * Project05 -- ChatPage
+ * Project05 -- BlankPage
  * <p>
  * Creates a blank GUI page.
  *

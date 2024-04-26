@@ -1,4 +1,6 @@
-![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
+![build](https://github.com/irvingywang/CS180-Yap/actions/workflows/action.yml/badge.svg?branch=main&event=push&job=build)
+![DatabaseTest](https://github.com/irvingywang/CS180-Yap/actions/workflows/action.yml/badge.svg?branch=main&event=push&job=DatabaseTest)
+![NetworkTest](https://github.com/irvingywang/CS180-Yap/actions/workflows/action.yml/badge.svg?branch=main&event=push&job=NetworkTest)
 
 # Yap: Chat with your friends. Instantly.
 ![Logo](design/Welcome.png)
@@ -55,6 +57,10 @@ Try the login demo with username: `purduepete` and password: `123`.
   that this class is functional.
   - Overall, this class can be combined with the others to allow messages to be received and sent
   simultaneously.
+- `InvalidChatException`: Exception for invalid chats.
+  - This exception class is for handling invalid chats.
+  - This class does not have to be tested by other to verify that it works.
+  - Overall, this class is used within others in case an exception occurs with a chat.
 
 ## Database
 - `DatabaseInterface`: Interface for the Database class.
@@ -83,10 +89,6 @@ Try the login demo with username: `purduepete` and password: `123`.
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
 
-## Testing
-- `LocalTest`: Tests all the methods created.
-  - This class allows for the testing of all other classes and methods, which is a crucial step to ensure
-  the functionality of the entire social media platform.
 ## Networking
 - `ClientInterface`: Interface for the client. 
   - This interface provides a framework for the client.
@@ -94,9 +96,6 @@ Try the login demo with username: `purduepete` and password: `123`.
 - `ServerInterface`: Interface for the server.
   - This interface provides a framework for the server.
   - This interface is crucial for ensuring the proper functionality and implementation of the server.
-- `ClientInterface`: Interface for the Network class.
-  - This interface provides a framework for the Network class.
-  - This interface is crucial for ensuring the proper functionality and implementation of 
 - `Network`: Represents a client program.
   - This class provides functionalities related to sending and receiving data to and from the server.
   - Its functionality can be tested by running the server and the client and seeing that a connection
@@ -123,30 +122,135 @@ Try the login demo with username: `purduepete` and password: `123`.
   - This creates a new data type that stores the name of commands users may want to do.
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
-- `ServerInterface`: Interface for the Server class.
-  - This interface provides a framework for the Server class.
-  - This interface is crucial for ensuring the proper functionality and implementation of Server.
-
-## GUI
-- `ClientGUI`: GUI for the Network class
-  - This class creates a simple GUI to test the functionality of the client.
-  - I do not think the GUI itself can be tested with junit. However, if the client functions properly,
-    that means the GUI can be tested by simply running the class.
-  - Overall, this class is crucial for allowing users to interact with our messaging program.
-- `GUIInterface`: Interface for the GUI.
-  - This interface provides a framework for the GUI.
-  - This interface is crucial for ensuring the proper functionality and implementation of the GUI.
 - `Identifier`: Enum to store parts of the program.
   - This creates a new data type that stores the name of different parts of the program, such as
     client, server, database, and user.
   - This program cannot really be tested because it does not perform any function.
   - Overall, this class is useful for augmenting the simplicity of our code.
-- `Frame`:
-  - Creates a frame functionality that displays "Login"
-- `Panel`:
-  - Creates a panel functionality that displays "Username" and "Password"
-- `Button`:
-  - Creates a panel functionality that inputs and stores "Username" and "Password"
+
+## GUI
+- `GUIConstants`: Contains important constants for our GUI.
+  - This class provides information like colors, window dimensions, fonts, styling, etc. for our GUI.
+  - Its functionality can be tested by running the program and matching the colors.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `Window`: Provides a framework for a window.
+  - This class provides information like size, a close operation, and page-switching function
+    to our GUI windows.
+  - Its functionality can be tested by running the program and trying different buttons that lead
+    to new windows.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `ImagePanel`: Provides a framework for an image panel.
+  - This class further customizes our GUI and allows for improved rendering quality of all of
+    its components.
+  - Its functionality can be tested by comparing it to a Java Swing app without it and seeing
+    the difference in the visual quality.
+  - Overall, this class makes the GUI look uniform and appealing.
+- `Panel`: Provides a framework for a panel.
+  - This class provides functions like style, visibility, and color to our GUI panels.
+  - Its functionality can be tested by making an empty panel and seeing that is black and uniform
+    by default.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `Button`: Provides a framework for a button.
+  - This class provides functions like size, color, and hover effect to our GUI buttons.
+  - Its functionality can be tested by running the program and clicking/hovering over different buttons.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `TextField`: Provides a framework for a text field.
+  - This class provides functions like size, color, and a focus effect to our GUI text fields.
+  - Its functionality can be tested by running the program and trying to enter text where prompted.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `Dropdown`: Provides a framework for a dropdown.
+  - This class provides functions like size, color, and a floating arrow to our GUI dropdowns.
+  - Its functionality can be tested by running the program and trying to use a dropdown (in View Chats).
+  - Overall, this class is used by others to make the GUI look appealing.
+- `Label`: Provides a framework for a label.
+  - This class provides information like size, color, and a font to our GUI labels.
+  - Its functionality can be tested by running the program and looking at the labels.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `Spacer`: Provides a framework for a spacer.
+  - This class provides information about the size of spaces between buttons in our GUI.
+  - Its functionality can be tested by running the program and looking at the uniform spaces.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `RoundedBorder`: Provides a framework for a rounded border.
+  - This class provides a rounded border to our buttons in our GUI.
+  - Its functionality can be tested by running the program and seeing the rounded borders.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `Page`: Provides a framework for a page.
+  - This class provides a blank page for our GUI.
+  - Its functionality cannot really be tested because it is not used directly.
+  - Overall, this class is used by others to make the GUI look uniform and appealing.
+- `PageInterface`: Provides an interface for the page class.
+  - This interface provides a framework for the pages.
+  - This interface is crucial for ensuring the proper functionality and implementation of the pages.
+
+## Pages
+- `AllChatsPage`: Page for viewing all the chats.
+  - This class allows the user to see all the chats they are part of.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `BlankPage`: Placeholder for all other Page structures.
+  - This class makes it easier to copy and paste code to create other pages.
+  - Its functionality is not very significant and cannot be tested.
+- `ChatPage`: Page for sending a message.
+  - This class allows the user to send a message to another user.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `CreateChatPage`: Page for creating a new chat.
+  - This class allows the user to create a new chat.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `CreateUserPage`: Page for creating a new user.
+  - This class allows the user to create a new account.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `EditProfilePage`: Page for editing profile.
+  - This class allows the user to edit their profile and add what's on their mind.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `LoginPage`: Page for existing users to enter the program.
+  - This class allows the user to log into their account.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `MainMenu`: Page for viewing all the possible functionalities of Yap.
+  - This class allows the user to select any function they would like to complete.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `SearchResultsPage`: Page for search results.
+  - This class allows the user to see users they searched for.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `SearchUsersPage`: Page for searching users.
+  - This class allows the user to search for another user.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `ViewProfilePage`: Page for viewing another users profile.
+  - This class allows the user to view another user's profile and add/block them.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+- `WelcomePage`: First page when the program is launched.
+  - This class allows the user to log into their account or create one.
+  - Its functionality can be tested by following instructions in the GUI testing ReadME.
+  - Overall, this class is made from the GUI Package and works with other pages to make our
+    application comprehensive.
+
+## Testing
+- `NetworkTest`: Tests all the network methods created.
+  - This class allows for the testing of all network classes and methods, which is a crucial step to ensure
+    the functionality of the server and client of the social media platform.
+  - The test class obviously cannot be tested itself.
+- `DatabaseTest`: Tests all the database methods created.
+  - This class allows for the testing of all database classes and methods, which is a crucial step to ensure
+    the functionality of the database of the social media platform.
+  - The test class obviously cannot be tested itself.
 
 # Design Specifications
 Color Scheme:

@@ -6,6 +6,18 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Project05 -- Button
+ * <p>
+ * Creates a framework for a GUI button.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class Button extends JButton {
     private Color idleColor = GUIConstants.PRIMARY_BLUE;
     private Color hoverColor = GUIConstants.DARKER_BLUE;

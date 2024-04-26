@@ -6,6 +6,18 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+/**
+ * Project05 -- Text Field
+ * <p>
+ * Creates a framework for a GUI text field.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class TextField extends JTextField {
     private String placeholder;
 
@@ -54,6 +66,11 @@ public class TextField extends JTextField {
     @Override
     public String getText() {
         return super.getText().equals(placeholder) ? "" : super.getText();
+    }
+
+    public void setPlaceholder(String text) {
+        placeholder = text;
+        setText(text);
     }
 
     @Override

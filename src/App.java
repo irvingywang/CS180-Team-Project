@@ -27,6 +27,11 @@ public class App {
             System.out.println(user);
         }
 
+        System.out.println("Current chats: ");
+        for (Chat chat : database.getChats()) {
+            System.out.println(chat);
+        }
+
         //Start the server
         Server.start();
 

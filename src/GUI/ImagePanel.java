@@ -7,6 +7,18 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Project05 -- ImagePanel
+ * <p>
+ *  * Creates a framework for a GUI image panel.
+ *
+ * @author Amir Elnashar, L08
+ * @author Irving Wang, L08
+ * @author Jack Kim, L08
+ * @author John Guan, L08
+ * @author Karan Vankwani, L08
+ * @version April 14, 2024
+ */
 public class ImagePanel extends JPanel {
     private BufferedImage image;
 

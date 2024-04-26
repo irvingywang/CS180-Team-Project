@@ -1,9 +1,9 @@
 package Pages;
 
-import GUI.Button;
+import GUI.*;
 import GUI.Label;
 import GUI.TextField;
-import GUI.*;
+import GUI.Button;
 import Network.Client;
 import Network.NetworkMessage;
 import Network.ServerCommand;
@@ -13,9 +13,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Project05 - ClientCommand
+ * Project05 - ChatPage
  *
- * Page for the chatpage after chat is created.
+ * Creates page that is shown after a new chat is created.
  *
  * @author Amir Elnashar, L08
  * @author Irving Wang, L08
