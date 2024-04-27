@@ -22,6 +22,7 @@ public class ViewProfilePage extends Page {
     private Label displayNameLabel;
     private Label usernameLabel;
     private Label statusLabel;
+    private Label invalidLabel;
     private Button friendButton;
     private Button blockButton;
     private Button backButton;
@@ -34,36 +35,53 @@ public class ViewProfilePage extends Page {
 
     @Override
     public void initContent() {
-        // Initialize components here
-        displayNameLabel = new Label(user.getDisplayName(), 42);
-        usernameLabel = new Label("@" + user.getUsername(), 24);
-        if (user.isPublicProfile()) {
-            statusLabel = new Label(user.getStatus(), 20);
-        } else {
-            statusLabel = new Label("Add them as a friend to see their status!", 20);
-        }
-        friendButton = new Button("Add Friend", () -> friendAction(), GUIConstants.SIZE_400_40);
-        blockButton = new Button("Block User", () -> blockAction(), GUIConstants.SIZE_400_40, true);
+
         backButton = new Button("Back to Search", () -> window.switchPage(new SearchUsersPage(client)), GUIConstants.SIZE_400_40, true);
 
+        if (user.isBlocked(client.getUser())) {
+            invalidLabel = new Label("User not found", 20);
+        } else {
+            // Initialize components here
+            displayNameLabel = new Label(user.getDisplayName(), 42);
+            usernameLabel = new Label("@" + user.getUsername(), 24);
+            if (user.isPublicProfile()) {
+                statusLabel = new Label(user.getStatus(), 20);
+            } else {
+                if (client.getUser().isFriend(user))
+                    statusLabel = new Label(user.getStatus(), 20);
+                else
+                    statusLabel = new Label("Add them as a friend to see their status!", 20);
+            }
+            friendButton = new Button("Add Friend", () -> friendAction(), GUIConstants.SIZE_400_40);
+            blockButton = new Button("Block User", () -> blockAction(), GUIConstants.SIZE_400_40, true);
+        }
         addComponents();
     }
 
     @Override
     public void addComponents() {
         // Add components to panel here
-        panel.add(new Spacer(180));
-        panel.add(displayNameLabel);
-        panel.add(new Spacer(20));
-        panel.add(usernameLabel);
-        panel.add(new Spacer(40));
-        panel.add(statusLabel);
-        panel.add(new Spacer(60));
-        panel.add(friendButton);
-        panel.add(new Spacer(10));
-        panel.add(blockButton);
-        panel.add(new Spacer(10));
-        panel.add(backButton);
+
+
+        if (user.isBlocked(client.getUser())) {
+            panel.add(new Spacer(300));
+            panel.add(invalidLabel);
+            panel.add(new Spacer(10));
+            panel.add(backButton);
+        } else {
+            panel.add(new Spacer(180));
+            panel.add(displayNameLabel);
+            panel.add(new Spacer(20));
+            panel.add(usernameLabel);
+            panel.add(new Spacer(40));
+            panel.add(statusLabel);
+            panel.add(new Spacer(60));
+            panel.add(friendButton);
+            panel.add(new Spacer(10));
+            panel.add(blockButton);
+            panel.add(new Spacer(10));
+            panel.add(backButton);
+        }
 
         panel.revalidate();
     }
