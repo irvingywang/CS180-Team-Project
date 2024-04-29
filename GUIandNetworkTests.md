@@ -1,6 +1,6 @@
 ![Java CI](https://github.com/irvingywang/Group4-Team-Project/actions/workflows/action.yml/badge.svg)
 
-# User Tests for GUI, Server, and Client Functionality
+# Various Instructions on Running YAP
 
 ## To test Server and Client Communication:
 1. User runs the program
