@@ -55,7 +55,7 @@ public class ViewProfilePage extends Page {
                     statusLabel = new Label("Add them as a friend to see their status!", 20);
             }
             friendButton = new Button("Add Friend", () -> friendAction(), GUIConstants.SIZE_400_40);
-            removeButton = new Button("Remove User", () -> removeAction(), GUIConstants.SIZE_400_40, true);
+            removeButton = new Button("Remove Friend", () -> removeAction(), GUIConstants.SIZE_400_40, true);
             blockButton = new Button("Block User", () -> blockAction(), GUIConstants.SIZE_400_40, true);
         }
         addComponents();

@@ -17,6 +17,7 @@ Try the login demo with username: `purduepete` and password: `123`.
 ## Submissions
 - Phase 1: [Vocareum Submission]() - Irving Wang
 - Phase 2: [Vocareum Submission]() - Irving Wang
+- Phase 3: [Vocareum Submission]() - Irving Wang
 
 # Class Descriptions
 - `App`: Main class to run the program.
