@@ -1,8 +1,17 @@
 package Pages;
 
 import GUI.*;
+import GUI.Button;
+import GUI.Label;
+import GUI.TextField;
 import Network.Client;
+import Network.NetworkMessage;
+import Network.ServerCommand;
 import Objects.Chat;
+import Objects.Message;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Project05 -- ChatPage
@@ -19,10 +28,11 @@ import Objects.Chat;
 public class ChatPage extends Page {
     // Declare components here
     private Label titleLabel;
-    //TODO chat message panel
-    private TextField chatField;
+    private JTextArea chatArea;
+    private TextField messageField;
     private Button sendButton;
     private Button backButton;
+    private JScrollPane scrollPane;
     private Chat chat;
 
     public ChatPage(Client client, Chat chat) {
@@ -34,10 +44,18 @@ public class ChatPage extends Page {
     public void initContent() {
         // Initialize components here
         titleLabel = new Label(chat.getName(), 42);
-        //TODO chat message panel
-        chatField = new TextField("Enter Message", GUIConstants.SIZE_400_40);
-        sendButton = new Button("Send", () -> sendMessageAction(), GUIConstants.SIZE_400_40);
-        backButton = new Button("Back to Chats", () -> window.switchPage(new AllChatsPage(client)), GUIConstants.SIZE_400_40, true);
+        chatArea = new JTextArea();
+        chatArea.setEditable(false);
+        chatArea.setWrapStyleWord(true);
+        chatArea.setLineWrap(true);
+
+        scrollPane = new JScrollPane(chatArea);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(600, 200));
+
+        messageField = new TextField("Type your message here...", new Dimension(400, 40));
+        sendButton = new Button("Send", this::sendMessage, new Dimension(400, 40));
+        backButton = new Button("Back to Menu", () -> window.switchPage(new MainMenu(client)), new Dimension(400, 40), true);
 
         addComponents();
     }
@@ -45,20 +63,39 @@ public class ChatPage extends Page {
     @Override
     public void addComponents() {
         // Add components to panel here
-        panel.add(new Spacer(220));
+        panel.add(new Spacer(200));
         panel.add(titleLabel);
         panel.add(new Spacer(40));
-        panel.add(chatField);
+        panel.add(scrollPane);
+        panel.add(new Spacer(10));
+        panel.add(messageField);
         panel.add(new Spacer(10));
         panel.add(sendButton);
-        panel.add(new Spacer(10));
+        panel.add(new Spacer(40));
         panel.add(backButton);
 
         panel.revalidate();
     }
 
-    private void sendMessageAction() {
-        //TODO send message
-        String message = chatField.getText();
+    private void sendMessage() {
+        String text = messageField.getText();
+        if (!text.trim().isEmpty()) {
+            client.sendToServer(new NetworkMessage(ServerCommand.SEND_MESSAGE, Client.IDENTIFIER, text));
+            messageField.setText("");
+            appendMessage("Me: " + text);
+        }
+    }
+
+    public void appendMessage(String message) {
+        SwingUtilities.invokeLater(() -> {
+            chatArea.append(message + "\n");
+            chatArea.setCaretPosition(chatArea.getDocument().getLength());
+        });
+    }
+
+    public void displayReceivedMessage(Message message) {
+        SwingUtilities.invokeLater(() -> {
+            appendMessage(message.getSender().getDisplayName() + ": " + message.getMessage());
+        });
     }
 }
