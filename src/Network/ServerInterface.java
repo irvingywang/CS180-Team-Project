@@ -28,6 +28,6 @@ public interface ServerInterface {
     void getChats(NetworkMessage message);
     void searchUser(NetworkMessage message);
     void createChat(NetworkMessage message);
-    void viewChat(NetworkMessage message, User sender, Chat chat);
+    //void viewChat(NetworkMessage message, User sender, Chat chat);
     void saveProfile(NetworkMessage message);
 }

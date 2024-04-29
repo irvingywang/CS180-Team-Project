@@ -230,18 +230,4 @@ public class Client implements ClientInterface, Runnable {
             return null;
         }
     }
-
-    public void viewChat(String chatName, String messageContent) {
-        User currentUser = Client.client.getUser();
-        Chat currentChat = Client.client.getChat(chatName);
-
-        if (currentUser != null && currentChat != null) {
-            String[] messageInfo = new String[]{chatName, messageContent};
-
-            NetworkMessage networkMessage = new NetworkMessage(ClientCommand.SEND_MESSAGE, Client.IDENTIFIER, messageInfo);
-            Client.client.sendToServer(networkMessage);
-        } else {
-            System.out.println("Error: User or chat not found.");
-        }
-    }
 }

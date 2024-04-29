@@ -8,11 +8,9 @@ import Network.Client;
 import Network.NetworkMessage;
 import Network.ServerCommand;
 import Objects.Chat;
-import Objects.Message;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Project05 -- ChatPage
@@ -33,6 +31,8 @@ public class ChatPage extends Page {
     private TextField messageField;
     private Button sendButton;
     private Button backButton;
+    private Button deleteButton;
+    private Button clearButton;
     private JScrollPane scrollPane;
     private Chat chat;
 
@@ -56,6 +56,8 @@ public class ChatPage extends Page {
 
         messageField = new TextField("Type your message here...", new Dimension(400, 40));
         sendButton = new Button("Send", this::sendMessage, new Dimension(400, 40));
+        deleteButton = new Button("Delete", this::deleteMessage, new Dimension(400, 40));
+        clearButton = new Button("Clear", this::clearMessage, new Dimension(400, 40));
         backButton = new Button("Back to Menu", () -> window.switchPage(new MainMenu(client)), new Dimension(400, 40), true);
 
         addComponents();
@@ -72,6 +74,10 @@ public class ChatPage extends Page {
         panel.add(messageField);
         panel.add(new Spacer(10));
         panel.add(sendButton);
+        panel.add(new Spacer(10));
+        panel.add(deleteButton);
+        panel.add(new Spacer(10));
+        panel.add(clearButton);
         panel.add(new Spacer(40));
         panel.add(backButton);
 
@@ -87,6 +93,22 @@ public class ChatPage extends Page {
         }
     }
 
+    private void deleteMessage() {
+        String text = messageField.getText();
+        if (!text.trim().isEmpty()) {
+            client.sendToServer(new NetworkMessage(ServerCommand.DELETE_MESSAGE, Client.IDENTIFIER, text));
+            messageField.setText("");
+        }
+    }
+
+    private void clearMessage() {
+        String text = chatArea.getText();
+        if (!text.trim().isEmpty()) {
+            client.sendToServer(new NetworkMessage(ServerCommand.DELETE_MESSAGE, Client.IDENTIFIER, text));
+            chatArea.setText("");
+        }
+    }
+
     public void appendMessage(String message) {
         SwingUtilities.invokeLater(() -> {
             chatArea.append(message + "\n");
@@ -94,9 +116,4 @@ public class ChatPage extends Page {
         });
     }
 
-    public void displayReceivedMessage(Message message) {
-        SwingUtilities.invokeLater(() -> {
-            appendMessage(message.getSender().getDisplayName() + ": " + message.getMessage());
-        });
-    }
 }
