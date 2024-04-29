@@ -296,6 +296,30 @@ public class Server implements ServerInterface, Runnable {
         }
     }
 
+    @Override
+    public synchronized void viewChat(NetworkMessage message, User sender, Chat chat) {
+        String[] messageInfo = ((String[]) message.getObject());
+        String chatName = messageInfo[0];
+        String newMessageContent = messageInfo[1];
+
+        try {
+            if (chat != null && chat.getName().equals(chatName)) {
+                Message newMessage = new Message(sender, chat, newMessageContent);
+                chat.addMessage(newMessage);
+                database.serializeDatabase();
+                database.loadDatabase();
+                Database.writeLog(LogType.INFO, IDENTIFIER, "Message sent!");
+                sendToClient(new NetworkMessage(ClientCommand.LOAD_CHAT, IDENTIFIER, database.getChat(chatName)));
+            } else {
+                Database.writeLog(LogType.ERROR, IDENTIFIER, "Chat not found");
+                sendToClient(new NetworkMessage(ClientCommand.SEND_MESSAGE_FAILURE, IDENTIFIER, "Chat not found."));
+            }
+        } catch (Exception e) {
+            Database.writeLog(LogType.ERROR, IDENTIFIER, "Error sending message.");
+            sendToClient(new NetworkMessage(ClientCommand.SEND_MESSAGE_FAILURE, IDENTIFIER, "Failed to send message."));
+        }
+    }
+
     /**
      * Retrieves chats for a user.
      *
@@ -337,7 +361,6 @@ public class Server implements ServerInterface, Runnable {
     public synchronized User getUser(String username) {
         return database.getUser(username);
     }
-
 
     /**
      * Sends a message to a user or displays it in the server.

@@ -1,15 +1,13 @@
-[ERROR] SERVER 04-25-2024 21:24:00 Reading failure: Connection reset
-[INFO] DATABASE 04-25-2024 21:24:00 Log file cleared.
-[INFO] DATABASE 04-25-2024 21:24:00 Initializing 
-[INFO] DATABASE 04-25-2024 21:24:00 Loading database from file.
-[ERROR] DATABASE 04-25-2024 21:24:00 No users found in database file.
-[INFO] DATABASE 04-25-2024 21:24:00 Database loaded from file.
-[INFO] DATABASE 04-25-2024 21:24:00 Database initialized.
-[INFO] DATABASE 04-25-2024 21:24:00 User newuser not found.
-[INFO] SERVER 04-25-2024 21:24:00 Created user newuser.
-[INFO] DATABASE 04-25-2024 21:24:00 Saving database to file.
-[INFO] DATABASE 04-25-2024 21:24:00 Database saved to file.
-[INFO] DATABASE 04-25-2024 21:24:00 Loading database from file.
-[INFO] DATABASE 04-25-2024 21:24:00 Database loaded from file.
-[INFO] SERVER 04-25-2024 21:24:00 Attempt to create user purduepete failed: user already exists.
-[ERROR] SERVER 04-25-2024 21:24:00 Reading failure: null
+[INFO] DATABASE 04-29-2024 02:12:26 Log file cleared.
+[INFO] DATABASE 04-29-2024 02:12:26 Initializing 
+[INFO] DATABASE 04-29-2024 02:12:26 Loading database from file.
+[INFO] DATABASE 04-29-2024 02:12:26 Database loaded from file.
+[INFO] DATABASE 04-29-2024 02:12:26 Database initialized.
+[INFO] SERVER 04-29-2024 02:12:31 User john logged in.
+[INFO] DATABASE 04-29-2024 02:12:38 Saving database to file.
+[INFO] DATABASE 04-29-2024 02:12:38 Database saved to file.
+[INFO] DATABASE 04-29-2024 02:12:38 Loading database from file.
+[INFO] DATABASE 04-29-2024 02:12:38 Database loaded from file.
+[INFO] SERVER 04-29-2024 02:12:38 Chat created successfully.
+[ERROR] SERVER 04-29-2024 02:12:44 Invalid command received.
+[INFO] SERVER 04-29-2024 02:12:52 User purduepete logged in.

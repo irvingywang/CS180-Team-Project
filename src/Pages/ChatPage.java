@@ -12,6 +12,7 @@ import Objects.Message;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Project05 -- ChatPage

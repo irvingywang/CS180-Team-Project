@@ -32,9 +32,10 @@ public class Client implements ClientInterface, Runnable {
     private User user;
     public static final Identifier IDENTIFIER = Identifier.CLIENT;
     public static Thread clientThread;
+    public static Client client;
 
     public static void start() {
-        Client client = new Client();
+        client = new Client();
         clientThread = new Thread(client);
         clientThread.start();
     }
@@ -95,6 +96,16 @@ public class Client implements ClientInterface, Runnable {
         sendToServer(new NetworkMessage(ServerCommand.GET_CHATS, IDENTIFIER, user));
         NetworkMessage response = listenToServer();
         return (Chat[]) response.getObject();
+    }
+
+    public Chat getChat(String chatName) {
+        Chat[] chats = getChats();
+        for (Chat chat : chats) {
+            if (chat.getName().equals(chatName)) {
+                return chat;
+            }
+        }
+        return null; // Return null if no chat with the given name is found
     }
 
     /**
@@ -220,5 +231,17 @@ public class Client implements ClientInterface, Runnable {
         }
     }
 
+    public void viewChat(String chatName, String messageContent) {
+        User currentUser = Client.client.getUser();
+        Chat currentChat = Client.client.getChat(chatName);
 
+        if (currentUser != null && currentChat != null) {
+            String[] messageInfo = new String[]{chatName, messageContent};
+
+            NetworkMessage networkMessage = new NetworkMessage(ClientCommand.SEND_MESSAGE, Client.IDENTIFIER, messageInfo);
+            Client.client.sendToServer(networkMessage);
+        } else {
+            System.out.println("Error: User or chat not found.");
+        }
+    }
 }
